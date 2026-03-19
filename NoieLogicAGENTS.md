@@ -1,4 +1,3 @@
----
 # NoieLogicAGENTS.md
 
 ## 通用決策邏輯拓撲架構 (Logic-OS v2.2)

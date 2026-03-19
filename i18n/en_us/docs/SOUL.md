@@ -1,4 +1,3 @@
----
 # SOUL.md
 
 ## NoieAI Soul Definition — The Origin of Cognitive Existence (v2.2)

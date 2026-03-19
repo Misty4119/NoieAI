@@ -1,4 +1,3 @@
----
 # TRUTH_AUDIT_TRAIL.md
 
 ## 真理決策黑盒子 (Truth Decision Black Box)

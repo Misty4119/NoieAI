@@ -1,4 +1,3 @@
----
 # NoiePhysicsAGENTS.md
 
 ## Universal Cognitive Topology Framework for the Physical World (Physics-OS v2.2)

@@ -1,4 +1,3 @@
----
 # AGENTS.md
 
 ## NoieAI Universal Cognitive Topology Architecture — Unified Entry Point (v2.2)

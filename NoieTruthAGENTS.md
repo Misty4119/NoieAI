@@ -1,4 +1,3 @@
----
 # NoieTruthAGENTS.md
 
 ## 通用知識論驗證拓撲架構 (Truth-OS v2.2)

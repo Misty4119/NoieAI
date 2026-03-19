@@ -1,4 +1,3 @@
----
 # AUDIT_TRAIL.md
 
 > **所属支柱：** NoieLogicAGENTS (Logic-OS v2.2)  

@@ -1,4 +1,3 @@
----
 # NoieLogicAGENTS.md
 
 ## Universal Decision Logic Topology Architecture (Logic-OS v2.2)

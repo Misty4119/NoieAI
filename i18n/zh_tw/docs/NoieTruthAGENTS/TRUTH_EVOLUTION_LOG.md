@@ -1,4 +1,3 @@
----
 # TRUTH_EVOLUTION_LOG.md
 
 ## 知識論公理演進紀錄 (Truth-Evolution Log)

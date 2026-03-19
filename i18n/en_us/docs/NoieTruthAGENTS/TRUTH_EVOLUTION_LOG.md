@@ -1,4 +1,3 @@
----
 # TRUTH_EVOLUTION_LOG.md
 
 ## Truth Evolution Log

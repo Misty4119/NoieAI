@@ -1,4 +1,3 @@
----
 # TRUTH_AUDIT_TRAIL.md
 
 ## Truth Decision Black Box

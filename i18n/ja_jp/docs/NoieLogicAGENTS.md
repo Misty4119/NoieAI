@@ -1,4 +1,3 @@
----
 # NoieLogicAGENTS.md
 
 ## 汎用的意思決定論理トポロジーアーキテクチャ (Logic-OS v2.2)

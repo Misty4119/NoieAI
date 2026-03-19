@@ -1,4 +1,3 @@
----
 # NoiePhysicsAGENTS.md
 
 ## 物理世界通用認知拓撲架構 (Physics-OS v2.2)
