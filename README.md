@@ -9,6 +9,9 @@
     <img src="https://img.shields.io/badge/Donate-PayPal-blue" alt="Donate">
   </a>
   <img src="https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg" alt="License: Apache 2.0">
+  <a href="https://gitlab.com/misty4119/noieai">
+    <img src="https://img.shields.io/badge/Mirror-GitLab-orange.svg" alt="GitLab Mirror">
+  </a>
 </p>
 
 ---
