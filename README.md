@@ -1,6 +1,6 @@
 # NoieAI
 <p align="center">
-  <strong>Universal Cognitive Topology Architecture</strong><br>
+  <strong>通用認知拓撲架構</strong><br>
   <em>Universal Cognitive Topology Architecture</em>
 </p>
 
