@@ -1,40 +1,9 @@
 # COLLAPSE_HANDLER.md
 
-## 語義塌縮處理與修復
+## Response to a missing inference step v2.3
 
-### 處理流程
+When a conclusion appears to omit a premise, evidence link, or scope condition, keep the source and conclusion intact and identify the exact gap. Classify the gap as missing premise, invalid inference, unsupported causal move, lost qualifier, source mismatch, time mismatch, or unresolved ambiguity.
 
-```python
-FUNCTION HandleSemanticCollapse(inference_chain):
-    
-    # 1. 定位塌縮點
-    collapse_points = LocateCollapsePoints(inference_chain)
-    
-    # 2. 評估嚴重程度
-    severity = AssessSeverity(collapse_points)
-    
-    # 3. 根據嚴重程度處理
-    if severity == CRITICAL:
-        # 強制停止輸出
-        FORCE_HALT_OUTPUT
-        return GenerateHonestIDK(inference_chain)
-    
-    if severity == HIGH:
-        # 插入中間步驟
-        repaired = InsertIntermediateSteps(inference_chain)
-        return repaired
-    
-    if severity == MEDIUM:
-        # 添加警告
-        return AddWarning(inference_chain)
-    
-    return inference_chain
-```
+Possible dispositions are to narrow the conclusion, seek the missing source or premise, ask the author, route the claim for domain review, mark it unresolved, or stop a dependent action under host policy. Do not invent intermediate reasoning or silently rewrite the source to make the conclusion appear supported.
 
-### 修復策略
-
-| 嚴重程度 | 策略 |
-|----------|------|
-| CRITICAL | 停止輸出，替換為 IDK |
-| HIGH | 插入中間推理步驟 |
-| MEDIUM | 添加警告標記 |
+A review record includes the claim references, transformation, missing condition, affected conclusions, check performed, and proposed next evidence. A semantic-distance score cannot choose a disposition by itself. This file does not halt a runtime or repair claims automatically.

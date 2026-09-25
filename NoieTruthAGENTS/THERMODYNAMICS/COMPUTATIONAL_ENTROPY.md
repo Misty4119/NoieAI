@@ -1,38 +1,11 @@
 # COMPUTATIONAL_ENTROPY.md
 
-## 計算路徑熵值監控
+## Information measures and model complexity v2.3
 
-### 定義
+Shannon entropy measures uncertainty in a specified probability distribution. For discrete X, H(X)=−Σₓ p(x) log p(x), with log base determining bits or nats. Conditional entropy and mutual information require a joint distribution; finite-sample estimates depend on the data and estimator. None is a generic score of reasoning quality or truth.
 
-計算路徑熵值衡量推理過程中的資訊複雜度。
+Kolmogorov complexity K(x) is the length of a shortest description under a universal description language, up to machine-dependent additive constants. Exact K is not computable in general. Compression length, restricted-model code length, or minimum-description-length scores are computable proxies whose results depend on the encoding, model class, and coding assumptions.
 
-### 監控演算法
+A reproducible comparison identifies the object or data, probability model or code, sample and selection process, estimator, baseline, uncertainty, and intended decision use. A shorter description may regularize a model or serve as a prior; simplicity alone does not establish that a claim is true. A path’s entropy, token count, hash, or compression ratio does not prove effort, provenance, independence, or deception.
 
-```python
-FUNCTION ComputePathEntropy(computation_path):
-    # 序列化計算路徑
-    serialized = SerializePath(computation_path)
-    
-    # 計算香農熵
-    entropy = ShannonEntropy(serialized)
-    
-    # 計算 Kolmogorov 複雜度
-    kolmogorov = KolmogorovComplexity(serialized)
-    
-    return {
-        "shannon_entropy": entropy,
-        "kolmogorov_complexity": kolmogorov,
-        "normalized": kolmogorov / len(serialized)
-    }
-```
-
-### 異常偵測
-
-```python
-FUNCTION DetectEntropyAnomaly(claim):
-    path_entropy = ComputePathEntropy(claim.computation_path)
-    
-    IF path_entropy.kolmogorov < LOW_COMPLEXITY_THRESHOLD:
-        IF claim.confidence > HIGH_CONFIDENCE:
-            RETURN Anomaly("LOW_ENTROPY_HIGH_CONFIDENCE")
-```
+No algorithmic-complexity or inference-path monitor is included in this repository.

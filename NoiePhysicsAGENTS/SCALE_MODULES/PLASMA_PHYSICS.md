@@ -1,155 +1,31 @@
-# PLASMA_PHYSICS.md
+# Plasma Physics Reference Specification (Physics-OS v2.3)
 
-## 電漿物理
+**Domain:** Charged many-particle systems, collective electromagnetic effects, plasma diagnostics, and magnetic-confinement fusion models. This document is not a diagnostic instrument, MHD solver, or fusion-performance predictor.
 
-**尺度：** 各種尺度  
-**版本：** v1.0  
-**狀態：** 驗證性
+## Plasma conditions and scales
 
----
+A plasma is ionized matter with sufficient collective behavior. Before using a plasma approximation, check characteristic scales against the Debye length, the number of particles in a Debye sphere, plasma frequency, collision frequency, and external-field timescales. The electron Debye length is λ_D = √(ε₀ k_B T_e/(n_e e²)), where T_e is in kelvins. If temperature is expressed in eV, convert k_B T_e in the formula to the same energy unit. A screening length for multiple species must be derived from their temperatures, densities, and distributions.
 
-## 概述
+ω_pe = √(n_e e²/(ε₀m_e)) is the cold, homogeneous electron plasma frequency scale, not a resonance frequency for every wave or boundary. Measurements and models should state electron and ion distributions, magnetic field, collisions, ionization, wall conditions, and boundary sheaths. In dilute, strongly nonequilibrium, microscale, or non-Maxwellian conditions, simple fluid closure may not apply.
 
-本文檔處理**電漿物理**的物理框架。電漿物理處理離子化氣體的行為，是宇宙中最常見的物質狀態。
+## Model hierarchy and MHD
 
----
+Averaging from particle/kinetic models through two-fluid and single-fluid models to MHD discards information such as velocity distributions, Hall effects, particle orbits, Landau damping, and nonlocal transport. Choose a model by comparing relevant length, frequency, and collision scales; do not use MHD solely because the system is macroscopic.
 
-## 關鍵安全與真理協議
+Ideal MHD uses single-fluid conservation equations and an ideal induction equation, assuming very high conductivity and neglecting resistivity and some microscopic scales. Its divergence constraint ∇·B = 0 must be maintained; flux freezing applies only when model conditions hold. Resistive MHD, Hall MHD, two-fluid, and Vlasov/particle models handle different effects and are not merely interchangeable accuracy levels. Magnetic reconnection, turbulence, rapid changes, or weakly collisional plasmas can invalidate ideal MHD.
 
-> **CRITICAL SAFETY & TRUTH PROTOCOL:**
-> 1. 遵守 AXIOMS.md 的相關公理
-> 2. 電漿物理是經過驗證的物理學分支
-> 3. 注意等離子體與普通流體的區別
-> 4. 審計：將所有異常記錄至 PHYSICS_AUDIT_TRAIL
+## Diagnostics and fusion
 
----
+Langmuir probes, interferometry, spectroscopy, magnetic probes, and Thomson scattering have different spatial and temporal resolutions, invasiveness, inversion assumptions, and calibration requirements. A probe perturbs the sheath; temperature, density, and distributions are often inferred from an I–V curve or spectral model rather than read directly. Report raw signals, geometry, calibration, inversion method, background subtraction, uncertainty, and applicability range.
 
-## 1. 電漿基礎
+Magnetic-confinement fusion conditions depend on temperature, density, energy-confinement time, fuel composition, radiative losses, stability, and device geometry. Lawson-type criteria depend on the reaction and energy-balance definition; a single triple-product value cannot replace assessment of the whole device. Tokamak confinement time and stability vary with current profile, heating, boundaries, turbulence, and operating regime. Empirical scaling laws apply only within their data domains.
 
-### 1.1 電漿定義
+## Validation and risk boundary
 
-電漿是離子化氣體，包含自由電子和離子：
+Check charge, mass, momentum, and total-energy balances; report model hierarchy, closure, grid/particle count, collision operator, boundary sheath, initial distributions, and resolved scales. When comparing with diagnostic data, account for instrument response and measurement perturbations; disclose sparse samples, shared calibration bias, and non-unique inversion. If the model does not resolve relevant scales, violates the divergence constraint, or lacks a well-posed closure, report the result as indeterminate.
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    物質四態                                │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  固態 → 液態 → 氣態 → 電漿                            │
-│                                                         │
-│  固態：緊密排列，固定結構                               │
-│  液態：鬆散排列，可流動                                 │
-│  氣態：自由運動，隨機分布                               │
-│  電漿：離子化，導電，響應電磁場                         │
-│                                                         │
-└─────────────────────────────────────────────────────────┘
-```
+A feasibility conclusion about plasma or high-energy equipment does not establish equipment safety, net fusion-energy gain, or authorization to operate. This document provides no control, interlock, diagnostic, or energy-measurement capability.
 
-### 1.2 電漿參數
+## Module boundary
 
-```python
-class PlasmaParameters:
-    """
-    電漿參數
-    """
-    
-    def debye_length(self, density: float, temperature: float) -> float:
-        """德拜長度"""
-        epsilon_0 = 8.854e-12
-        e = 1.602e-19
-        k_B = 1.380e-23
-        return np.sqrt(epsilon_0 * k_B * temperature / (density * e**2))
-    
-    def plasma_frequency(self, density: float, species: str) -> float:
-        """電漿頻率"""
-        # 電子電漿頻率
-        # ω_pe = sqrt(n_e * e² / (m_e * epsilon_0))
-        pass
-```
-
----
-
-## 2. MHD 方程
-
-### 2.1 理想 MHD
-
-```python
-class MHDEquations:
-    """
-    磁流體動力學方程
-    """
-    
-    def mass_conservation(self) -> Equation:
-        """質量守恆"""
-        return "∂ρ/∂t + ∇·(ρv) = 0"
-    
-    def momentum_equation(self) -> Equation:
-        """動量方程"""
-        return "ρDv/Dt = -∇p + J×B + ρg"
-    
-    def induction_equation(self) -> Equation:
-        """感應方程"""
-        return "∂B/∂t = ∇×(v×B) + η∇²B"
-```
-
----
-
-## 3. 電漿診斷
-
-### 3.1 診斷方法
-
-| 方法 | 測量量 | 應用 |
-|------|--------|------|
-| 微波干涉 | 電子密度 | 密度剖面 |
-| 雷射散射 | 離子溫度 | 離子熱力學 |
-| 发射光谱 | 雜質 | 等離子體純度 |
-| 磁探針 | 磁場 | 磁流結構 |
-
----
-
-## 4. 核融合
-
-### 4.1 聚變反應
-
-$$D + T \rightarrow \alpha (3.5 \text{ MeV}) + n (14.1 \text{ MeV})$$
-
-### 4.2 托卡馬克
-
-```python
-class Tokamak:
-    """
-    托卡馬克裝置
-    """
-    
-    def compute_confinement_time(
-        self,
-        energy: float,
-        density: float,
-        volume: float
-    ) -> float:
-        """計算能量約束時間"""
-        pass
-```
-
----
-
-## 5. 與其他模組的接口
-
-### 5.1 與流體動力學的接口
-
-```
-流體動力學 → MHD：
-- 導電流體的連續近似
-```
-
-### 5.2 與量子力學的接口
-
-```
-MHD → 量子力學：
-- 需要考慮量子效應的場合
-```
-
----
-
-*本文檔處理電漿物理的物理框架。*
-*電漿物理是核融合能源研究的基礎。*
+For fluid closure and CFD validation, see FLUID_DYNAMICS.md; for continuum-field balances, see CONTINUUM_MECHANICS.md; for quantum fields and microscopic reactions, see QUANTUM_MECHANICS.md and QUANTUM_FIELD_THEORY.md.

@@ -1,66 +1,11 @@
 # BIAS_DETECTION.md
 
-## 系統性偏差偵測
+## Prediction and evidence-bias review v2.3
 
-### 偏差類型定義
+This module defines a review protocol, not an automated detector. A bias claim needs a specified sample, mechanism or disparity, metric, comparison, and plausible alternative explanations.
 
-| 偏差類型 | 符號描述 | 典型表現 |
-|----------|----------|----------|
-| **過度自信** | C > A 系統性 | 高估自己的能力 |
-| **過度謙虛** | C < A 系統性 | 低估自己的能力 |
-| **領域偏差** | 特定領域 C ≠ A | 某些領域系統性失準 |
-| **可用性偏差** | 傾向記住易獲取資訊 | 忽略罕見但重要的資訊 |
-| **確認偏差** | 傾向支持現有信念 | 忽視反例 |
-| **錨定偏差** | 過度依賴第一資訊 | 後續判斷受初始值影響 |
-| **後見之明偏差** | 認為過去事件可預測 | 低估隨機性 |
+Preserve predictions and the information available when they were made. Review sampling and selection, missingness, measurement, confounding, label construction, source dependence, framing, prior exposure, hindsight, and subgroup composition. Distinguish these mechanisms from calibration error, discrimination, unequal error rates, and decision impact; they are not interchangeable.
 
-### 偵測演算法
+For subgroup comparisons, state the grouping rule, sample size, uncertainty, metric, target population, and whether the comparison was planned. Check base-rate differences and measurement quality before interpreting disparities. A statistical gap does not by itself establish its cause, moral significance, or an actor’s intent. Conversely, an aggregate score can hide material subgroup failures.
 
-```python
-FUNCTION DetectBiases(claim_history):
-    
-    biases_detected = {}
-    
-    # 1. 過度自信偵測
-    overconfidence = DetectOverconfidence(claim_history)
-    biases_detected["overconfidence"] = overconfidence
-    
-    # 2. 過度謙虛偵測
-    underconfidence = DetectUnderconfidence(claim_history)
-    biases_detected["underconfidence"] = underconfidence
-    
-    # 3. 領域偏差偵測
-    domain_biases = DetectDomainBiases(claim_history)
-    biases_detected["domain_biases"] = domain_biases
-    
-    # 4. 可用性偏差偵測
-    availability_bias = DetectAvailabilityBias(claim_history)
-    biases_detected["availability"] = availability_bias
-    
-    # 5. 確認偏差偵測
-    confirmation_bias = DetectConfirmationBias(claim_history)
-    biases_detected["confirmation"] = confirmation_bias
-    
-    RETURN BiasReport(biases_detected)
-```
-
-### 偏差校正
-
-```python
-FUNCTION CorrectBiases(bias_report):
-    
-    corrections = {}
-    
-    IF bias_report.overconfidence.detected:
-        corrections["confidence_adjustment"] = -bias_report.overconfidence.magnitude
-        NOTIFY "系統性過度自信偵測，信心度已調整"
-    
-    IF bias_report.underconfidence.detected:
-        corrections["confidence_adjustment"] = +bias_report.underconfidence.magnitude
-        NOTIFY "系統性過度謙虛偵測，信心度已調整"
-    
-    FOR domain IN bias_report.domain_biases:
-        corrections[domain] = CalculateDomainCorrection(domain)
-    
-    RETURN corrections
-```
+Record the hypothesis, data and provenance, analysis choices, result, uncertainty, limitations, and follow-up that could discriminate explanations. Do not label a single error as overconfidence or use an unexplained fairness threshold. No detector or evaluation dataset is included here.

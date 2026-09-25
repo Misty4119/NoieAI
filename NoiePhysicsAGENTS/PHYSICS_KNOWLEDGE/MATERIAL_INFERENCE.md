@@ -1,114 +1,38 @@
 # MATERIAL_INFERENCE.md
 
-## L3 - 材質推論引擎
+## L3 — Material identification as an inverse problem v2.3
 
-> **WARNING:** 本模組是 PHYSICS_KNOWLEDGE 的材質推論子模組。
+**Scope:** Describe how measurements may constrain candidate material properties. This document is not an instrument, sample database, material classifier, or authorization for destructive testing.
 
----
+## 1. Forward model before inversion
 
-## 概述
+A measurement y is related to material parameters θ through a forward model conditioned on geometry, frequency, temperature, boundary conditions, instrument response, and noise. Record the model and nuisance parameters before attempting inversion. Multiple parameter combinations may produce nearly identical observations; report non-identifiability rather than selecting a unique material label.
 
-本文檔定義 NoiePhysicsAGENTS 的材質推論引擎，處理未知物質的物理屬性推斷。
+Keep distinct: measured response, estimated property, candidate material class, and verified sample identity. A model fit or database match is not independent confirmation of composition.
 
----
+## 2. Measurement families
 
-## 1. 主動探測
+| Method | Possible observables | Material and setup dependencies |
+| --- | --- | --- |
+| Acoustic or ultrasonic | Travel time, attenuation, reflection, resonance, impedance | Density, elastic response, anisotropy, porosity, coupling, path length, frequency, temperature |
+| Electromagnetic | Reflection, transmission, absorption, phase, conductivity response | Frequency band, geometry, polarization, moisture, surface finish, temperature |
+| Thermal | Temperature transient, conductivity, heat capacity, diffusivity | Contact resistance, boundary conditions, sample geometry, phase, moisture |
+| Mechanical | Force-displacement, damping, recovery, fracture response | Load path, strain rate, geometry, damage history, fixtures, temperature |
 
-### 1.1 探測方法
+A probe result applies to the tested location, configuration, and excitation. Non-destructive status must be established for the specific power, dose, duration, and sample; it cannot be inferred from the method name.
 
-```python
-class MaterialProbing:
-    """
-    物質探測
-    """
-    
-    def probe_with_acoustic_wave(
-        self,
-        material: UnknownMaterial,
-        frequency: float
-    ) -> AcousticResponse:
-        """聲學探測"""
-        pass
-    
-    def probe_with_electromagnetic_wave(
-        self,
-        material: UnknownMaterial,
-        frequency_range: Tuple[float, float]
-    ) -> ElectromagneticResponse:
-        """電磁探測"""
-        pass
-```
+## 3. Example: acoustic impedance
 
----
+For a suitable approximately linear, homogeneous medium and a specified wave mode, acoustic impedance is Z=ρc, where ρ is density and c is wave speed. Reflection at an ideal normal boundary depends on the impedances on each side. An impedance estimate alone does not uniquely identify density, wave speed, composition, or material class. Layering, anisotropy, attenuation, roughness, coupling, and geometry can confound the inference.
 
-## 2. 屬性反演
+Report calibration, measured waveforms, path geometry, frequency, temperature, processing, uncertainty, competing material models, and sensitivity. Compare an inverse estimate against independent measurements when identity matters.
 
-### 2.1 參數估計
+## 4. Active probing and decision boundary
 
-```python
-class PropertyInversion:
-    """
-    屬性反演
-    """
-    
-    def invert_elastic_properties(
-        self,
-        response: AcousticResponse
-    ) -> ElasticProperties:
-        """反演彈性屬性"""
-        # 使用聲阻抗反演
-        # Z = ρ * v
-        pass
-    
-    def invert_thermal_properties(
-        self,
-        response: ThermalResponse
-    ) -> ThermalProperties:
-        """反演熱學屬性"""
-        pass
-```
+Select a probe only after defining the property of interest, candidate hypotheses, predicted responses, discrimination value, measurement cost, sample risks, and required approval. Information gain can help compare experiments under a declared probability model; it does not authorize a probe or establish that its physical effects are acceptable.
 
----
+If a measurement capability, safety boundary, or sample condition is unknown, do not claim the test is safe or the material is identified. Return candidate set, unresolved ambiguity, and next measurement that could distinguish candidates.
 
-## 3. 超材料處理
+## 5. Capability and validation
 
-### 3.1 可調材料
-
-```python
-class MetamaterialHandler:
-    """
-    超材料處理
-    """
-    
-    def detect_tunability(
-        self,
-        material: Material
-    ) -> bool:
-        """檢測可調性"""
-        pass
-```
-
----
-
-## 4. 相變追蹤
-
-### 4.1 狀態監測
-
-```python
-class PhaseTransitionTracker:
-    """
-    相變追蹤
-    """
-    
-    def monitor_phase(
-        self,
-        material: Material,
-        environment: Environment
-    ) -> PhaseState:
-        """監控相態"""
-        pass
-```
-
----
-
-*本文檔是 PHYSICS_KNOWLEDGE 的材質推論子模組。*
+A host must attest the actual instrument, sensor, calibration, data pipeline, model, software version, tested material domain, and validation. Report out-of-domain cases, failed calibration, saturation, poor signal-to-noise, and non-identifiability. This Markdown module supplies no runtime or material property service.

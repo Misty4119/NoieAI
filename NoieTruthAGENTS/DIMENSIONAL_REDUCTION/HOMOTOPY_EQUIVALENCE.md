@@ -1,46 +1,9 @@
-# DIMENSIONAL_REDUCTION/ — 跨維度通訊模組
+# HOMOTOPY_EQUIVALENCE.md
 
----
+## Formal equivalence and representation limits v2.3
 
-## HOMOTOPY_EQUIVALENCE.md
+Spaces X and Y are homotopy equivalent when there are continuous maps f:X→Y and g:Y→X such that g∘f and f∘g are homotopic to the respective identity maps. Equal Betti numbers alone do not establish this condition; spaces can share homology ranks while differing in homotopy type.
 
-### 同倫等價驗證
+A proposed check must define X and Y, topology or simplicial complexes, coefficient assumptions where relevant, maps f and g, and the homotopies. For finite complexes, the selected algorithm and completeness limits must be stated. A successful topological comparison says only that the formal representations satisfy the checked property.
 
-當高維知識投影至低維時，驗證拓撲不變量是否保持。
-
-```python
-FUNCTION VerifyHomotopyEquivalence(M_high, M_low):
-    betti_high = ComputeBettiNumbers(M_high)
-    betti_low = ComputeBettiNumbers(M_low)
-    return all(b_high == b_low for b_high, b_low in zip(betti_high, betti_low))
-```
-
----
-
-## BETTI_NUMBER_CHECKER.md
-
-### 貝蒂數保真檢驗
-
-驗證降維後的貝蒂數與原始空間一致。
-
-```python
-FUNCTION CheckBettiNumbers(manifold):
-    betti = ComputeBettiNumbers(manifold)
-    return BettiNumbers(betti)
-```
-
----
-
-## INEXPRESSIBLE_HANDLER.md
-
-### 拓撲不可表達態處理
-
-當知識無法在不破壞拓撲結構下降維時的處理。
-
-```python
-FUNCTION HandleInexpressible(knowledge, observer):
-    return TopologicallyInexpressible(
-        required_dims=knowledge.dim - observer.capacity,
-        expansion_path=SuggestExpansion(observer)
-    )
-```
+If a knowledge graph or text summary is mapped to a space, document how claims, evidence, and dependency relations become vertices, cells, weights, or filtration values. Validate the mapping against examples and task-relevant distinctions. Topological equivalence does not imply preservation of natural-language meaning, truth, uncertainty, provenance, or policy relevance. No homotopy checker or knowledge-space mapping is implemented here.

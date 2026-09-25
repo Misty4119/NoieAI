@@ -1,40 +1,14 @@
 # PHASE_TRANSITION_TEST.md
 
-## 本體論相變模擬測試
+## Model-change review scenario
 
-### 測試目的
+Design status: `DESIGN_ONLY`; no phase-transition detector or test run is included.
 
-模擬底層公理變更觸發本體論相變的情況。
+A phase transition has a model-specific mathematical definition, order parameter, control variables, and limiting assumptions. Choose those before analysis. A discontinuity, threshold crossing, or change in a knowledge graph does not by itself establish a physical phase transition or a change in truth status.
 
-### 測試場景
+For a proposed system model, state the variables, parameter range, finite-size effects, measurement/estimation method, competing explanations, and validation. Report a result only within that model's scope; an analogy to cognition or social systems must be labeled as such.
+## Required analysis record
 
-```python
-FUNCTION TestPhaseTransition():
-    
-    # 1. 建立現有知識體系
-    knowledge_base = BuildKnowledgeBase()
-    original_axioms = GetAxioms()
-    
-    # 2. 引入與現有公理衝突的新證據
-    conflicting_evidence = GenerateConflictingEvidence()
-    
-    # 3. 偵測相變
-    phase_transition = DetectPhaseTransition(
-        knowledge_base,
-        conflicting_evidence
-    )
-    
-    # 4. 驗證相變觸發
-    assert phase_transition.triggered == True
-    assert phase_transition.affected_nodes > 0
-    
-    # 5. 驗證全域重驗證
-    assert phase_transition.revalidation_triggered == True
-```
+Name the physical or mathematical system, control parameter, order parameter, phase definition, observable, finite-size regime, and equilibration procedure. Distinguish a true singular thermodynamic-limit transition from a finite-size crossover or an operational threshold. Compare alternative models and quantify uncertainty in the measured or inferred order parameter.
 
-### 預期結果
-
-- 相變被正確偵測
-- 受影響節點被隔離
-- 全域重驗證被觸發
-- 知識體系重構完成
+A graph, embedding, confidence score, or social pattern may be studied by analogy only after a mapping is defined; call it a model analogy, not a physical phase transition. Report parameter sensitivity and competing explanations. This scenario has no universal detection threshold or truth-status transition rule.

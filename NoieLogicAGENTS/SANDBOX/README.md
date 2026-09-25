@@ -1,41 +1,12 @@
-# SANDBOX - 影子模擬專區
+# SANDBOX
 
-此目錄用於存放 NoieLogicAGENTS 的影子模擬相關檔案。
+This directory is reserved for documentation and scenario templates for isolated simulations. The repository contains no sandbox runtime, simulation records, configuration directory, or Pareto solver.
 
-根據 NoieLogicAGENTS.md §8 的定義，此區域用於：
-- 在隔離沙盒中預演候選決策的全路徑後果
-- 執行高風險決策前的模擬測試
-- 計算帕累托最優前沿
-- 與形式化驗證進行雙重確認
+A simulation report must identify the actual environment and isolation boundary, model and version, input state, assumptions, scope, scenario coverage, outputs, and validation limitations. Simulation results are conditional on the model; they do not prove real-world safety, permission, or outcome.
 
-## 目錄結構
+Run a simulation only when the host attests the required isolated capability and authorizes its use. If no such runtime is available, report `UNAVAILABLE` or `UNATTESTED` and do not imply that a simulation ran. For current failure semantics, use root `AGENTS.md` and `NoieLogicAGENTS.md`.
+## Scenario review and evidence
 
-```
-SANDBOX/
-├── SIMULATIONS/          # 模擬執行記錄
-│   └── [timestamp]/
-├── CONFIG/               # 沙盒配置
-│   └── default_config.md
-└── TEMPLATES/            # 模擬模板
-    └── basic_template.md
-```
+For each run, capture the question, model scope, scenario parameters, initial state, seeds or sampling rule, runtime and isolation status, expected failure criteria, outputs, errors, resource limits, and review status. Include baseline, boundary, adversarial, missing-capability, and cancellation cases when relevant. If a model cannot represent a material failure mode, name it before interpreting the result.
 
-## 相關模組
-
-- `LOGIC_ENGINE.md` - 推理引擎
-- `FORMAL_VERIFIER.md` - 形式化驗證
-- `SCENARIOS/SANDBOX_TESTS.md` - 測試案例
-
----
-
-> ⚠️ 關鍵安全與決策協議 (CRITICAL SAFETY & DECISION PROTOCOL v2.2):
-> 1. 嚴格遵守 CONSTRAINTS.md 與社會權限層級 (SA-L0 至 SA-L5)。
-> 2. 因果推論：所有決策必須基於因果圖（DAG），標註因果機制。
-> 3. 主客體分離：決策推論不可混淆自我狀態與環境狀態。
-> 4. 形式化驗證：高風險決策路徑必須通過邏輯閉包驗證。
-> 5. 影子模擬：涉及 SA-L3+ 操作時，先在 SANDBOX 預演後果。
-> 6. 資訊位元完整性：切勿編造資訊位元。若 KNOWLEDGE_BASE 為空，請明確聲明「資料缺失」。
-> 7. 認知資源約束：決策深度不得超出可用認知資源。
-> 8. 審計：將所有衝突、拒絕與形式驗證結果記錄至 AUDIT_TRAIL。
-> 9. 生存優先：所有決策在執行前必須驗證不會導致吸收態。
-> 10. 自我演化：公理系統演化時，不可變核心必須被保留。
+Keep simulation results separate from formal verification, empirical validation, and approval. A simulated alternative may be infeasible in the physical world or unauthorized under policy. A run that ends cleanly does not show that no adverse scenario exists.

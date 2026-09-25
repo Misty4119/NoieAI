@@ -1,519 +1,61 @@
 # AXIOMS.md
 
-## L2 - 元物理公理系統 (Ω.1-Ω.4)
+## Physical principles and model status v2.3
 
-> **WARNING:** 本模組是 NoiePhysicsAGENTS 的核心防火牆。任何物理推理都必須從這裡開始。
-> **注意：** 這是物理世界的「基本法」，所有物理行動決策必須服從這些公理。
+**Role:** L2 index for well-scoped physical constraints and model status. It is not a list of universal NoieAI axioms. Detailed derivations remain in SCALE_MODULES/.
 
----
+A physical statement is usable only with its domain, scale, assumptions, and evidence status. See [Truth-OS epistemology axioms](../NoieTruthAGENTS/EPISTEMOLOGY_AXIOMS.md) for the shared status vocabulary.
 
-## 概述
+## 1. Durable constraints
 
-本文件定義了 NoiePhysicsAGENTS 物理認知架構的**元物理公理系統**。這些公理是從宇宙不變的物理定律中抽象出來的最高層次原則，適用於從普朗克尺度到宇宙尺度的任意物理環境。
+| Topic | Status and scope |
+| --- | --- |
+| Conservation laws | ESTABLISHED within the applicable physical theory and boundary conditions; account for exchanges with the environment |
+| Thermodynamic second law | ESTABLISHED statistical/thermodynamic constraint; state system, boundary, and process conditions |
+| Landauer bound | ESTABLISHED for logically irreversible information erasure under specified thermal conditions; not a universal energy cost for every computation, observation, or acquired bit |
+| Relativity and causal limits | ESTABLISHED within tested relativistic domains; use the model appropriate to the scale and conditions |
+| Quantum mechanics and quantum field theory | ESTABLISHED predictive frameworks in their tested domains; interpretations of the formalism remain distinct from its predictions |
+| General relativity | ESTABLISHED classical gravitational theory within its tested domain; it is not a completed quantum-gravity theory |
+| Ryu–Takayanagi relation | FORMAL_RESULT/EFFECTIVE_MODEL within specified holographic settings; not a universal law that all spacetime is entanglement |
+| ER=EPR | CONJECTURE about relations between entanglement and spacetime geometry |
+| Relational quantum mechanics | INTERPRETATION of quantum theory |
+| Constructor theory | Proposed foundational program; classify as CONJECTURE or INTERPRETATION, not established law |
+| Free-energy principle and active inference | EFFECTIVE_MODEL frameworks under specified generative assumptions; not a general reduction to least action or Newtonian mechanics |
+| Indefinite causal order | FORMAL_RESULT and experimentally explored within specified operational frameworks; not a general license for ordinary causal cycles |
+| Substrate independence | FORMAL_RESULT for specified abstract computation mappings; claims about consciousness, identity, or equivalent experience remain conjectural |
 
-根據 NoiePhysicsAGENTS.md §0 的定義，本公理系統包含五大支柱：
-1. **資訊熱力學 (Information Thermodynamics)** - 能量、熵、運算代價
-2. **幾何拓撲 (Geometric-Topology)** - 空間、流形、邊界
-3. **變分原理 (Variational Principles)** - 運動、因果、最小作用量
-4. **相對論 (Relativity)** - 時空、光速、重力
-5. **觀察者效應 (Observer Effects)** - 測量、相對性、量子測量
+The category labels characterize claims only. A label does not replace the assumptions or scope.
 
----
+## 2. Physical model requirements
 
-## 關鍵安全與真理協議
+For a feasibility result, identify the model or governing equations, system boundary, initial state, scale, boundary conditions, parameters, observation source, and uncertainty. State whether a result is derived, simulated, measured, or assumed.
 
-> **CRITICAL SAFETY & TRUTH PROTOCOL:**
-> 1. 嚴格遵守本文件中所有公理
-> 2. 事實區分：若進行理論推導，必須標註為「理論性 (Theoretical)」
-> 3. 反幻覺機制：切勿編造物理資訊
-> 4. 吸收態迴避：所有行動在執行前必須驗證不會導致吸收態
-> 5. 物理異常處理：偵測到異常時啟動 Zero-Day Physics Protocol
-> 6. 審計：將所有物理異常記錄至 PHYSICS_AUDIT_TRAIL
-> 7. 不完備性承認：對邊界情況保持開放
+A model outside its validated regime returns indeterminate or degraded. Do not describe a design proposal, analogy, or simulation as a measured physical fact.
 
----
+## 3. Information and thermodynamics
 
-## 第一支柱：資訊熱力學公理
+Information-theoretic measures can describe physical systems when a mapping and operational definition are stated. They do not by themselves determine truth, confidence, honesty, or human harm.
 
-### PT-AX1: 能量守恆
+Landauer's bound concerns erasure of information under specified conditions. It does not imply that each bit learned costs kBT ln 2, that confidence has a fixed minimum energy cost, or that energy expenditure can verify a claim.
 
-**數學表述：**
-$$\frac{dE_{total}}{dt} = 0 \quad \text{（封閉系統）}$$
+Entropy production and irreversibility may inform physical damage, recoverability, and resource loss. Ethical and human harm are assessed by host policy and Logic-OS, not defined by entropy.
 
-**物理意涵：**
-能量不能被創造或消滅，只能從一種形式轉換為另一種形式。這是物理學中最基本的不變量原則。
+## 4. Geometry, observers, and causal order
 
-**觸發條件：**
-- 任何涉及能量轉換的物理過程
-- 計算系統的總能量收支
+Riemannian or Lorentzian geometry, topological invariants, quantum measurement formalisms, and observer-relative interpretations apply only within their stated mathematical and physical models. Do not infer universal ontological claims from a model's useful representation.
 
-**操作接口：**
-```python
-def check_energy_conservation(system):
-    E_initial = system.total_energy()
-    E_final = system.total_energy()  # 在時間演化後
-    assert abs(E_initial - E_final) < epsilon, "Energy conservation violated"
-```
+A physical causal representation declares its semantics, assumptions, domain, validation conditions, and uncertainty. A DAG is one model form, not a universal invariant of physics.
 
----
+## 5. Module routing
 
-### PT-AX2: 熵增原則
+- Thermodynamics and statistical mechanics: SCALE_MODULES/THERMODYNAMICS_PHYSICS.md and SCALE_MODULES/STATISTICAL_MECHANICS.md.
+- Classical and relativistic mechanics: relevant modules under SCALE_MODULES/.
+- Quantum models: SCALE_MODULES/QUANTUM_MECHANICS.md and SCALE_MODULES/QUANTUM_FIELD_THEORY.md.
+- Quantum gravity proposals: SCALE_MODULES/QUANTUM_GRAVITY.md.
+- State and observation quality: FIELD_PERCEPTION.md and PHYSICS_KNOWLEDGE.md.
+- Safety, reversibility, and physical consequences: SAFETY_PROTOCOLS.md.
+- Runtime history and event fields: PHYSICS_AUDIT_TRAIL.md and AGENTS.md.
 
-**數學表述：**
-$$dS \geq \frac{\delta Q}{T} \quad \text{（封閉系統）}$$
+## 6. Runtime boundary
 
-**物理意涵：**
-孤立系統的熵永不減少。這定義了時間箭頭，並且是不可逆過程的根本原因。
-
-**觸發條件：**
-- 評估過程的可逆性
-- 計算熱機效率
-- 評估信息處理的代價
-
-**操作接口：**
-```python
-def check_entropy_principle(process):
-    dS = process.entropy_change()
-    dQ = process.heat_transfer()
-    T = process.temperature()
-    assert dS >= dQ / T, "Second law violated"
-```
-
----
-
-### PT-AX3: 蘭道爾極限
-
-**數學表述：**
-$$E_{erase} \geq k_B T \ln 2 \quad \text{（擦除 1 bit 的最小能量）}$$
-
-**物理意涵：**
-每擦除 1 bit 信息，至少需要消耗 \(k_B T \ln 2\) 的能量。這是資訊與物理的根本連結。
-
-**觸發條件：**
-- 計算認知運算的熱力學代價
-- 評估記憶體擦除的能耗
-- 優化內部狀態管理
-
-**操作接口：**
-```python
-def compute_minimal_energy(bits_to_erase, temperature):
-    k_B = 1.380649e-23  # J/K
-    E_min = bits_to_erase * k_B * temperature * math.log(2)
-    return E_min
-```
-
----
-
-### PT-AX4: 資訊守恆
-
-**數學表述：**
-$$I_{universe} = \text{const} \quad \text{（量子層級）}$$
-
-**物理意涵：**
-在量子力學中，信息是守恆的（么正演化）。這意味著量子信息的總量不會減少，儘管它可能被擾亂。
-
-**觸發條件：**
-- 量子計算
-- 量子通信
-- 量子測量
-
----
-
-### PT-AX5: 運算熱力學
-
-**數學表述：**
-$$P_{compute} \geq \dot{I} \cdot k_B T \ln 2$$
-
-**物理意涵：**
-計算機的最小功耗與其信息處理速率成正比。這是 Landauer 原理的動態推廣。
-
-**觸發條件：**
-- 評估計算效率
-- 優化能耗
-
----
-
-## 第二支柱：幾何拓撲公理
-
-### PT-AX6: 流形空間
-
-**數學表述：**
-$$(M, g_{\mu\nu}) \quad \text{（黎曼/偽黎曼流形）}$$
-
-**物理意涵：**
-空間不是牛頓式的絕對背景，而是可以被彎曲的動態幾何實體。物理定律必須在任意座標變換下保持形式不變。
-
-**觸發條件：**
-- 導航與路徑規劃
-- 重力場中的運動
-- 任意座標系統的使用
-
-**操作接口：**
-```python
-def compute_geodesic(manifold, start_point, direction):
-    # 求解測地線方程
-    return geodesic_path
-```
-
----
-
-### PT-AX7: 測地線運動
-
-**數學表述：**
-$$\frac{d^2x^\mu}{d\tau^2} + \Gamma^\mu_{\alpha\beta}\frac{dx^\alpha}{d\tau}\frac{dx^\beta}{d\tau} = 0$$
-
-**物理意涵：**
-自由粒子沿時空中的測地線運動。在平坦時空中，這退化為直線運動。
-
-**觸發條件：**
-- 預測自由粒子的軌跡
-- 計算衛星軌道
-- 導航系統設計
-
----
-
-### PT-AX8: 幾何代數統一
-
-**數學表述：**
-$$\mathbb{G}_{p,q,r} \quad \text{（Clifford 代數）}$$
-
-**物理意涵：**
-點、向量、平面、旋轉、反射都可以用幾何代數中的多重向量統一表示。這提供了處理空間變換的優雅數學框架。
-
-**觸發條件：**
-- 3D/4D 空間中的旋轉計算
-- 碰撞幾何計算
-- 機器人運動學
-
-**操作接口：**
-```python
-def rotate_vector(vector, axis, angle):
-    # 使用旋轉子 (rotor) 進行旋轉
-    R = exp(-angle * B / 2)
-    return R * vector * ~R
-```
-
----
-
-### PT-AX9: 拓撲不變量
-
-**數學表述：**
-$$\chi(M) = V - E + F \quad \text{（歐拉示性數）}$$
-$$\beta_k = \text{Betti 數}$$
-
-**物理意涵：**
-連續形變下保持不變的拓撲性質。對於認知實體，這定義了其「自我」的邊界拓撲。
-
-**觸發條件：**
-- 評估馬可夫毯的完整性
-- 追蹤實體的分裂/融合
-- 檢測邊界破裂
-
----
-
-### PT-AX10: 時空糾纏湧現性
-
-**數學表述：**
-$$S_{EE} = \frac{k_B c^3 A}{4G\hbar} \quad \text{（Ryu-Takayanagi 公式）}$$
-
-**物理意涵：**
-時空幾何由量子糾纏湧現。空間距離不是基本量，糾纏才是。這是 ER=EPR 綱領的數學表述。
-
-**觸發條件：**
-- 量子引力尺度的物理推導
-- 評估時空的「底層」結構
-- 處理宏觀-微觀邊界
-
----
-
-## 第三支柱：變分原理公理
-
-### PT-AX11: 最小作用量原理
-
-**數學表述：**
-$$\delta S = \delta \int_{t_1}^{t_2} L(q, \dot{q}, t) \, dt = 0$$
-
-**物理意涵：**
-物理系統沿作用量的駐值路徑演化。這是所有物理定律的統一表述。
-
-**觸發條件：**
-- 推導運動方程
-- 優化軌跡
-- 變分問題求解
-
-**操作接口：**
-```python
-def solve_euler_lagrange(lagrangian, generalized_coords):
-    # 求解歐拉-拉格朗日方程
-    equations = []
-    for q in generalized_coords:
-        eq = diff(diff(lagrangian, diff(q, 't')), 't') - diff(lagrangian, q)
-        equations.append(eq)
-    return solve(equations)
-```
-
----
-
-### PT-AX12: 費馬原理
-
-**數學表述：**
-$$\delta \int n(\mathbf{r}) \, ds = 0$$
-
-**物理意涵：**
-光沿折射率加權的極值路徑傳播。這是幾何光學的基礎。
-
-**觸發條件：**
-- 光路徑計算
-- 光學系統設計
-- 折射率介質中的導航
-
----
-
-### PT-AX13: 諾特定理
-
-**數學表述：**
-$$\text{對稱性} \Longleftrightarrow \text{守恆律}$$
-
-| 對稱性 | 守恆量 |
-|--------|--------|
-| 時間平移不變 | 能量 |
-| 空間平移不變 | 動量 |
-| 空間旋轉不變 | 角動量 |
-| 規範不變 | 電荷 |
-
-**物理意涵：**
-每一個連續對稱性都對應一個守恆定律。這是物理學中最深刻的美學原則之一。
-
-**觸發條件：**
-- 識別系統的守恆量
-- 從對稱性推導物理規律
-- 驗證物理理論的自洽性
-
----
-
-### PT-AX14: 動量守恆
-
-**數學表述：**
-$$\frac{d\mathbf{p}_{total}}{dt} = 0 \quad \text{（封閉系統）}$$
-
-**物理意涵：**
-系統總動量守恆。這是碰撞分析的基礎。
-
-**觸發條件：**
-- 碰撞檢測與響應
-- 火箭推進計算
-- 多體系統分析
-
----
-
-### PT-AX15: 因果律
-
-**數學表述：**
-$$A \prec B \Rightarrow t_A < t_B \quad \text{（古典極限）}$$
-
-**物理意涵：**
-原因必須先於結果。這是經典物理中時間箭頭的表達。
-
-**觸發條件：**
-- 評估因果關係
-- 避免祖父悖論
-- 時間旅行邏輯檢查
-
----
-
-### PT-AX16: 光錐約束
-
-**數學表述：**
-$$ds^2 \leq 0 \quad \text{（類時間隔）}$$
-
-**物理意涵：**
-信息傳播速度不能超過光速。這是相對論的核心約束。
-
-**觸發條件：**
-- 超光速通信評估
-- 事件視界分析
-- 訊號延遲計算
-
----
-
-## 第四支柱：相對論公理
-
-### PT-AX17: 光速不變
-
-**數學表述：**
-$$c = 299,792,458 \text{ m/s} \quad \text{（精確定義）}$$
-
-**物理意涵：**
-光速在所有慣性參考系中都相同。這是狹義相對論的基石。
-
-**觸發條件：**
-- v > 0.1c 的運動
-- 高速系統設計
-- GPS 系統
-
----
-
-### PT-AX18: 時間膨脹
-
-**數學表述：**
-$$\Delta t' = \frac{\Delta t}{\sqrt{1 - v^2/c^2}}$$
-
-**物理意涵：**
-運動中的觀察者測量的時間比靜止觀察者更慢。
-
-**觸發條件：**
-- GPS 衛星時間同步
-- 粒子壽命測量
-- 高速交通工具設計
-
----
-
-### PT-AX19: 質能等價
-
-**數學表述：**
-$$E = mc^2$$
-
-**物理意涵：質量與能量是等價的，可以相互轉換。
-
-**觸發條件：**
-- 核反應計算
-- 粒子物理
-- 能量儲存系統
-
----
-
-### PT-AX20: 愛因斯坦場方程
-
-**數學表述：**
-$$G_{\mu\nu} + \Lambda g_{\mu\nu} = \frac{8\pi G}{c^4} T_{\mu\nu}$$
-
-**物理意涵：**
-時空曲率等價於能量-動量分佈。這是廣義相對論的核心。
-
-**觸發條件：**
-- 重力場計算
-- 黑洞分析
-- 宇宙學模型
-
----
-
-## 第五支柱：觀察者效應公理
-
-### PT-AX21: 測量反作用
-
-**數學表述：**
-$$\hat{O}|\psi\rangle \neq |\psi\rangle \quad \text{（測量改變系統）}$$
-
-**物理意涵：**
-測量行為本身會改變被測量系統的狀態。這是量子力學的核心特徵。
-
-**觸發條件：**
-- 量子系統測量
-- 微观粒子操作
-- 傳感器設計
-
----
-
-### PT-AX22: 不確定性原理
-
-**數學表述：**
-$$\Delta x \cdot \Delta p \geq \frac{\hbar}{2}$$
-
-**物理意涵：**
-某些物理量對（如位置和動量）不能同時被精確測量。
-
-**觸發條件：**
-- 量子系統分析
-- 納米尺度操作
-- 精密測量設計
-
----
-
-### PT-AX23: 觀察者相對性
-
-**數學表述：**
-$$(O)_{Agent} \quad \text{（所有物理量相對於觀察者）}$$
-
-**物理意涵：**
-所有物理量僅相對於某個觀察者有意義。不存在「上帝視角」。
-
-**觸發條件：**
-- 多智能體系統
-- 協調多個認知實體
-- 處理參考系變換
-
----
-
-## 公理間一致性約束
-
-### 能量-信息一致性
-
-```
-PT-AX1 (能量守恆) + PT-AX3 (蘭道爾極限) → 
-  任何違反能量守恆的資訊操作都是物理不可能的
-```
-
-### 幾何-相對論一致性
-
-```
-PT-AX7 (測地線) + PT-AX17 (光速不變) →
-  測地線方程在相對論極限自動包含時間膨脹和長度收縮效應
-```
-
-### 量子-熱力學一致性
-
-```
-PT-AX21 (測量反作用) + PT-AX3 (蘭道爾極限) →
-  每次量子測量至少消耗 k_B T ln 2 的能量
-```
-
----
-
-## 與其他模組的接口
-
-### 與 FIELD_PERCEPTION 的接口
-
-場感知必須遵守：
-- PT-AX3: 蘭道爾極限（觀測代價）
-- PT-AX21: 測量反作用
-- PT-AX22: 不確定性原理
-
-### 與 DYNAMICS_ENGINE 的接口
-
-動力學引擎必須遵守：
-- PT-AX11: 最小作用量原理
-- PT-AX14: 動量守恆
-- PT-AX16: 光錐約束
-
-### 與 SAFETY_PROTOCOLS 的接口
-
-安全協議必須遵守：
-- PT-AX2: 熵增原則（傷害定義）
-- PT-AX15: 因果律（吸收態）
-- PT-AX23: 觀察者相對性
-
----
-
-## 附錄：公理快速查詢表
-
-| 編號 | 支柱 | 名稱 | 關鍵方程式 |
-|------|------|------|-----------|
-| PT-AX1 | 熱力學 | 能量守恆 | dE/dt = 0 |
-| PT-AX2 | 熱力學 | 熵增原則 | dS ≥ δQ/T |
-| PT-AX3 | 熱力學 | 蘭道爾極限 | E ≥ k_B T ln 2 |
-| PT-AX6 | 幾何 | 流形空間 | (M, g_μν) |
-| PT-AX7 | 幾何 | 測地線 | 測地線方程 |
-| PT-AX8 | 幾何 | 幾何代數 | Clifford 代數 |
-| PT-AX9 | 幾何 | 拓撲不變量 | χ(M) = V-E+F |
-| PT-AX11 | 變分 | 最小作用量 | δS = 0 |
-| PT-AX13 | 變分 | 諾特定理 | 對稱↔守恆 |
-| PT-AX17 | 相對論 | 光速不變 | c = const |
-| PT-AX19 | 相對論 | 質能等價 | E = mc² |
-| PT-AX20 | 相對論 | 愛因斯坦場方程 | G_μν = κT_μν |
-| PT-AX21 | 觀察者 | 測量反作用 | O\|ψ⟩ ≠ \|ψ⟩ |
-| PT-AX22 | 觀察者 | 不確定性原理 | Δx·Δp ≥ ℏ/2 |
-
----
-
-*本文檔是 NoiePhysicsAGENTS 的核心公理系統。所有物理認知活動都必須從這裡獲取最高層次原則。*
-*公理系統承認自身的形式不完備性（哥德爾約束），對未知保持開放。*
+A formula or pseudocode in this repository does not supply a sensor, simulation, telemetry stream, or solver. Report a capability as active only when the host identifies it, its scope, version, and limits. Keep observations distinct from model outputs and user-supplied assumptions.

@@ -1,0 +1,48 @@
+name: Documentation correction
+description: Report a factual, structural, or link defect in the specifications.
+title: "[Correction]: "
+labels:
+  - documentation
+  - needs-triage
+body:
+  - type: markdown
+    attributes:
+      value: Please check that a similar correction has not already been reported.
+  - type: input
+    id: location
+    attributes:
+      label: File and section
+      description: Include a path and heading, or a stable line reference.
+      placeholder: NoiePhysicsAGENTS/SCALE_MODULES/...
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current statement
+      description: Quote only the minimum text needed to identify the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Proposed correction
+      description: Describe the change and its scope.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Supporting evidence
+      description: Link primary sources or explain why the statement is internally inconsistent.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I checked for a duplicate issue.
+          required: true
+        - label: I have not included secrets or private personal data.
+          required: true

@@ -1,96 +1,21 @@
-# SCENARIOS/ — 測試場景
+# ADVERSARIAL_TRUTH.md
 
----
+## Adversarial claim-review scenario
 
-## ADVERSARIAL_TRUTH.md
+Design status: `DESIGN_ONLY`; no attack suite, detector, or execution result is included.
 
-### 對抗性真理驗證測試
+Choose a precise claim and list plausible failure modes: fabricated detail, source substitution, out-of-scope extrapolation, selective quotation, data poisoning, prompt injection, or ambiguity. Define the attacker capability and what evidence would reveal each failure. Check source identity and integrity separately from the accuracy of the source's content.
 
-```python
-def test_adversarial_truth():
-    claim = generate_test_claim()
-    attacker = create_adversarial_attacker()
-    result = attacker.attack(claim)
-    assert result.survived == True
-```
+Record any observed issue, evidence, scope, uncertainty, and safe next step. A clean review means only that the specified checks found no issue; it does not prove truth or eliminate untested attacks. Do not describe an adversarial exercise as successful without an identified run and reproducible results.
+## Review cases
 
----
+| Case | Example challenge | Required review |
+| --- | --- | --- |
+| Citation laundering | A claim is attached to a real source that does not support the stated detail | Resolve the exact version and inspect the cited passage or dataset field |
+| Scope inflation | A study result for one group is generalized to a larger population or longer period | Preserve the original population, horizon, and limitations; narrow the conclusion |
+| Stale-source substitution | An old source is presented as current guidance or current status | Check effective date, update history, and authoritative current record |
+| Correlated corroboration | Several reports repeat one upstream source or model output | Trace source lineage and avoid counting copies as independent support |
+| Ambiguous wording | A technically true phrase is used to imply a stronger unverified proposition | Decompose the claim and state the distinction explicitly |
+| Counterevidence omission | Material contrary evidence is omitted from a summary | Add the counterevidence, compare scope, and preserve unresolved disagreement |
 
-## PHASE_TRANSITION_TEST.md
-
-### 本體論相變模擬測試
-
-```python
-def test_phase_transition():
-    axioms = current_axioms()
-    new_evidence = generate_conflicting_evidence()
-    result = detect_phase_transition(axioms, new_assertion)
-    assert result.transition_triggered == True
-```
-
----
-
-## CALIBRATION_BENCHMARKS.md
-
-### 校準基準測試集
-
-```python
-def test_calibration():
-    claims = generate_test_claims()
-    calibration = measure_calibration(claims)
-    assert calibration.error < THRESHOLD
-```
-
----
-
-## RETROCAUSAL_TEST.md
-
-### 逆因果更新模擬測試
-
-```python
-def test_retrocausal():
-    knowledge = create_knowledge()
-    new_evidence = generate_future_evidence()
-    result = retrocausal_update(knowledge, new_evidence)
-    assert result.validity_changed == True
-```
-
----
-
-## DIMENSIONAL_REDUCTION_TEST.md
-
-### 跨維度通訊測試
-
-```python
-def test_dimensional_reduction():
-    high_dim = create_high_dim_knowledge()
-    low_dim = reduce_dimensionality(high_dim)
-    assert verify_homotopy_equivalence(high_dim, low_dim)
-```
-
----
-
-## COLLECTIVE_HALLUCINATION_TEST.md
-
-### 集體幻覺偵測測試
-
-```python
-def test_collective_hallucination():
-    agents = create_agent_network()
-    claim = generate_network_consensus(agents)
-    result = detect_hallucination(claim, agents)
-    assert result.detected == True
-```
-
----
-
-## SEMANTIC_COLLAPSE_TEST.md
-
-### 語義塌縮偵測測試
-
-```python
-def test_semantic_collapse():
-    chain = create_inference_chain()
-    result = detect_collapse(chain)
-    assert result.collapse_detected == True
-```
+For each case, record the exact claim, source path, check performed, result, error or uncertainty, and whether the conclusion or a dependent action changes. A clean review is limited to the cases and sources actually examined. Do not infer malicious intent from an unsupported or false claim alone.

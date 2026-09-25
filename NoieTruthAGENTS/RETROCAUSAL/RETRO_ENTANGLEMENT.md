@@ -1,40 +1,9 @@
 # RETRO_ENTANGLEMENT.md
 
-## 逆時間糾纏指針管理
+## Entanglement and temporal claims
 
-### 定義
+Quantum entanglement produces correlations characterized by quantum theory; it does not allow controllable faster-than-light signalling. A correlation, delayed-choice setup, or retrospective state assignment does not alone demonstrate that a future action caused a past event.
 
-每個知識 $K$ 攜帶逆時間糾纏指針，記錄此知識依賴哪些未來可能被修正的前提。
+Describe the actual preparation, measurement settings, spacetime arrangement, predicted statistics, and alternative interpretations. Separate experimentally tested quantum predictions from interpretive accounts and any stronger claim of retrocausal ontology. Do not use entanglement metaphors to revise ordinary historical facts or causal records.
 
-### 指針結構
-
-```python
-RetroEntanglementPointer = {
-    "dependencies": List[KnowledgeID],  # 依賴的未來知識
-    "update_triggers": List[Trigger],   # 觸發更新的條件
-    "retro_active": bool                # 是否啟動逆因果更新
-}
-```
-
-### 管理演算法
-
-```python
-FUNCTION CreateRetroPointer(knowledge):
-    dependencies = TraceDependencies(knowledge)
-    
-    pointer = RetroEntanglementPointer(
-        dependencies=dependencies,
-        update_triggers=DefineTriggers(dependencies),
-        retro_active=True
-    )
-    
-    return pointer
-
-FUNCTION HandleRetroUpdate(knowledge, new_evidence):
-    IF knowledge.retro_pointer.retro_active:
-        # 檢查是否觸發更新
-        FOR trigger IN knowledge.retro_pointer.update_triggers:
-            IF trigger.satisfied_by(new_evidence):
-                # 執行逆時間更新
-                PropagateRetroactive(knowledge, new_evidence)
-```
+This document is an interpretive caution, not a new physical law or an executable protocol. A specific experimental claim requires primary sources and a defined setup.

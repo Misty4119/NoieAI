@@ -1,0 +1,48 @@
+name: Architecture proposal
+description: Propose a scoped change to a NoieAI interface, module, or design constraint.
+title: "[Proposal]: "
+labels:
+  - architecture
+  - needs-triage
+body:
+  - type: markdown
+    attributes:
+      value: For broad changes, discuss the scope and affected contracts before opening a pull request.
+  - type: input
+    id: area
+    attributes:
+      label: Affected area
+      description: Name the pillar, interface, or files that would change.
+      placeholder: Logic-OS / shared report interface / ...
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or gap
+      description: Explain the concrete limitation this proposal addresses.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Describe the intended behavior and boundaries.
+    validations:
+      required: true
+  - type: textarea
+    id: tradeoffs
+    attributes:
+      label: Assumptions, alternatives, and trade-offs
+      description: Include evidence or references for factual and scientific claims.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I checked for duplicate proposals.
+          required: true
+        - label: I have not included secrets or private personal data.
+          required: true

@@ -1,42 +1,9 @@
 # INEXPRESSIBLE_HANDLER.md
 
-## 拓撲不可表達態處理
+## Representation and expression limits v2.3
 
-### 定義
+A representation may omit a distinction required by a question. Diagnose the actual gap: missing variable, insufficient resolution, absent relation, restricted language, unobserved data, underspecified scope, or a formal limitation. These are different failures and require different remedies.
 
-當高維認知實體知道答案，但在數學上證明無法在不破壞拓撲結構的情況下降維投射給接收端時，系統必須宣告為「拓撲不可表達態」。
+Do not infer that a claim is mathematically inexpressible merely because the current model cannot represent it. First state the formal language or data structure, the property of interest, and the failed representation requirement. An impossibility claim needs a proof under those definitions; missing evidence or software support is not an impossibility proof.
 
-### 處理協議
-
-```python
-FUNCTION HandleTopologicallyInexpressible(knowledge, observer):
-    
-    # 1. 嘗試所有可能的降維方式
-    reduction_attempts = FindAllReductions(knowledge, observer.capacity)
-    
-    # 2. 檢查每種方式是否保持拓撲結構
-    for reduction in reduction_attempts:
-        if CheckTopologicalPreservation(reduction):
-            return ValidReduction(reduction)
-    
-    # 3. 無法保真降維
-    return TopologicallyInexpressible(
-        required_dimensions=knowledge.dimension - observer.capacity,
-        expansion_path=SuggestDimensionExpansion(observer),
-        reason="TOPOLOGICAL_INVARIANTS_CANNOT_BE_PRESERVED"
-    )
-```
-
-### 輸出格式
-
-```
-[EC-L∅] 拓撲不可表達態
-
-- 所需維度：n 維
-- 接收端維度：m 維
-- 拓撲不變量：
-  - β₀(M) = ?
-  - β₁(M) = ?
-- 建議：擴展認知維度
-- 擴展路徑：[path]
-```
+When the representation is inadequate, preserve the original evidence, identify which conclusions depend on the missing distinction, request a richer model or evidence, and report the result as unresolved or out of scope. A topological or dimension-count metaphor is not itself a detector. No automatic capacity or expressibility checker is included here.

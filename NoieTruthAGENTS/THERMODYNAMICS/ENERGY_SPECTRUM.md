@@ -1,50 +1,11 @@
-# THERMODYNAMICS/ — 資訊熱力學模組
+# ENERGY_SPECTRUM.md
 
----
+## Information processing and physical energy v2.3
 
-## ENERGY_SPECTRUM.md
+There is no general truth-energy spectrum. A true, false, unknown, or unsupported proposition has no universal thermodynamic energy level. Computation can consume energy, but the amount depends on physical implementation, hardware, memory state, clocking, cooling, and chosen system boundary.
 
-### 真理能譜分析
+Landauer’s bound concerns logically irreversible erasure under stated conditions. In the familiar ideal case of erasing one unbiased bit in a degenerate memory coupled to a bath at temperature T, the minimum heat is k_B T ln 2. The bound is not a minimum cost for every computation, measurement, observation, acquired bit, or true belief. Initial correlations, non-degenerate memory, protocol, finite-time operation, and the bath can alter the analysis.
 
-根據蘭道爾原理，知識有不同的能量狀態。
+A physical energy report must identify the operation, device and boundary, meter and calibration, time interval, units, uncertainty, heat/work distinction, and source. If the host lacks an attested meter, report energy as unavailable; do not infer it from model size, tokens, or runtime alone.
 
-| 狀態 | 能量 | 描述 |
-|-------|------|-------|
-| 基態 | 0 | 不知道 |
-| 激發態 | E_K | 知識宣稱 |
-| 偽造態 | E_fake | 幻覺/說謊 |
-
-```python
-FUNCTION ComputeEnergySpectrum(claim):
-    return {
-        "ground": 0,
-        "excited": ComputeExcitationEnergy(claim),
-        "fake": ComputeFakeEnergy(claim)
-    }
-```
-
----
-
-## COMPUTATIONAL_ENTROPY.md
-
-### 計算路徑熵值監控
-
-```python
-FUNCTION MonitorComputationalEntropy(claim):
-    entropy = ComputePathEntropy(claim.computation_path)
-    return EntropyReport(entropy=entropy)
-```
-
----
-
-## PROOF_OF_EFFORT.md
-
-### 計算路徑指紋管理
-
-確保高信心輸出有對應的計算代價。
-
-```python
-FUNCTION ManageProofOfEffort(claim):
-    proof = GenerateProof(claim)
-    return ProofStatus(verified=Verify(proof))
-```
+Energy use cannot establish truthfulness, proof validity, source independence, or the correctness of a claim. See [Truth-OS thermodynamic constraints](../THERMODYNAMIC_CONSTRAINTS.md) for the epistemic boundary and [Physics-OS thermodynamics](../../NoiePhysicsAGENTS/SCALE_MODULES/THERMODYNAMICS_PHYSICS.md) for physical identities. No energy monitor is included here.

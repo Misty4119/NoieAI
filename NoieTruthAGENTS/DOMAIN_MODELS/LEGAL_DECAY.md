@@ -1,49 +1,11 @@
 # LEGAL_DECAY.md
 
-## 法律領域知識衰減律
+## Legal-source freshness review v2.3
 
-### 領域特性
+Legal requirements depend on jurisdiction, effective date, facts, procedure, and authoritative interpretation. This module is a review checklist, not legal advice or a compliance determination.
 
-| 特性 | 描述 |
-|------|------|
-| **法規穩定性** | 相對穩定但有修法週期 |
-| **判例累積效應** | 舊判例可能被新判例推翻 |
-| **時效性** | 法律有追訴時效 |
-| **地域性** | 不同法域有不同規定 |
+For each claim, identify jurisdiction, primary source, provision, version, publication and effective dates, date checked, relevant facts, exceptions, and authoritative guidance or decision relied on. Check amendment, commencement, repeal, transition rules, procedural deadlines, and whether the cited material is binding or explanatory. A rule on the books may apply differently under facts not yet established.
 
-### 衰減常數
+Recheck after official publication, a relevant court or agency decision, changed facts, or a material date boundary. If the current status or application cannot be resolved, report UNRESOLVED and refer to qualified counsel or the competent authority. Source age alone does not prove a rule changed.
 
-$$\lambda^*_{\text{legal}} \approx 0.05 - 0.15$$
-
-### 法律子領域衰減特徵
-
-| 子領域 | λ* 範圍 | 衰減觸發 |
-|--------|---------|----------|
-| 憲法 | 0.01 - 0.05 | 憲法修正 |
-| 刑法 | 0.02 - 0.08 | 刑罰修正 |
-| 民法 | 0.03 - 0.10 | 民法修正 |
-| 行政法 | 0.05 - 0.15 | 法規修正 |
-| 國際法 | 0.02 - 0.08 | 条約修訂 |
-
-### 衰減觸發條件
-
-```python
-LEGAL_DECAY_TRIGGERS = [
-    "法律修正通過",
-    "司法解釋變更",
-    "判例逆轉",
-    "時效完成",
-    "法域變更",
-    "條約退出/加入"
-]
-```
-
-### 計算公式
-
-```python
-FUNCTION ComputeLegalValidity(claim, current_date, jurisdiction):
-    time_delta = ComputeTimeSinceClaim(current_date, claim.effective_date)
-    law_changes = CountLawChanges(claim.law_reference, jurisdiction)
-    decay = exp(-lambda_legal * (time_delta + law_changes))
-    RETURN min(decay * claim.original_reliability, 1.0)
-```
+No legal-source monitor or jurisdiction-specific database is included here.

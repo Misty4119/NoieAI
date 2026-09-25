@@ -1,37 +1,9 @@
 # BETTI_NUMBER_CHECKER.md
 
-## 貝蒂數保真檢驗
+## Homology ranks for a declared representation v2.3
 
-### 定義
+For a finite chain complex over a specified coefficient field, the k-th Betti number is the rank of the k-th homology group. With boundary maps ∂ₖ, βₖ=dim ker(∂ₖ)−rank(im(∂ₖ₊₁)). The value depends on how the underlying space or complex was constructed, its coefficient field, degree, and any filtering or reduction choices.
 
-貝蒂數 (Betti Numbers) 是拓撲空間的不變量：
-- $\beta_0$: 連通分量數
-- $\beta_1$: 一維洞數
-- $\beta_2$: 二維洞數
-- 依此類推
+For persistent homology, state the filtration, metric or threshold parameter, coefficient field, persistence algorithm, and interval-selection rule. Report sensitivity to construction and parameters, numerical or combinatorial limits, and the exact source and target representation being compared.
 
-### 計算
-
-```python
-FUNCTION ComputeBettiNumbers(manifold):
-    # 計算同調群
-    H = ComputeHomologyGroups(manifold)
-    
-    # 提取貝蒂數
-    betti = [rank(H[n]) for n in range(dimension)]
-    
-    RETURN BettiNumbers(betti)
-```
-
-### 驗證
-
-```python
-FUNCTION VerifyBettiFidelity(original, projected):
-    betti_original = ComputeBettiNumbers(original)
-    betti_projected = ComputeBettiNumbers(projected)
-    
-    if betti_original != betti_projected:
-        TRIGGER BETTI_MISMATCH_ALERT
-    
-    return betti_original == betti_projected
-```
+Equal Betti numbers are necessary but not sufficient for homotopy equivalence. A change can flag a structural difference in the chosen representation; it does not establish semantic loss, a lie, or a false claim. A valid epistemic interpretation requires a justified mapping from claims and relations to the complex and validation against the intended task. No topology library or validated claim-to-complex mapping is included here.

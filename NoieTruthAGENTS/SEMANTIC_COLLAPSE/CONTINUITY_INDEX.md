@@ -1,44 +1,9 @@
 # CONTINUITY_INDEX.md
 
-## 連續性指標計算
+## Inference-step and scope review v2.3
 
-### 定義
+“Continuity” is a review question: can a reviewer inspect the premises, definitions, evidence, and transformations connecting a source to a conclusion? It is not a universal semantic-distance metric, truth tier, or mathematical continuity claim.
 
-連續性指標衡量推論鏈中相鄰步驟之間的語義距離。
+For a claim chain, enumerate each premise and inference step. Track changes in population, time, jurisdiction, modality, quantifier, units, model, and meaning. Mark whether a step is deductive, statistical, causal, analogical, or normative. Check whether a conclusion strengthens the source or drops a material exception.
 
-### 實現
-
-```python
-FUNCTION ComputeContinuityIndex(inference_chain):
-    
-    steps = DecomposeChain(inference_chain)
-    
-    if len(steps) < 2:
-        return 1.0
-    
-    # 計算每對相鄰步驟之間的測地距離
-    gaps = []
-    for i in range(len(steps) - 1):
-        gap = ComputeGeodesicDistance(steps[i], steps[i+1])
-        gaps.append(gap)
-    
-    # 計算最大間隙
-    max_gap = max(gaps)
-    
-    # 計算連續性指標
-    continuity_index = 1 / (1 + max_gap)
-    
-    return ContinuityIndex(
-        value=continuity_index,
-        max_gap=max_gap,
-        steps=len(steps)
-    )
-```
-
-### 閾值
-
-| EC 等級 | 閾值 |
-|---------|------|
-| L0-L2 | 0.9 |
-| L3-L4 | 0.7 |
-| L5-L6 | 0.5 |
+If embeddings or similarity measures prioritize review, record model and version, representation, distance function, validation set, threshold rationale, and error rates. Similarity can miss a logical contradiction or flag harmless paraphrases; it cannot establish entailment. Return GAP_FOUND, NO_GAP_FOUND_WITHIN_REVIEW, UNRESOLVED, or NOT_CHECKED with the examined scope. No validated semantic-continuity detector is included.

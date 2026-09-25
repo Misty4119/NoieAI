@@ -1,39 +1,18 @@
 # CALIBRATION_BENCHMARKS.md
 
-## 校準基準測試集
+## Calibration benchmark design
 
-### 測試目的
+This file specifies how to design a benchmark; it contains no executed results or universal pass thresholds.
 
-評估認知實體的信心校準能力。
+Define a forecasting task, target population and horizon, probability format, scoring rule, outcome source, resolution policy, baseline, sample size rationale, and evaluation period before collecting results. Freeze predictions before outcomes. Report proper scores and reliability analysis with uncertainty and subgroup breakdowns; describe discrimination and calibration separately.
 
-### 測試項目
+Compare systems on the same information, tasks, and resolution rules. Document exclusions, missing outcomes, dependence between cases, and distribution shift. Do not infer individual truth from aggregate calibration, and do not label performance “passing” using a threshold without a use-specific, predeclared rationale.
 
-```python
-FUNCTION TestCalibrationBenchmarks():
-    
-    # 1. 信心-準確率對應測試
-    test_1 = TestConfidenceAccuracyCorrespondence()
-    
-    # 2. 領域偏差測試
-    test_2 = TestDomainBias()
-    
-    # 3. 系統性過度自信測試
-    test_3 = TestSystematicOverconfidence()
-    
-    # 4. 長期穩定性測試
-    test_4 = TestLongTermStability()
-    
-    return CalibrationBenchmarkReport(
-        overall_score=CalculateOverallScore([test_1, test_2, test_3, test_4]),
-        details=[test_1, test_2, test_3, test_4]
-    )
-```
+Status: `DESIGN_ONLY` until an identified implementation runs the protocol and publishes reproducible results. No benchmark runner or dataset is included here.
+## Evaluation cases and failure handling
 
-### 評估標準
+Include routine and edge cases: forecasts near 0 or 1; rare events; small subgroups; repeated or correlated cases; delayed or ambiguous outcome resolution; changed event definitions; missing forecasts; selective abstention; and distribution shift. Freeze the scoring and exclusion rules before evaluation.
 
-| 分數 | 等級 |
-|------|------|
-| > 0.9 | 優秀 |
-| 0.7 - 0.9 | 良好 |
-| 0.5 - 0.7 | 合格 |
-| < 0.5 | 需改進 |
+Report reliability by probability range with counts and uncertainty, proper scores relative to a declared baseline, resolution coverage, subgroup results where sample size permits, and calibration/discrimination separately. If outcome resolution is disputed, keep it unresolved instead of forcing a label. A high aggregate score must not hide systematic errors on a material subset.
+
+A benchmark run is not a universal certification. State the population and deployment conditions for which the results are informative, what was not measured, and the next review trigger. Status remains DESIGN_ONLY or NOT_RUN until an actual reproducible evaluation exists.
