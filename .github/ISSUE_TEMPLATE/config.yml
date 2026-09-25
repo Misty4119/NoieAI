@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/Misty4119/NoieAI/security/advisories/new
+    about: Report a vulnerability privately. Do not post security-sensitive details in a public issue.
+  - name: Contribution guidance
+    url: https://github.com/Misty4119/NoieAI/blob/main/CONTRIBUTING.md
+    about: Read the documentation and pull request conventions before proposing a broad change.

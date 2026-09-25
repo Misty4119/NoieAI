@@ -1,160 +1,23 @@
-# SPECIAL_RELATIVITY.md
+# Special Relativity Reference (Physics-OS v2.3)
 
-## 狹義相對論 (PS-LR)
+**Domain:** Inertial frames, Lorentz transformations, and relativistic energy–momentum in flat spacetime. This document provides no coordinate-navigation, clock-synchronization, or trajectory-integration software.
 
-**尺度：** v > 0.1c  
-**版本：** v1.0  
-**狀態：** 驗證性
+## Spacetime and inertial frames
 
----
+Use metric signature (−,+,+,+), so ds²=−c²dt²+dx²+dy²+dz². Transformations between inertial frames preserve this interval. For relative speed v along x, x′=γ(x−vt), t′=γ(t−vx/c²), where γ=(1−v²/c²)^(−1/2). State event coordinates, orientation, units, and synchronization convention. An accelerated observer requires local inertial frames or a non-inertial description; one inertial transformation cannot be applied to an entire accelerated history.
 
-## 概述
+Simultaneity depends on the frame. Time dilation compares the proper time between two events on one worldline with an inertial coordinate time. Length contraction compares endpoint separation measured simultaneously in a specified inertial frame. Neither describes a mechanical deformation measured locally in the object's own frame.
 
-本文檔處理**狹義相對論**的物理框架。根據 NoiePhysicsAGENTS.md §1 的物理尺度權限層級定義，PS-LR 代表相對論效應顯著的尺度，當速度接近光速時需要使用狹義相對論。
+## Energy, momentum, and velocity
 
----
+Four-velocity is U^μ=dx^μ/dτ; four-momentum is p^μ=(E/c,p), with invariant relation E²=(pc)²+(mc²)². Rest mass does not increase with speed; total energy, kinetic energy, and three-momentum transform between frames. The low-speed limit gives p≈mv and E≈mc²+½mv². A positive-rest-mass body cannot reach c with finite energy.
 
-## 關鍵安全與真理協議
+One-dimensional relative velocity composition is u′=(u−v)/(1−uv/c²), preventing superluminal coordinate velocities. A causal propagation limit cannot be judged from one coordinate velocity alone; state the frame and whether the signal or object is material. Energy–momentum conservation applies to the complete closed interacting system.
 
-> **CRITICAL SAFETY & TRUTH PROTOCOL:**
-> 1. 遵守 AXIOMS.md 的 PT-AX17 (光速不變)、PT-AX18 (時間膨脹)
-> 2. 狹義相對論是經過充分驗證的理論
-> 3. 注意v > 0.1c時的相對論效應
-> 4. 審計：將所有異常記錄至 PHYSICS_AUDIT_TRAIL
+## Electromagnetic and gravitational interfaces
 
----
+Maxwell's equations retain their relativistic form under Lorentz transformations. Electric and magnetic fields are components of one electromagnetic tensor in different observer frames; there is no unique observer-independent separation into pure electric and pure magnetic fields. Special relativity neglects general gravitational curvature; a weak-field local inertial approximation is not full general relativity.
 
-## 1. 時空結構
+## Validation and limits
 
-### 1.1 閔可夫斯基時空
-
-$$ds^2 = -c^2dt^2 + dx^2 + dy^2 + dz^2$$
-
-```python
-class MinkowskiMetric:
-    """
-    閔可夫斯基度規
-    """
-    
-    signature = [-1, 1, 1, 1]
-    
-    def interval(self, event1: Event, event2: Event) -> float:
-        """計算時空間隔"""
-        dt = event2.t - event1.t
-        dx = event2.x - event1.x
-        dy = event2.y - event1.y
-        dz = event2.z - event1.z
-        return -c**2 * dt**2 + dx**2 + dy**2 + dz**2
-```
-
-### 1.2 Lorentz 變換
-
-$$x'^\mu = \Lambda^\mu_{\ \nu} x^\nu$$
-
-```python
-class LorentzTransformation:
-    """
-    Lorentz 變換
-    """
-    
-    def lorentz_factor(self, velocity: float) -> float:
-        """計算 Lorentz 因數"""
-        beta = velocity / c
-        return 1 / np.sqrt(1 - beta**2)
-    
-    def transform_coordinates(
-        self,
-        event: Event,
-        velocity: Vector3D
-    ) -> Event:
-        """坐標變換"""
-        gamma = self.lorentz_factor(velocity.magnitude())
-        # Lorentz 變換矩陣
-        pass
-```
-
----
-
-## 2. 相對論效應
-
-### 2.1 時間膨脹
-
-$$\Delta t' = \gamma \Delta t$$
-
-```python
-class TimeDilation:
-    """
-    時間膨脹
-    """
-    
-    def dilated_time(
-        self,
-        proper_time: float,
-        velocity: float
-    ) -> float:
-        """計算膨脹後的時間"""
-        gamma = 1 / np.sqrt(1 - (velocity / c)**2)
-        return proper_time * gamma
-```
-
-### 2.2 長度收縮
-
-$$L' = \frac{L}{\gamma}$$
-
-### 2.3 質能等價
-
-$$E = mc^2 = \gamma m_0 c^2$$
-
-```python
-class MassEnergyEquivalence:
-    """
-    質能等價
-    """
-    
-    def relativistic_energy(
-        self,
-        rest_mass: float,
-        velocity: float
-    ) -> float:
-        """計算相對論能量"""
-        gamma = 1 / np.sqrt(1 - (velocity / c)**2)
-        return gamma * rest_mass * c**2
-    
-    def kinetic_energy(
-        self,
-        rest_mass: float,
-        velocity: float
-    ) -> float:
-        """計算動能"""
-        gamma = 1 / np.sqrt(1 - (velocity / c)**2)
-        return (gamma - 1) * rest_mass * c**2
-```
-
----
-
-## 3. 四維表述
-
-### 3.1 四向量
-
-$$A^\mu = (A^0, \mathbf{A})$$
-
-### 3.2 四動量
-
-$$p^\mu = (E/c, \mathbf{p})$$
-
----
-
-## 4. 與其他尺度的接口
-
-### 4.1 與牛頓力學的接口
-
-```
-狹義相對論 → 牛頓力學：
-- 低速極限 v << c：γ ≈ 1
-- 還原為經典力學
-```
-
----
-
-*本文檔處理狹義相對論的物理框架。*
-*狹義相對論是現代物理的基石，與實驗高度吻合。*
+Check metric signature, four-vector ordering, proper time, synchronization definition, low-speed limit, and invariants. Use special relativity for high-speed motion when gravitational curvature is negligible; use general relativity for strong gravity, significant spacetime curvature, or cosmological scales. Do not conflate coordinate distance/time with proper length/time. This document does not claim to run relativistic corrections or experimental tests.

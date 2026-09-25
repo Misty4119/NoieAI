@@ -1,302 +1,66 @@
 # MOTION_GENERATOR.md
 
-## L3 - 運動方程生成器
+## L3 — Motion equations and planning models v2.3
 
-> **WARNING:** 本模組是 DYNAMICS_ENGINE 的運動方程生成器子模組。
+**Scope:** Select and describe mathematical models for motion, constraints, trajectory prediction, and action-conditioned state forecasts. This is a reference specification, not an equation generator, controller, sensor, actuator, or simulator.
 
----
+## 1. Model declaration
 
-## 概述
+A motion model must state:
 
-本文檔定義 NoiePhysicsAGENTS 的運動方程生成器，處理從實體描述到運動方程的轉換。
+- system boundary, bodies or fields, degrees of freedom, coordinate frame, units, and time base;
+- generalized coordinates or state variables, initial conditions, and uncertainty;
+- governing equations, force/interaction laws, material parameters, and their provenance;
+- constraints, environment, boundary conditions, and omitted effects;
+- validity range and whether the model is conservative, open, dissipative, stochastic, relativistic, quantum, or hybrid;
+- numerical method, tolerances, event handling, convergence checks, and runtime identity if a solver was actually used.
 
----
+Do not infer a unique model from a label such as “rigid body,” “robot,” or “agent.” Different representations may be appropriate for different scales and observables.
 
-## 1. 拉格朗日方程生成
+## 2. Lagrangian formulation
 
-```python
-class LagrangianMotionGenerator:
-    """
-    拉格朗日運動方程生成器
-    """
-    
-    def generate_rigid_body_equations(
-        self,
-        mass: float,
-        inertia_tensor: Matrix3x3,
-        generalized_coords: List[Coordinate]
-    ) -> LagrangianEquations:
-        """生成剛體拉格朗日方程"""
-        pass
-    
-    def generate_deformable_equations(
-        self,
-        mass_matrix: SparseMatrix,
-        stiffness_matrix: SparseMatrix,
-        damping_matrix: SparseMatrix
-    ) -> LagrangianEquations:
-        """生成可變形體方程"""
-        pass
-```
+For generalized coordinates q and velocities q̇, define a Lagrangian L(q,q̇,t), often T−V for a conservative mechanical system. The Euler–Lagrange equations with generalized non-conservative forces Qᵢ are:
 
----
+$$\frac{d}{dt}\frac{\partial L}{\partial \dot q_i}-\frac{\partial L}{\partial q_i}=Q_i.$$
 
-## 2. 哈密頓方程生成
+This representation is useful when coordinates and constraints simplify the problem. It assumes the chosen L and force terms adequately represent the system; dissipation, impacts, control inputs, and open-system fluxes require explicit treatment.
 
-```python
-class HamiltonianMotionGenerator:
-    """
-    哈密頓運動方程生成器
-    """
-    
-    def generate_canonical_equations(
-        self,
-        hamiltonian: Callable
-    ) -> CanonicalEquations:
-        """生成正則方程"""
-        pass
-```
+For holonomic constraints fₐ(q,t)=0, Lagrange multipliers may represent constraint forces. Nonholonomic velocity constraints require a declared variational or d'Alembert formulation; they cannot be converted to holonomic constraints by notation alone. Record constraint rank, admissibility, and treatment of redundant or singular constraints.
 
----
+## 3. Hamiltonian formulation
 
-## 3. 約束處理
+Where the Legendre transform is regular, define canonical momenta pᵢ=∂L/∂q̇ᵢ and H(q,p,t)=Σᵢpᵢq̇ᵢ−L. Hamilton's equations are:
 
-```python
-class ConstraintHandler:
-    """
-    約束處理器
-    """
-    
-    def handle_holonomic_constraints(
-        self,
-        constraints: List[HolonomicConstraint]
-    ) -> LagrangeMultiplierEquations:
-        """處理完整約束"""
-        pass
-    
-    def handle_nonholonomic_constraints(
-        self,
-        constraints: List[NonHolonomicConstraint]
-    ) -> D AlembertEquations:
-        """處理非完整約束"""
-        pass
-```
+$$\dot q_i=\frac{\partial H}{\partial p_i},\qquad \dot p_i=-\frac{\partial H}{\partial q_i}.$$
 
----
+A Hamiltonian formulation is not automatically available in the same form for every constrained, dissipative, or singular system. The Hamiltonian equals total mechanical energy only under appropriate time-independence and model conditions. State the symplectic structure and constraint handling when these matter.
 
-## 4. 主動推論與運動生成整合
+## 4. Numerical propagation and trajectory planning
 
-### 4.1 主動推論框架
+A prediction requires an initial state, model, input sequence, and solver. Select integrators based on stiffness, smoothness, conservation structure, constraints, and discontinuities. Symplectic methods can preserve geometric structure for suitable Hamiltonian systems; they still have discretization error. Adaptive integration controls local error only under its solver assumptions and does not guarantee stability or detect every event.
 
-主動推論（Active Inference）將運動生成框架與感知-動作循環統一，基於變分自由能最小化原則。
+For a trajectory plan, declare state transition model, objective, admissible controls, physical constraints, horizon, and uncertainty. A generic constrained problem may minimize an accumulated cost subject to the model and state/control bounds, but the objective and constraints are domain-specific. Report infeasible constraints, local-optimum limits, sensitivity, and whether the result is a plan, simulated trajectory, or observed motion.
 
-```python
-class ActiveInferenceMotionGenerator:
-    """
-    主動推論運動生成器
-    
-    整合生成模型、最小化自由能、實現目標導向行為
-    """
-    
-    def __init__(self, generative_model: GenerativeModel):
-        self.generative_model = generative_model
-        self.free_energy = VariationalFreeEnergy()
-    
-    def compute_expected_free_energy(
-        self,
-        action_sequence: Sequence[Action],
-        observation: Observation
-    ) -> float:
-        """
-        計算預期自由能
-        
-        EGE = Expected Free Energy = Ep[ln p(o|π) - ln q(s|o,π)]
-              = 熵項（減少模糊性）+ 偏好項（實現目標）
-        """
-        ambiguity = self.compute_ambiguity(action_sequence, observation)
-        expected_utilities = self.compute_goal_preference(action_sequence)
-        return ambiguity - expected_utilities
-    
-    def select_action(
-        self,
-        current_state: State,
-        desired_state: State,
-        available_actions: List[Action]
-    ) -> Action:
-        """
-        選擇最小化預期自由能的動作
-        
-        這實現了目標導向與探索的平衡
-        """
-        free_energies = [
-            self.compute_expected_free_energy(action, current_state)
-            for action in available_actions
-        ]
-        return available_actions[np.argmin(free_energies)]
-```
+Collision events, impacts, contact, actuator saturation, and mode changes may require event-driven or hybrid integration. Check step-size convergence, conservation or balance laws justified by the model, and limiting cases. A numerically converged trajectory remains conditional on the inputs and model validity.
 
-### 4.2 層級主動推論運動生成
+## 5. Expected free energy and action-conditioned inference
 
-層級主動推論架構能有效處理長時間跨度任務：
+Active inference is one model-based planning framework. In a discrete generative model, a common risk/ambiguity decomposition is:
 
-```python
-class HierarchicalActiveInferenceMotion:
-    """
-    層級主動推論運動生成
-    
-    研究表明：
-    - 高層：技能選擇與任務規劃
-    - 低層：全身控制與執行
-    - 支援線上適應與失敗恢復
-    """
-    
-    def __init__(self):
-        self.high_level_planner = SkillSelectionModule()
-        self.low_level_controller = WholeBodyController()
-    
-    def generate_motion(
-        self,
-        task_description: Task,
-        environment_state: State
-    ) -> MotionTrajectory:
-        """
-        生成任務導向運動軌跡
-        
-        1. 高層：選擇合適技能
-        2. 低層：生成具體運動
-        3. 反饋：監控執行並適應
-        """
-        selected_skill = self.high_level_planner.select_skill(
-            task_description, environment_state)
-        
-        motion_plan = self.low_level_controller.generate(
-            selected_skill,
-            environment_state,
-            horizon=self.get_temporal_horizon(selected_skill))
-        
-        return self.monitor_and_adapt(motion_plan, environment_state)
-```
+$$G(\pi)=D_{KL}\!\left[Q(o\mid\pi)\,\|\,P(o)\right]+E_{Q(s\mid\pi)}\!\left[H(P(o\mid s))\right].$$
 
-### 4.3 時序層級世界模型
+Here π is a policy; Q(o|π) and Q(s|π) are predicted outcome and state distributions; P(o) encodes preferred outcomes; and P(o|s) is the observation likelihood. Risk measures divergence from the declared outcome preferences; ambiguity reflects uncertainty in the state-to-observation mapping. Definitions and sign conventions vary across formulations, so use only with a specified generative model and horizon.
 
-```python
-class TemporallyHierarchicalWorldModel:
-    """
-    時序層級世界模型
-    
-    多時間尺度動力學建模：
-    - 長期：任務層級規劃
-    - 中期：技能動態
-    - 短期：執行控制
-    """
-    
-    def __init__(self):
-        self.task_dynamics = LongTermDynamics()
-        self.skill_dynamics = MidTermDynamics()
-        self.execution_dynamics = ShortTermDynamics()
-        self.action_abstraction = VectorQuantization()
-    
-    def predict_next_state(
-        self,
-        current_state: State,
-        action: Action,
-        timescale: str
-    ) -> State:
-        """
-        預測下一狀態
-        
-        根據時間尺度選擇對應的動力學模型
-        """
-        if timescale == "task":
-            return self.task_dynamics.predict(current_state, action)
-        elif timescale == "skill":
-            return self.skill_dynamics.predict(current_state, action)
-        else:  # execution
-            return self.execution_dynamics.predict(current_state, action)
-```
+This objective is not a generic utility score, a measured physical potential, or a guarantee of safe behavior. Preferences must not be mistaken for evidence about the world. Action selection still requires feasible controls, permission, external safety constraints, and a host-attested implementation. The Free Energy Principle and active inference are theoretical frameworks, not a general theorem reducing motion planning to least action or Newtonian mechanics.
 
-### 4.4 無人機蜂群軌跡設計
+## 6. Hierarchical and multi-agent models
 
-```python
-class ActiveInferenceUAVSwarm:
-    """
-    主動推論驅動的無人群運動規劃
-    
-    優勢：
-    - 分散式概率推理
-    - 自學習能力
-    - 比 Q-Learning 更快收斂
-    - 更高的穩定性
-    """
-    
-    def plan_formation_motion(
-        self,
-        swarm_state: SwarmState,
-        target_positions: List[Vector3D]
-    ) -> List[Trajectory]:
-        """
-        規劃群集運動
-        
-        每個節點執行局部主動推論
-        透過鄰居交互實現全局協調
-        """
-        local_plans = []
-        for uav in swarm_state.agents:
-            neighbors = self.get_neighbors(uav, swarm_state)
-            preferred_state = self.infer_preferred_state(
-                uav.position, target_positions)
-            
-            action = self.select_action(
-                uav.current_state,
-                preferred_state,
-                uav.available_actions)
-            
-            local_plans.append(self.compute_trajectory(uav, action))
-        
-        return self.coordinate_plans(local_plans)
-```
+A hierarchical planner may separate task-level intent, motion primitives, and low-level control. Each boundary needs explicit state and time scales, interface units, handoff conditions, and failure behavior. A high-level plan does not verify low-level stability; a controller's local stability does not establish task completion.
 
-### 4.5 生物啟發導航與探索
+For a group model, declare agents, interaction graph, communication or sensing range, update timing, delays, loss, obstacles, and collision constraints. Distinguish a simulated group trajectory from a deployed fleet. Agreement of trajectories or beliefs is a property of the stated model or protocol, not evidence that a shared belief is true.
 
-```python
-class BioInspiredActiveInferenceNavigation:
-    """
-    生物啟發的主動推論導航
-    
-    特點：
-    - 拓撲地圖構建與更新
-    - 即時目標導向導航
-    - 無需預訓練
-    - 可解釋性強
-    - 動態環境適應
-    """
-    
-    def navigate_to_goal(
-        self,
-        current_location: Node,
-        goal_location: Node,
-        sensor_observations: List[Observation]
-    ) -> NavigationAction:
-        """
-        導航到目標位置
-        
-        1. 更新拓撲地圖
-        2. 推斷当前位置
-        3. 計算到目標的路徑
-        4. 選擇動作（探索 vs 目標導向）
-        """
-        self.topological_map.update(current_location, sensor_observations)
-        
-        inferred_location = self.belief_update(
-            current_location, sensor_observations)
-        
-        path_to_goal = self.path_planning(inferred_location, goal_location)
-        
-        return self.select_exploratory_vs_goal_directed_action(
-            path_to_goal, self.uncertainty)
-```
+## 7. Result and failure states
 
----
+Use explicit outcomes such as MODEL_UNDECLARED, INPUT_INCOMPLETE, OUT_OF_DOMAIN, CONSTRAINT_INFEASIBLE, SOLVER_UNAVAILABLE, NOT_CONVERGED, RESOURCE_LIMIT, PREDICTION_WITHIN_SCOPE, or OBSERVED_AND_VERIFIED. Include uncertainty and prediction horizon. If state, geometry, force law, or capability is unknown, narrow the claim or return INDETERMINATE.
 
-*本文檔是 DYNAMICS_ENGINE 的運動方程生成器子模組。*
-*主動推論框架整合了感知-動作統一。*
+No motion generator, active-inference planner, whole-body controller, drone fleet, or simulator is included in this repository. A deployment must attest the actual model, solver/controller, version, supported state space, safety boundary, and validation.

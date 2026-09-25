@@ -1,35 +1,11 @@
-# TENSOR_KNOWLEDGE/ — 張量場知識表徵模組
+# EPISTEMIC_WAVEFUNCTION.md
 
----
+## Uncertainty over alternatives v2.3
 
-## EPISTEMIC_WAVEFUNCTION.md
+“Epistemic wavefunction” is a metaphor for keeping several live hypotheses visible. It is not a quantum state, evidence of quantum cognition, or a replacement for an ordinary probabilistic model.
 
-### 知識波函數管理
+For an actual probability representation, define hypotheses H, mutually exclusive or overlapping event semantics, prior information, likelihood P(E|H), observation E, and update rule. If the hypotheses are not exhaustive or probabilities are not justified, represent the gap explicitly rather than normalizing unsupported scores into a distribution. Retain evidence provenance and the difference between probability, evidence strength, and claim status.
 
-知識可以表示為高維希爾伯特空間中的波函數。
+A Bayesian update changes a conditional assessment under the chosen model; it does not alter the external event or make the selected hypothesis objectively true. Keep alternative explanations, model uncertainty, and contradictory evidence visible. Any “amplitude” or “superposition” notation outside a defined quantum model is metaphor only.
 
-```python
-FUNCTION CreateEpistemicWavefunction(knowledge):
-    return EpistemicWavefunction(
-        amplitude=knowledge.probability_amplitude,
-        phase=knowledge.phase,
-        Hilbert_space=knowledge.hilbert_space
-    )
-```
-
----
-
-## EIGENSTATE_COLLAPSE.md
-
-### 本徵態坍縮（降維投影）
-
-知識波函數在特定觀測算符下的投影。
-
-```python
-FUNCTION CollapseWavefunction(wavefunction, operator):
-    projection = ComputeProjection(wavefunction, operator)
-    return EigenstateCollapse(
-        result=projection.eigenvalue,
-        certainty=projection.certainty
-    )
-```
+No quantum inference implementation is provided here.

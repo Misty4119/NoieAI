@@ -1,313 +1,33 @@
-# STATISTICAL_MECHANICS.md
+# Statistical Mechanics Reference Specification (Physics-OS v2.3)
 
-## 統計力學 (PS-L1)
+**Domain:** Connecting statistical distributions to macroscopic quantities under a specified microscopic model, ensemble, and equilibrium or nonequilibrium conditions. Equations depend on the probability distribution and system boundary. This document is not a molecular-dynamics or data-analysis program.
 
-**尺度：** 10⁻⁹ ~ 10⁻³ m  
-**版本：** v1.0  
-**狀態：** 驗證性
+## Ensembles and partition functions
 
----
+The microcanonical ensemble describes an isolated system with fixed energy, particle number, and volume; state weights depend on the number of accessible microstates. The canonical ensemble describes a system in equilibrium with a heat bath at temperature T, with energy exchange allowed and N,V fixed: β = 1/(k_B T), Z(β,V,N) = Σᵢ exp(−βEᵢ). The mean energy is U = −∂β ln Z, and constant-volume heat capacity and energy fluctuations follow from the corresponding derivatives; for a fixed Hamiltonian, Var(E) = ∂²β ln Z. If energy levels, boundaries, or external parameters themselves depend on β, include their derivative terms.
 
-## 概述
+Canonical free energy is F = −β⁻¹ ln Z. Under applicable conditions, equilibrium pressure is p = β⁻¹∂V ln Z; hold the other natural variables fixed and keep the volume dependence in the definition of the partition function consistent. The grand canonical ensemble allows particle exchange: Ξ = Σ_N exp(βμN)Z_N. The mean particle number is given by β⁻¹∂μ ln Ξ, and the grand potential is Ω = −β⁻¹ ln Ξ. Before using an ensemble, check that the system is in equilibrium with the specified heat or particle reservoir.
 
-本文檔處理**統計力學**尺度的物理框架。根據 NoiePhysicsAGENTS.md §1 的物理尺度權限層級定義，PS-L1 代表微觀/統計尺度，連接微觀量子力學與巨觀熱力學。
+Different ensembles are often equivalent in the thermodynamic limit for suitable short-range, additive systems. Finite systems, phase transitions, long-range interactions, constrained geometries, and nonergodic dynamics can retain important differences. Do not ignore model conditions merely because a system is “large.”
 
----
+## Entropy, thermodynamics, and statistical distributions
 
-## 關鍵安全與真理協議
+Gibbs entropy S = −k_BΣᵢpᵢlnpᵢ depends on state probabilities and the coarse-graining of microstates. The Boltzmann form S = k_B ln Ω applies to a compatible count of equally probable accessible states. Entropy is a state quantity under a specified description, not a general truth score, subjective ignorance, or moral judgment.
 
-> **CRITICAL SAFETY & TRUTH PROTOCOL:**
-> 1. 遵守 AXIOMS.md 的 PT-AX2 (熵增原則)、PT-AX1 (能量守恆)
-> 2. 統計力學是經過充分驗證的理論框架
-> 3. 注意宏觀極限的有效性
-> 4. 審計：將所有異常記錄至 PHYSICS_AUDIT_TRAIL
+Maxwell–Boltzmann, Fermi–Dirac, and Bose–Einstein distributions use different assumptions about particle distinguishability and occupancy restrictions; a dilute classical limit cannot be applied to a degenerate quantum gas. Chemical potential, degeneracy, internal degrees of freedom, and particle-conservation conditions must be consistent. Factorization of an ideal-gas partition function depends on independent-degree-of-freedom approximations and suitable quantum corrections.
 
----
+The first, second, and third laws of thermodynamics each have their own system boundaries and operational formulations. A zero-temperature entropy statement under the third law must specify ground-state degeneracy and which formulation is used; do not conclude that every finite procedure can reach absolute zero. The Landauer erasure bound applies only under specified logically irreversible operations and reservoir conditions; see THERMODYNAMICS_PHYSICS.md for details.
 
-## 1. 系綜理論
+## Phase transitions and critical phenomena
 
-### 1.1 系綜概念
+A thermodynamic phase transition usually involves nonanalytic free energy in the thermodynamic limit; a finite system has only smooth crossovers or finite-size features. The order parameter, symmetry, control parameter, critical exponents, and universality class depend on the model. Finite-size scaling can support inference, but report system size, boundaries, sampling, equilibration time, and uncertainty. Metastability, hysteresis, and finite observation time can make inference differ from equilibrium predictions.
 
-系綜是具有相同宏觀條件的大量虛構系統的集合：
+## Fluctuations, response, and nonequilibrium
 
-```python
-class Ensemble:
-    """
-    統計系綜
-    
-    系綜 = 具有相同約束的大量系統
-    """
-    
-    TYPES = {
-        'microcanonical': '正則系綜 - N, V, E 固定',
-        'canonical': '正則系綜 - N, V, T 固定',
-        'grand_canonical': '巨正則系綜 - μ, V, T 固定'
-    }
-```
+Fluctuations in an ensemble depend on its control parameters and observables. A fluctuation-dissipation relation requires equilibrium or specified linear-response conditions. A Langevin model of Brownian motion includes damping, random force, temperature, and noise correlations; the Einstein diffusion relation is limited to the corresponding equilibrium, long-time, and overdamped approximations. Nonequilibrium steady states, memory kernels, colored noise, and nonequilibrium reservoirs require other frameworks.
 
-### 1.2 正則系綜
+## Computation and uncertainty
 
-**配分函數**：
+Monte Carlo estimates should report sample count, autocorrelation or effective sample size, thermalization, sampling bias, finite-size effects, and statistical error; ordinary sampling may miss rare events. Molecular-dynamics work should state the force field, integrator, timestep, thermostat or pressure control, and finite-size effects. Numerical stability alone does not establish equilibrium, model correctness, or valid material predictions.
 
-$$Z = \sum_i e^{-\beta E_i}$$
-
-**自由能**：
-
-$$F = -k_B T \ln Z$$
-
-```python
-class CanonicalEnsemble:
-    """
-    正則系綜
-    """
-    
-    def __init__(self, temperature: float, system: QuantumSystem):
-        self.beta = 1 / (constants.k_B * temperature)
-        self.system = system
-    
-    def partition_function(self) -> float:
-        """計算配分函數"""
-        energies = self.system.eigenenergies()
-        return np.sum(np.exp(-self.beta * energies))
-    
-    def free_energy(self) -> float:
-        """計算自由能"""
-        Z = self.partition_function()
-        return -constants.k_B * self.temperature * np.log(Z)
-```
-
-### 1.3 巨正則系綜
-
-**巨配分函數**：
-
-$$\Xi = \sum_i e^{-\beta(E_i - \mu N_i)}$$
-
-**巨勢**：
-
-$$\Omega = -k_B T \ln \Xi$$
-
----
-
-## 2. 熱力學定律
-
-### 2.1 熱力學第一定律
-
-$$dU = \delta Q - \delta W$$
-
-這是能量守恆在熱力學中的表達。
-
-### 2.2 熱力學第二定律
-
-$$dS \geq \frac{\delta Q}{T}$$
-
-熵增原理定義了時間箭頭。
-
-### 2.3 熱力學第三定律
-
-$$S \rightarrow 0 \text{ as } T \rightarrow 0$$
-
-絕對零度不可達。
-
----
-
-## 3. 玻爾茲曼統計
-
-### 3.1 經典氣體
-
-**麥克斯韋-玻爾茲曼分布**：
-
-$$f(v) = 4\pi\left(\frac{m}{2\pi k_B T}\right)^{3/2} v^2 \exp\left(-\frac{mv^2}{2k_B T}\right)$$
-
-```python
-class MaxwellBoltzmannDistribution:
-    """
-    麥克斯韋-玻爾茲曼分布
-    """
-    
-    def probability_density(self, velocity: float, mass: float, temperature: float) -> float:
-        """速度的概率密度"""
-        return 4 * np.pi * (mass / (2 * np.pi * constants.k_B * temperature))**1.5 * \
-               velocity**2 * np.exp(-mass * velocity**2 / (2 * constants.k_B * temperature))
-```
-
-### 3.2 配分函數分解
-
-對於理想氣體：
-
-$$Z = Z_{trans} \cdot Z_{rot} \cdot Z_{vib} \cdot Z_{elec}$$
-
----
-
-## 4. 量子統計
-
-### 4.1 費米-狄拉克統計
-
-$$f_F(E) = \frac{1}{e^{(E-\mu)/k_B T} + 1}$$
-
-適用於費米子（電子、質子等）。
-
-### 4.2 玻色-愛因斯坦統計
-
-$$f_B(E) = \frac{1}{e^{(E-\mu)/k_B T} - 1}$$
-
-適用於玻色子（光子、氦-4等）。
-
-```python
-class QuantumStatistics:
-    """
-    量子統計
-    """
-    
-    def fermi_dirac(self, energy: float, chemical_potential: float, temperature: float) -> float:
-        """費米-狄拉克分布"""
-        return 1.0 / (np.exp((energy - chemical_potential) / (constants.k_B * temperature)) + 1)
-    
-    def bose_einstein(self, energy: float, chemical_potential: float, temperature: float) -> float:
-        """玻色-愛因斯坦分布"""
-        return 1.0 / (np.exp((energy - chemical_potential) / (constants.k_B * temperature)) - 1)
-```
-
----
-
-## 5. 相變與臨界現象
-
-### 5.1 相變類型
-
-| 類型 | 描述 | 示例 |
-|------|------|------|
-| 一級 | 潛熱、體積突變 | 熔化、沸騰 |
-| 二級 | 連續變化、導數不連續 | 鐵磁轉變 |
-
-### 5.2 臨界指數
-
-```python
-class CriticalPhenomena:
-    """
-    臨界現象
-    """
-    
-    # 伊辛模型的臨界指數
-    CRITICAL_INDICES = {
-        'alpha': 0.110,   # 熱容
-        'beta': 0.326,    # 序參量
-        'gamma': 1.237,   # 磁化率
-        'delta': 4.80,    #臨界等溫線
-        'nu': 0.630      # 關聯長度
-    }
-```
-
-### 5.3 標度假設
-
-$$\xi \sim |T - T_c|^{-\nu}$$
-
-$$C \sim |T - T_c|^{-\alpha}$$
-
----
-
-## 6. 漲落理論
-
-### 6.1 漲落-耗散定理
-
-$$\langle (\Delta A)^2 \rangle = k_B T \frac{\partial \langle A \rangle}{\partial X}$$
-
-```python
-class FluctuationDissipationTheorem:
-    """
-    漲落-耗散定理
-    """
-    
-    def compute_variance(
-        self,
-        observable: str,
-        system: ThermodynamicSystem
-    ) -> float:
-        """計算漲落"""
-        return constants.k_B * system.temperature * \
-               system.susceptibility(observable)
-```
-
-### 6.2 布朗運動
-
-**愛因斯坦關係**：
-
-$$D = \frac{k_B T}{\gamma}$$
-
-```python
-class BrownianMotion:
-    """
-    布朗運動
-    """
-    
-    def compute_diffusion_constant(
-        self,
-        friction_coefficient: float,
-        temperature: float
-    ) -> float:
-        """計算擴散常數"""
-        return constants.k_B * temperature / friction_coefficient
-```
-
----
-
-## 7. 與其他尺度的接口
-
-### 7.1 與量子力學 (PS-L0) 的接口
-
-```
-量子力學 → 統計力學：
-- 量子統計分布
-- 從微觀到巨觀的橋樑
-```
-
-### 7.2 與連續介質力學 (PS-L2) 的接口
-
-```
-統計力學 → 連續介質力學：
-- 巨觀方程的微觀基礎
-- 輸送係數的計算
-```
-
-### 7.3 前沿研究進展：量子多體系統蘭道爾極限驗證
-
-**Nature Physics 里程碑實驗：**
-
-發表於 Nature Physics 的重大實驗進展，首次在量子多體系統中直接驗證了蘭道爾極限（Landauer's limit），確認資訊處理的熱力學基礎：
-
-| 研究 | 進展 | 意義 |
-|------|------|------|
-| **量子多體蘭道爾極限** | 在量子多體系統中驗證蘭道爾極限 | 首次在量子層面驗證資訊熱力學 |
-| **量子資訊擦除實驗** | 精確測量擦除一位元所需的最小能量 | 驗證 k_B T ln 2 極限 |
-| **漲落定理驗證** | 量子系統中的漲落-耗散定理 | 連接量子與熱力學 |
-
-```python
-class LandauerLimitVerification:
-    """
-    蘭道爾極限驗證實驗
-    """
-    
-    QUANTUM_MANY_BODY = {
-        'journal': 'Nature Physics',
-        'achievement': '量子多體系統蘭道爾極限驗證',
-        'significance': '首次在量子層面驗證資訊熱力學'
-    }
-    
-    QUANTUM_ERASURE = {
-        'focus': '量子資訊擦除',
-        'result': '驗證 k_B T ln 2 極限',
-        'significance': '精確測量最小擦除能量'
-    }
-    
-    FLUCTUATION_THEOREM = {
-        'system': '量子系統',
-        'result': '漲落-耗散定理驗證',
-        'significance': '連接量子與熱力學'
-    }
-```
-
-> **真理協議提醒：** 蘭道爾極限是資訊熱力學的基石。上述實驗為 NoiePhysicsAGENTS.md 中 PT-AX2 (熵增原則) 和 PT-AX3 (蘭道爾極限) 提供了直接的實驗支持。
-
----
-
-*本文檔處理統計力學尺度的物理框架。*
-*統計力學連接微觀與巨觀，是物理學的重要橋樑。*
-*蘭道爾極限驗證進一步鞏固了資訊物理等價性的理論基礎。*
+Report theoretical approximations, finite-sample, finite-size, parameter, measurement, and model errors separately. If mixing/equilibration or ensemble applicability has not been checked, mark the result unconfirmed. Energy derivatives can be derived using statistical physics, but any actual evaluation requires a known Hamiltonian and a verifiable computational environment.

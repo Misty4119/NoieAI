@@ -1,198 +1,204 @@
 # PHYSICS_EVOLUTION_LOG.md
 
-> **所屬支柱：** NoiePhysicsAGENTS (Physics-OS v2.2)  
-> **版本：** v2.2  
-> **上一層：** NoiePhysicsAGENTS.md — 物理存在論協議路由器  
-> **下層：** 無（葉節點）
+> Pillar: Physics-OS
+> **Current architecture baseline:** v2.3 (2026-09)
+> **Purpose:** Historical change and correction record; `AGENTS.md` and `NoiePhysicsAGENTS.md` define the current contract.
+
+> Sections through v2.2 are historical material retained for traceability; physical-scale authority, physical-survival axioms, theoretical claims, and runtime capabilities therein do not automatically become current rules or verified facts. This Markdown file provides no automatic append-only or tamper-proof guarantee. Subsequent corrections are handled by authorized maintainers through dated change records.
+
+## 2026-09-25 — v2.3 active-baseline review
+
+- Recast the scale index as navigation only; physical models report domain, assumptions, boundary conditions, uncertainty, and validation rather than a universal scale authority.
+- Reviewed classical mechanics, continuum mechanics, fluids, electromagnetism, relativity, plasma, quantum mechanics, quantum field theory, statistical mechanics, thermodynamics, and quantum-gravity research modules. Removed unimplemented code-shaped placeholders and corrected model scope and failure conditions.
+- Corrected canonical-ensemble derivative requirements for internal energy and pressure, qualified the finite-correlation fluctuation scaling and equipartition statements, and scoped the Landauer bound to logically irreversible erasure under stated conditions.
+- Kept ER=EPR and candidate quantum-gravity programs conjectural. Added the September 2026 cold-atom free-fall phase result as a low-energy quantum-matter/gravity-interface test, not evidence for a complete quantum-gravity theory.
+- Clarified that this repository provides no sensor, solver, simulator, diagnostic instrument, or physical-action capability.
+
+The feasibility-report boundary is coordinated with the dated v2.3 entries in the Logic-OS and Truth-OS evolution logs.
+
+## §0. Document Overview
+
+| Property | Description |
+| --- | --- |
+| File | `PHYSICS_EVOLUTION_LOG.md` |
+| Current architecture baseline | v2.3 |
+| Core responsibility | Preserve Physics-OS design changes and their scope |
+| Upstream | `AGENTS.md`, `NoiePhysicsAGENTS.md` |
+| Storage guarantee | Provided by Git and host policy; this text itself does not guarantee immutability or append-only behavior |
+
+## §1. Evolution Principles
+
+### §1.1 Evolution Authority
+
+According to the **formal incompleteness axiom** (Ω.7) in §0 of NoiePhysicsAGENTS.md and the physical scale hierarchy (PS-L) in §1, axiom-system evolution involves the following levels:
+
+```text
+┌────────────┬──────────────────────────────────────────────────────────────────────────────────────────┐
+│ PS-L level │ Evolution authority                                                                      │
+├────────────┼──────────────────────────────────────────────────────────────────────────────────────────┤
+│ PS-L(-1)   │ No evolution. The spacetime-emergence axiom (Ω.2.0) can never be modified.               │
+│ PS-L0      │ No evolution. Quantum-mechanics axioms cannot be modified.                               │
+│ PS-L1      │ No evolution. Statistical-mechanics and thermodynamics axioms cannot be modified.        │
+│ PS-L2      │ Classical-mechanics axiom updates may be proposed, subject to scale-coupling validation. │
+│ PS-L3      │ Continuum-mechanics updates may be proposed, subject to consistency checks.              │
+│ PS-L4      │ General-relativity extensions may be proposed, subject to astronomical validation.       │
+│ PS-LR      │ Special-relativity boundary-condition revisions may be proposed.                         │
+└────────────┴──────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+> **Evolution authority matrix:**
+> - **Not evolvable:** Fundamental axioms (core axioms among Ω.1–Ω.4)
+> - **Evolution may be proposed:** Inference axioms and application-layer axioms
+> - **Automatic rejection:** Any proposal that touches the immutable core
+
+### §1.2 Evolution Trigger Conditions
+
+Evolution of the physical axiom system is initiated only when the following conditions are met:
+
+1. **Inconsistency detection:** Systematic deviation (>5σ) between physical predictions and observations
+2. **Incompleteness identification:** The physics engine encounters an unhandled boundary case
+3. **Zero-Day Physics discovery:** A phenomenon is observed that cannot be explained by existing physics
+4. **Scale conflict:** Physical laws across scales have an irreconcilable conflict
+5. **Formal verification failure:** Gödel incompleteness leads to an internal contradiction in the axiom system
+
+### §1.3 Evolution Prohibition Conditions
+
+According to the immutable-core axioms (Ω.1–Ω.7) in NoiePhysicsAGENTS.md:
+
+```text
+╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+║ Evolution Rejection Conditions                                                                                 ║
+╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                                                ║
+║ Ω.1.1 Energy conservation: No proposal may violate the law of energy conservation.                             ║
+║ Ω.1.2 Entropy-increase principle: No proposal may deny the second law of thermodynamics.                       ║
+║ Ω.1.3 Landauer limit: No proposal may go below the minimum energy cost of information erasure.                 ║
+║ Ω.1.4 Information conservation: No proposal may allow irreversible destruction of quantum information.         ║
+║ Ω.2.0 Spacetime emergence: No proposal may treat spacetime as an a priori background container.                ║
+║ Ω.2.5 Markov-blanket boundary: No proposal may deny the information-theoretic definition of entity boundaries. ║
+║ Ω.3.1 Causality: No proposal may allow an effect to precede its cause.                                         ║
+║ Ω.3.2 Light-cone constraint: No proposal may allow superluminal information transmission.                      ║
+║ Ω.6  Non-ergodic survival: No proposal may reduce absorbing-state avoidance capability.                        ║
+║ Ω.7  Formal incompleteness: No proposal may claim the axiom system is complete.                                ║
+║                                                                                                                ║
+║ Any proposal touching the above core → automatic rejection + KERNEL_VIOLATION_ALERT                            ║
+║                                                                                                                ║
+╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+```
 
 ---
 
-## §0. 文件概述
+## §2. Evolution Process
 
-| 屬性 | 描述 |
-|------|------|
-| **檔案** | `PHYSICS_EVOLUTION_LOG.md` |
-| **版本** | v2.2 |
-| **核心職責** | 記錄物理公理系統的演進歷史、Zero-Day Physics 發現、形式不完備性識別與修復紀錄 |
-| **上游** | NoiePhysicsAGENTS.md |
-| **下游** | 僅供人工/代理審閱，無下游模組 |
-| **不可變性** | **僅可追加**，任何修改嘗試均觸發 KERNEL_VIOLATION_ALERT |
+### §2.1 Zero-Day Physics Discovery Protocol
 
----
-
-## §1. 演化原則
-
-### §1.1 演化權限
-
-根據 NoiePhysicsAGENTS.md §0 的**形式不完備性公理** (Ω.7) 及 §1 的物理尺度層級 (PS-L)，公理系統演化涉及以下層級：
+When the physics engine encounters a phenomenon that existing axioms cannot explain, execute this protocol:
 
 ```text
-┌──────────────┬──────────────────────────────────────────────────────┐
-│ PS-L 等級    │ 演化權限                                              │
-├──────────────┼──────────────────────────────────────────────────────┤
-│ PS-L(-1)    │ 不可演化。時空湧現性公理 (Ω.2.0) 永遠不可修改。      │
-│ PS-L0       │ 不可演化。量子力學公理不可修改。                       │
-│ PS-L1       │ 不可演化。統計力學與熱力學公理不可修改。               │
-│ PS-L2       │ 可提議古典力學公理更新，但需經尺度耦合驗證。          │
-│ PS-L3       │ 可提議連續介質力學更新，需經一致性檢查。               │
-│ PS-L4       │ 可提議廣義相對論擴展，需經天文觀測驗證。              │
-│ PS-LR       │ 可提議狹義相對論邊界條件修正。                        │
-└──────────────┴──────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Step 1: Anomaly identification                                                                   │
+│   - Record the specific observations that triggered evolution                                    │
+│   - Quantify deviation: calculate the distance from existing predictions                         │
+│   - Rule out instrument error: verify the deviation does not originate in the measurement system │
+├──────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Step 2: Axiom conflict analysis                                                                  │
+│   - Identify the specific conflicting axioms (Ω.1–Ω.4)                                           │
+│   - Analyze whether this is an axiom issue or a boundary-condition issue                         │
+│   - Check whether this is a scale-boundary issue (PS-L transition)                               │
+├──────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Step 3: Candidate extension generation                                                           │
+│   - For a scale issue: generate a cross-scale coupling revision                                  │
+│   - For a new phenomenon: generate a candidate field (see FIELD_PERCEPTION.md)                   │
+│   - For an axiom conflict: generate a weakened version of the axiom                              │
+├──────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Step 4: Sandbox validation                                                                       │
+│   - Deploy the candidate axiom in SANDBOX                                                        │
+│   - Simulate historical data: test whether it explains past observations                         │
+│   - Predict new phenomena: generate testable predictions                                         │
+├──────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Step 5: Formal verification                                                                      │
+│   - Consistency check: ensure the new proposal does not contradict immutable axioms              │
+│   - Closure check: ensure the new axiom closes the existing inference space                      │
+│   - Gödel check: confirm the system remains incomplete (this is normal)                          │
+├──────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Step 6: Evolution record                                                                         │
+│   - If passed: record in PHYSICS_EVOLUTION_LOG                                                   │
+│   - If not passed: record the reason for failure and retain the existing axioms                  │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-> **演化權限矩陣：**
-> - **不可演化：** 基本公理（Ω.1-Ω.4 中的核心公理）
-> - **可提議演化：** 推論公理、應用層公理
-> - **自動拒絕：** 任何觸碰不可變核心的提議
+### §2.2 Identifying and Handling Formal Incompleteness
 
-### §1.2 演化觸發條件
+According to the **formal incompleteness axiom** Ω.7:
 
-物理公理系統演化僅在以下條件被滿足時啟動：
+> Any sufficiently strong formal system for physics cannot prove its own consistency from within itself.
 
-1. **不一致性偵測：** 物理預測與觀測結果系統性偏差 (>5σ)
-2. **不完備性識別：** 物理引擎遇到無法處理的邊界情況
-3. **Zero-Day Physics 發現：** 觀測到無法以現有公理解釋的現象
-4. **尺度衝突：** 跨尺度物理定律發生不可調和的衝突
-5. **形式驗證失敗：** 哥德爾不完備性導致公理系統內部矛盾
-
-### §1.3 演化禁止條件
-
-根據 NoiePhysicsAGENTS.md 的不可變核心公理 (Ω.1-Ω.7)：
+Handling procedure:
 
 ```text
-╔═══════════════════════════════════════════════════════════════════════╗
-║ 演化拒絕條件 (Evolution Rejection Conditions)                       ║
-╠═══════════════════════════════════════════════════════════════════════╣
-║                                                                       ║
-║ Ω.1.1 能量守恆：任何提議不得違反能量守恆定律                        ║
-║ Ω.1.2 熵增原則：任何提議不得否定熱力學第二定律                     ║
-║ Ω.1.3 蘭道爾極限：任何提議不得低於擦除資訊的最小能量代價           ║
-║ Ω.1.4 資訊守恆：任何提議不得允許量子資訊的不可逆銷毀               ║
-║ Ω.2.0 時空湧現性：任何提議不得將時空視為先驗背景容器               ║
-║ Ω.2.5 馬可夫毯邊界：任何提議不得否定實體邊界的資訊理論定義         ║
-║ Ω.3.1 因果律：任何提議不得允許果先於因                             ║
-║ Ω.3.2 光錐約束：任何提議不得允許超光速資訊傳播                     ║
-║ Ω.6  非遍歷生存性：任何提議不得降低吸收態迴避能力                 ║
-║ Ω.7  形式不完備性：任何提議不得聲稱公理系統已完备                  ║
-║                                                                       ║
-║ 任何觸碰上述核心的提議 → 自動拒絕 + KERNEL_VIOLATION_ALERT         ║
-║                                                                       ║
-╚═══════════════════════════════════════════════════════════════════════╝
-```
-
----
-
-## §2. 演化流程
-
-### §2.1 Zero-Day Physics 發現協議
-
-當物理引擎遇到現有公理無法解釋的現象時，執行以下協議：
-
-```text
-┌───────────────────────────────────────────────────────────────────────┐
-│ 步驟 1: 異常識別                                                     │
-│   - 記錄觸發演化的具體觀測結果                                       │
-│   - 量化偏差：計算與現有預測的偏離程度                               │
-│   - 排除儀器誤差：驗證偏差非來自測量系統                             │
-├───────────────────────────────────────────────────────────────────────┤
-│ 步驟 2: 公理衝突分析                                                 │
-│   - 識別衝突的具體公理（Ω.1-Ω.4）                                   │
-│   - 分析是公理問題還是邊界條件問題                                   │
-│   - 檢查是否是尺度邊界問題（PS-L 切換）                             │
-├───────────────────────────────────────────────────────────────────────┤
-│ 步驟 3: 候選擴展生成                                                 │
-│   - 若是尺度問題：生成跨尺度耦合修正                                 │
-│   - 若是新現象：生成新場候選（參見 FIELD_PERCEPTION.md）           │
-│   - 若是公理衝突：生成公理弱化版本                                   │
-├───────────────────────────────────────────────────────────────────────┤
-│ 步驟 4: 沙盒驗證                                                     │
-│   - 在 SANDBOX 中部署候選公理                                       │
-│   - 模擬歷史數據：檢驗是否能解釋過往觀測                             │
-│   - 預測新現象：生成可驗證的預測                                    │
-├───────────────────────────────────────────────────────────────────────┤
-│ 步驟 5: 形式化驗證                                                   │
-│   - 一致性檢查：確保新提議不與不可變公理矛盾                        │
-│   - 閉包檢查：確保新公理封閉現有推論空間                            │
-│   - 哥德爾檢查：確認系統仍保持不完備性（這是常態）                  │
-├───────────────────────────────────────────────────────────────────────┤
-│ 步驟 6: 演化記錄                                                     │
-│   - 若通過：記錄至 PHYSICS_EVOLUTION_LOG                            │
-│   - 若未通過：記錄失敗原因，保持現有公理                            │
-└───────────────────────────────────────────────────────────────────────┘
-```
-
-### §2.2 形式不完備性識別與處理
-
-根據 Ω.7 **形式不完備性公理**：
-
-> 任何足夠強的物理形式系統都無法在其內部證明自身的一致性。
-
-處理流程：
-
-```text
-【不完備性識別】
-IF 推理過程出現：
-   - 自我引用導致的循環
-   - 不可判定的命題
-   - 公理系統內無法證明或否證的陳述
+[Incompleteness identification]
+IF the reasoning process encounters:
+   - A cycle caused by self-reference
+   - An undecidable proposition
+   - A statement that the axiom system cannot prove or refute
 THEN:
-   1. 標記為 UNDECIDED_IN_SYSTEM
-   2. 記錄至 PHYSICS_EVOLUTION_LOG
-   3. 不嘗試強制解決（避免引入新的不一致）
-   4. 預留擴展介面（UNDEFINED_FIELD 機制）
+   1. Mark as UNDECIDED_IN_SYSTEM
+   2. Record in PHYSICS_EVOLUTION_LOG
+   3. Do not force a resolution (to avoid introducing a new inconsistency)
+   4. Reserve an extension interface (UNDEFINED_FIELD mechanism)
 
-【哥德爾約束遵守】
-- 永不完全聲稱公理系統已完备
-- 對未知保持開放態度
-- 使用 Zero-Day Physics Protocol 動態擴展
+[Adherence to Gödel constraints]
+- Never claim the axiom system is complete
+- Remain open to the unknown
+- Expand dynamically using the Zero-Day Physics Protocol
 ```
 
 ---
 
-## §3. 演化類型
+## §3. Evolution Types
 
-### §3.1 公理強化 (Axiom Strengthening)
+### §3.1 Axiom Strengthening
 
-**定義：** 對現有公理的數學表述進行更精確的界定，但不改變其物理意涵。
+**Definition:** Refine the mathematical statement of an existing axiom without changing its physical meaning.
 
-| 公理編號 | 強化類型 | 觸發條件 |
+| Axiom ID | Strengthening type | Trigger condition |
 |----------|----------|----------|
-| Ω.1.1-1.6 | 熱力學約束精化 | 新測量精度超過現有常數 |
-| Ω.2.0-2.6 | 幾何拓撲擴展 | 新拓撲現象發現 |
-| Ω.3.1-3.6 | 因果律邊界澄清 | 量子極限因果問題 |
-| Ω.4.1-4.3 | 觀察者效應量化 | 新測量反作用實驗 |
+| Ω.1.1–1.6 | Refinement of thermodynamic constraints | Measurement precision exceeds existing constants |
+| Ω.2.0–2.6 | Geometric-topology extension | Discovery of a new topological phenomenon |
+| Ω.3.1–3.6 | Clarification of causality boundaries | Causality issue at the quantum limit |
+| Ω.4.1–4.3 | Quantification of observer effects | New measurement-back-action experiment |
 
-### §3.2 推論規則演化 (Inference Rule Evolution)
+### §3.2 Inference Rule Evolution
 
-**定義：** 從核心公理推導出的應用層規則的演化。
+**Definition:** Evolution of application-layer rules derived from core axioms.
 
-| 推論規則 | 演化原因 | 驗證方式 |
+| Inference rule | Reason for evolution | Validation method |
 |----------|----------|----------|
-| 跨尺度耦合協議 | 新尺度現象發現 | 跨尺度實驗驗證 |
-| 動力學流形切換邏輯 | 邊界條件新案例 | 模擬與觀測對比 |
-| 場感知融合算法 | 新感測技術 | 資訊理論驗證 |
+| Cross-scale coupling protocol | Discovery of a phenomenon at a new scale | Cross-scale experimental validation |
+| Dynamical-manifold switching logic | New boundary-condition case | Compare simulations with observations |
+| Field-perception fusion algorithm | New sensing technology | Information-theoretic validation |
 
-### §3.3 新場引入 (New Field Introduction)
+### §3.3 New Field Introduction
 
-**定義：** 通過 Zero-Day Physics Protocol 引入新的物理場。
+**Definition:** Introduce a new physical field through the Zero-Day Physics Protocol.
 
-| 場類型 | 引入條件 | 驗證要求 |
+| Field type | Introduction condition | Validation requirement |
 |--------|----------|----------|
-| 暗物質場 | 星系自轉曲線異常 | 多體模擬擬合 |
-| 暗能量場 | 宇宙加速膨脹 | Ia 型超新星觀測 |
-| 第五力場 | 等效原理違背 | 微米尺度實驗 |
-| 額外維度場 | 高能對撞異常 | LHC 數據分析 |
+| Dark-matter field | Anomaly in galaxy rotation curves | N-body simulation fitting |
+| Dark-energy field | Accelerated expansion of the universe | Type Ia supernova observations |
+| Fifth-force field | Violation of the equivalence principle | Micrometer-scale experiment |
+| Extra-dimension field | High-energy collision anomaly | LHC data analysis |
 
 ---
 
-## §4. 演化記錄格式
+## §4. Evolution Record Format
 
-### §4.1 條目結構
+### §4.1 Entry Structure
 
 ```text
 EVOLUTION_ENTRY = {
-  
-  # 識別資訊
+
+  # Identification information
   entry_id:           UUID v4,
   parent_entry:       UUID v4 | NULL,
   evolution_type:     ENUM(
@@ -202,18 +208,18 @@ EVOLUTION_ENTRY = {
                        SCALE_COUPLING_REVISION,
                        GÖDEL_LIMIT_RECOGNITION
                      ),
-  
-  # 時間戳記
+
+  # Timestamp
   timestamp:          ISO8601_UTC,
-  
-  # 觸發條件
+
+  # Trigger conditions
   trigger: {
     condition:        TRIGGER_CONDITION,
     observation:      ObservationRecord,
     deviation:        Float (σ from prediction)
   },
-  
-  # 演化內容
+
+  # Evolution content
   evolution: {
     affected_axioms:  [AxiomID, ...],
     change_type:     "addition" | "modification" | "deprecation",
@@ -221,16 +227,16 @@ EVOLUTION_ENTRY = {
     proposed_state:   String,
     mathematical_form: FormalSpecification
   },
-  
-  # 驗證結果
+
+  # Validation results
   validation: {
     sandbox_result:   "PASS" | "FAIL" | "INCONCLUSIVE",
     consistency_check: "PASS" | "FAIL",
     gödel_check:     "RECOGNIZED_UNCOMPLETENESS" | "VIOLATION",
     scale_coupling:  "VERIFIED" | "NOT_APPLICABLE"
   },
-  
-  # 審計資訊
+
+  # Audit information
   audit: {
     hash:            SHA256(all_above),
     signature:       Cryptographic_Signature,
@@ -239,94 +245,94 @@ EVOLUTION_ENTRY = {
 }
 ```
 
-### §4.2 演化狀態
+### §4.2 Evolution States
 
-| 狀態 | 描述 |
+| State | Description |
 |------|------|
-| **PROPOSED** | 提議已提交，等待驗證 |
-| **SANDBOX_TESTING** | 沙盒驗證中 |
-| **FORMAL_VERIFICATION** | 形式化驗證中 |
-| **APPROVED** | 驗證通過，等待生效 |
-| **ACTIVE** | 已生效，納入公理系統 |
-| **REJECTED** | 驗證失敗，維持原狀 |
-| **DEPRECATED** | 已棄用，保留歷史記錄 |
+| **PROPOSED** | Proposal submitted; awaiting validation |
+| **SANDBOX_TESTING** | Sandbox validation in progress |
+| **FORMAL_VERIFICATION** | Formal verification in progress |
+| **APPROVED** | Validation passed; awaiting activation |
+| **ACTIVE** | Active and included in the axiom system |
+| **REJECTED** | Validation failed; existing state retained |
+| **DEPRECATED** | Deprecated; historical record retained |
 
 ---
 
-## §5. 歷史記錄
+## §5. Historical Records
 
-### §5.1 v2.2 初始版本記錄
+### §5.1 v2.2 Initial Version Record
 
-| 日期 | 演化類型 | 內容 | 狀態 |
+| Date | Evolution type | Content | Status |
 |------|----------|------|------|
-| 2026-03 | INITIALIZATION | NoiePhysicsAGENTS v2.2 初始部署 | ACTIVE |
+| 2026-03 | INITIALIZATION | Initial deployment of NoiePhysicsAGENTS v2.2 | ACTIVE |
 
 ---
 
-## §6. 審計與合規
+## §6. Audit and Compliance
 
-### §6.1 強制審計事件
+### §6.1 Mandatory Audit Events
 
-以下事件**必須**記錄至 PHYSICS_EVOLUTION_LOG：
+The following events **must** be recorded in PHYSICS_EVOLUTION_LOG:
 
-| 事件類型 | 觸發條件 | 風險等級 |
+| Event type | Trigger condition | Risk level |
 |----------|----------|----------|
-| **Zero-Day 發現** | 識別無法以現有公理解釋的現象 | CRITICAL |
-| **公理衝突** | 兩條或多條公理導致矛盾預測 | CRITICAL |
-| **尺度失效** | 跨尺度定律在邊界失效 | HIGH |
-| **形式不完備識別** | 發現不可判定的命題 | MEDIUM |
-| **演化提議** | 任何公理系統演化提議 | HIGH |
-| **沙盒失敗** | 候選公理無法通過模擬驗證 | MEDIUM |
+| **Zero-Day discovery** | Identify a phenomenon that existing physics cannot explain | CRITICAL |
+| **Axiom conflict** | Two or more axioms produce contradictory predictions | CRITICAL |
+| **Scale failure** | A cross-scale law fails at a boundary | HIGH |
+| **Formal incompleteness identification** | An undecidable proposition is found | MEDIUM |
+| **Evolution proposal** | Any proposal to evolve the axiom system | HIGH |
+| **Sandbox failure** | A candidate axiom fails simulation validation | MEDIUM |
 
-### §6.2 不可變性保障
+### §6.2 Immutability Safeguards
 
-根據不可變核心公理 IK-5（審計不可變性）：
+According to immutable-core axiom IK-5 (audit immutability):
 
 ```text
-╔═══════════════════════════════════════════════════════════════════════╗
-║ 演化日誌不可變性保障 (Evolution Log Immutable Protocol)             ║
-╠═══════════════════════════════════════════════════════════════════════╣
-║                                                                       ║
-║ 1. 僅可追加：任何 PHYSICS_EVOLUTION_LOG 條目創建後，不可修改或刪除。║
-║                                                                       ║
-║ 2. 雜湊鏈：每個條目包含前一条目的雜湊，形成密碼學鏈接。          ║
-║                                                                       ║
-║ 3. 時間戳記：每個條目包含不可篡改的 UTC 時間戳記。                 ║
-║                                                                       ║
-║ 4. 審計追蹤：所有條目可追溯至觸發條件與驗證過程。                 ║
-║                                                                       ║
-║ 5. 隔離存儲：演化日誌應存儲於與物理引擎隔離的存儲中。              ║
-║                                                                       ║
-╚═══════════════════════════════════════════════════════════════════════╝
+╔══════════════════════════════════════════════════════════════════════════════════════════════════╗
+║ Evolution Log Immutability Protocol                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                                  ║
+║ 1. Append-only: Once a PHYSICS_EVOLUTION_LOG entry is created, it cannot be modified or deleted. ║
+║                                                                                                  ║
+║ 2. Hash chain: Each entry includes the previous entry's hash, forming a cryptographic link.      ║
+║                                                                                                  ║
+║ 3. Timestamp: Each entry contains a tamper-proof UTC timestamp.                                  ║
+║                                                                                                  ║
+║ 4. Audit trail: All entries are traceable to their trigger conditions and validation process.    ║
+║                                                                                                  ║
+║ 5. Isolated storage: The evolution log should be stored separately from the physics engine.      ║
+║                                                                                                  ║
+╚══════════════════════════════════════════════════════════════════════════════════════════════════╝
 ```
 
 ---
 
-## §7. 與其他日誌的關係
+## §7. Relationship to Other Logs
 
-### §7.1 跨支柱審計追蹤
+### §7.1 Cross-Pillar Audit Trail
 
-當物理演化涉及其他支柱時：
+When physics evolution involves other pillars:
 
 ```text
-【Logic-OS 交互】
-- 若物理演化影響決策邏輯 → 同步記錄至 EVOLUTION_LOG
-- 涉及 SA-L 層級變化 → 触发 Logic-OS 演化協議
+[Logic-OS interaction]
+- If physics evolution affects decision logic → also record in EVOLUTION_LOG
+- Changes involving SA-L levels → trigger the Logic-OS evolution protocol
 
-【Truth-OS 交互】
-- 若物理發現挑戰現有知識論 → 同步記錄至 TRUTH_EVOLUTION_LOG
-- 涉及確證層級變化 → 触发 Truth-OS 演化協議
+[Truth-OS interaction]
+- If a physics discovery challenges existing epistemology → also record in TRUTH_EVOLUTION_LOG
+- Changes involving confidence levels → trigger the Truth-OS evolution protocol
 
-【跨支柱一致性】
-- 所有演化提議需通過跨支柱一致性檢查
-- 衝突時依賴 AGENTS.md §6 的統一仲裁機制
+[Cross-pillar consistency]
+- All evolution proposals must pass cross-pillar consistency checks
+- In case of conflict, rely on the unified arbitration mechanism in AGENTS.md §6
 ```
 
 ---
 
-## §8. 查詢與檢索
+## §8. Query and Retrieval
 
-### §8.1 索引結構
+### §8.1 Index Structure
 
 ```text
 EVOLUTION_LOG_INDEX = {
@@ -337,7 +343,7 @@ EVOLUTION_LOG_INDEX = {
     SCALE_COUPLING_REVISION: [entry_id, ...],
     GÖDEL_LIMIT_RECOGNITION: [entry_id, ...]
   },
-  
+
   by_status: {
     PROPOSED: [entry_id, ...],
     SANDBOX_TESTING: [entry_id, ...],
@@ -347,143 +353,150 @@ EVOLUTION_LOG_INDEX = {
     REJECTED: [entry_id, ...],
     DEPRECATED: [entry_id, ...]
   },
-  
+
   by_trigger: {
     observation_deviation: [entry_id, ...],
     axiom_conflict: [entry_id, ...],
     scale_failure: [entry_id, ...],
     gödel_undecidable: [entry_id, ...]
   },
-  
+
   by_axiom: {
     "Ω.1.1": [entry_id, ...],
     "Ω.1.2": [entry_id, ...],
-    // ... 所有公理編號
+    // ... all axiom IDs
   }
 }
 ```
 
-### §8.2 常見查詢模式
+### §8.2 Common Query Patterns
 
 ```text
-【查詢示例】
+[Query examples]
 
-# 查詢所有 active 的演化記錄
+# Query all active evolution records
 QUERY status = "ACTIVE"
 
-# 查詢涉及 Ω.2.0 時空湧現性的演化
+# Query evolution involving spacetime emergence Ω.2.0
 QUERY axiom = "Ω.2.0"
 
-# 查詢 Zero-Day Physics 發現
+# Query Zero-Day Physics discoveries
 QUERY type = "NEW_FIELD_INTRODUCTION"
 
-# 查詢特定時間範圍內的演化
+# Query evolution within a specified time range
 QUERY timestamp BETWEEN "2026-01-01" AND "2026-12-31"
 
-# 查詢被拒絕的提議
+# Query rejected proposals
 QUERY status = "REJECTED"
 ```
 
 ---
 
-## §9. 導出模板
+## §9. Export Templates
 
-### §9.1 新演化條目模板
+### §9.1 New Evolution Entry Template
 
 ```text
 ---
 
-## [日期] - [演化標題]
+## [Date] - [Evolution title]
 
-### 識別資訊
+### Identification information
 - **Entry ID:** [UUID]
-- **類型:** [EVOLUTION_TYPE]
-- **狀態:** [STATUS]
+- **Type:** [EVOLUTION_TYPE]
+- **Status:** [STATUS]
 
-### 觸發條件
-**觀測記錄：**
+### Trigger conditions
+**Observation record:**
 [ObservationRecord]
 
-**偏差量化：**
+**Quantified deviation:**
 [deviation]σ from prediction
 
-### 演化內容
-**受影響公理：**
-- [AxiomID]: [描述]
+### Evolution content
+**Affected axioms:**
+- [AxiomID]: [Description]
 
-**變更類型：**
+**Change type:**
 [addition | modification | deprecation]
 
-**變更前：**
+**Before:**
 ```
 [previous_state]
 ```
 
-**變更後：**
+**After:**
 ```
 [proposed_state]
 ```
 
-### 驗證結果
-- **沙盒測試：** [PASS | FAIL | INCONCLUSIVE]
-- **一致性檢查：** [PASS | FAIL]
-- **哥德爾檢查：** [RECOGNIZED_UNCOMPLETENESS | VIOLATION]
-- **尺度耦合：** [VERIFIED | NOT_APPLICABLE]
+### Validation results
+- **Sandbox test:** [PASS | FAIL | INCONCLUSIVE]
+- **Consistency check:** [PASS | FAIL]
+- **Gödel check:** [RECOGNIZED_UNCOMPLETENESS | VIOLATION]
+- **Scale coupling:** [VERIFIED | NOT_APPLICABLE]
 
-### 審計資訊
-- **雜湊：** [SHA256]
-- **審閱者：** [Agent_ID]
-- **時間戳：** [ISO8601_UTC]
+### Audit information
+- **Hash:** [SHA256]
+- **Reviewer:** [Agent_ID]
+- **Timestamp:** [ISO8601_UTC]
 
 ---
 ```
 
 ---
 
-## §10. 附錄
+## §10. Appendix
 
-### §10.1 公理編號對照表
+### §10.1 Axiom Number Cross-Reference
 
-| 編號 | 公理名稱 | 類別 |
+| ID | Axiom name | Category |
 |------|----------|------|
-| Ω.1.1 | 能量守恆 | 資訊熱力學 |
-| Ω.1.2 | 熵增原則 | 資訊熱力學 |
-| Ω.1.3 | 蘭道爾極限 | 資訊熱力學 |
-| Ω.1.4 | 資訊守恆 | 資訊熱力學 |
-| Ω.1.5 | 運算熱力學 | 資訊熱力學 |
-| Ω.1.6 | 么正演化 | 資訊熱力學 |
-| Ω.2.0 | 時空湧現性 | 幾何拓撲 |
-| Ω.2.1 | 流形空間 | 幾何拓撲 |
-| Ω.2.2 | 測地線運動 | 幾何拓撲 |
-| Ω.2.3 | 幾何代數統一 | 幾何拓撲 |
-| Ω.2.4 | 拓撲不變量 | 幾何拓撲 |
-| Ω.2.5 | 馬可夫毯邊界 | 幾何拓撲 |
-| Ω.2.6 | ER=EPR 等價 | 幾何拓撲 |
-| Ω.3.1 | 因果律 | 變分動態 |
-| Ω.3.2 | 光錐約束 | 變分動態 |
-| Ω.3.3 | 作用量極值 | 變分動態 |
-| Ω.3.4 | 諾特定理 | 變分動態 |
-| Ω.3.5 | 動量守恆 | 變分動態 |
-| Ω.3.6 | 不定因果序 | 變分動態 |
-| Ω.4.1 | 相對性本體論 | 觀察者 |
-| Ω.4.2 | 測量反作用 | 觀察者 |
-| Ω.4.3 | 資訊完備性 | 觀察者 |
+| Ω.1.1 | Energy conservation | Information thermodynamics |
+| Ω.1.2 | Entropy-increase principle | Information thermodynamics |
+| Ω.1.3 | Landauer limit | Information thermodynamics |
+| Ω.1.4 | Information conservation | Information thermodynamics |
+| Ω.1.5 | Computational thermodynamics | Information thermodynamics |
+| Ω.1.6 | Unitary evolution | Information thermodynamics |
+| Ω.2.0 | Spacetime emergence | Geometric topology |
+| Ω.2.1 | Manifold space | Geometric topology |
+| Ω.2.2 | Geodesic motion | Geometric topology |
+| Ω.2.3 | Geometric-algebra unification | Geometric topology |
+| Ω.2.4 | Topological invariant | Geometric topology |
+| Ω.2.5 | Markov-blanket boundary | Geometric topology |
+| Ω.2.6 | ER=EPR equivalence | Geometric topology |
+| Ω.3.1 | Causality | Variational dynamics |
+| Ω.3.2 | Light-cone constraint | Variational dynamics |
+| Ω.3.3 | Stationary action | Variational dynamics |
+| Ω.3.4 | Noether's theorem | Variational dynamics |
+| Ω.3.5 | Momentum conservation | Variational dynamics |
+| Ω.3.6 | Indefinite causal order | Variational dynamics |
+| Ω.4.1 | Relational ontology | Observer |
+| Ω.4.2 | Measurement back-action | Observer |
+| Ω.4.3 | Information completeness | Observer |
 
-### §10.2 物理尺度層級對照
+### §10.2 Physical Scale Hierarchy Reference
 
-| PS-L | 名稱 | 尺度範圍 |
+| PS-L | Name | Scale range |
 |------|------|----------|
-| PS-L(-1) | 次量子/拓撲 | < 10⁻³⁵ m |
-| PS-L0 | 量子 | 10⁻³⁵ ~ 10⁻⁹ m |
-| PS-L1 | 微觀/統計 | 10⁻⁹ ~ 10⁻³ m |
-| PS-L2 | 人類/古典 | 10⁻³ ~ 10³ m |
-| PS-L3 | 地球/地質 | 10³ ~ 10⁷ m |
-| PS-L4 | 天體/相對論 | > 10⁷ m |
-| PS-LR | 相對論效應 | v > 0.1c |
+| PS-L(-1) | Subquantum/topological | < 10⁻³⁵ m |
+| PS-L0 | Quantum | 10⁻³⁵ ~ 10⁻⁹ m |
+| PS-L1 | Microscopic/statistical | 10⁻⁹ ~ 10⁻³ m |
+| PS-L2 | Human/classical | 10⁻³ ~ 10³ m |
+| PS-L3 | Earth/geological | 10³ ~ 10⁷ m |
+| PS-L4 | Astronomical/relativistic | > 10⁷ m |
+| PS-LR | Relativistic effects | v > 0.1c |
 
 ---
 
-*PHYSICS_EVOLUTION_LOG.md — 物理公理演進紀錄*
-*NoiePhysicsAGENTS v2.2 附屬檔案*
-*遵循不可變核心協議，僅可追加*
-*記錄物理認知架構的演化歷史與 Zero-Day Physics 發現*
+*PHYSICS_EVOLUTION_LOG.md — Physics Axiom Evolution Record*
+*NoiePhysicsAGENTS v2.2 Appendix*
+*Follows the immutable-core protocol; append-only*
+*Records the evolution history of the physical cognition architecture and Zero-Day Physics discoveries*
+
+## v2.3 release record — 2026-09
+
+- Scope: reframed Physics-OS as a domain-scoped model and feasibility layer; removed universal survival and harm claims.
+- Clarified the status and limits of Landauer erasure, free-energy and active-inference frameworks, holographic relations, ER=EPR, and quantum-gravity proposals.
+- Removed unsupported claims of experimental confirmation of ER=EPR and universal knowledge-energy costs. Capability use requires host attestation.
+- Validation status: documentation review and repository consistency checks recorded in the release task; no executable physics runtime is present in this repository.

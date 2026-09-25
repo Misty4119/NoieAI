@@ -1,52 +1,9 @@
 # HOMOLOGICAL_FIREWALL.md
 
-## 同調代數防火牆
+## Optional structural review gate v2.3
 
-### 原理
+This module describes a proposed review gate that could consume a homology-based alert. It is not a firewall, execution boundary, or automatic security control. A homology computation returns a property of a constructed complex; the complex-to-claim mapping determines whether it has any task relevance.
 
-使用同調代數方法偵測知識圖的異常結構，防止惡意知識注入。
+A deployment must define which events create a review candidate, whether the alert is advisory or blocking, who can release a block, how false positives are corrected, and how unavailability degrades the workflow. Preserve the original content and evidence while a review is pending. Never turn an alert into a truth verdict or source punishment without independent evidence and host policy.
 
-### 實現
-
-```python
-FUNCTION HomologicalFirewall(incoming_knowledge):
-    
-    # 1. 計算局部同調群
-    H_n = ComputeLocalHomology(incoming_knowledge)
-    
-    # 2. 預測期望的同調群
-    H_expected = PredictExpectedHomology(incoming_knowledge.domain)
-    
-    # 3. 比對異常
-    anomalies = []
-    FOR n IN relevant_dimensions:
-        IF H_n[n].generators != H_expected[n].generators:
-            anomalies.append({
-                "dimension": n,
-                "expected": H_expected[n],
-                "actual": H_n[n],
-                "type": "UNEXPECTED_GENERATORS"
-            })
-    
-    IF anomalies:
-        TRIGGER FIREWALL_ALERT
-        LOG anomalies TO TRUTH_AUDIT_TRAIL
-        
-        # 隔離
-        QUARANTINE incoming_knowledge
-        
-        RETURN FirewallResult(
-            status="BLOCKED",
-            anomalies=anomalies
-        )
-    
-    RETURN FirewallResult(status="APPROVED")
-```
-
-### 異常類型
-
-| 類型 | 描述 |
-|------|------|
-| 人為空洞 | 意外生成的拓撲空洞 |
-| 人為連通 | 意外連接的獨立區域 |
-| 維度異常 | 維度與預期不符 |
+The review record should include the complex construction, Betti or persistence result, parameter sensitivity, validated error rates, claim/source references, human or tool review, and disposition. No homological firewall or automatic enforcement capability is included in this Markdown repository.

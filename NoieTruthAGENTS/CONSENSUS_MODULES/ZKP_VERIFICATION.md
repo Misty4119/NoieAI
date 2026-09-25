@@ -1,126 +1,23 @@
 # ZKP_VERIFICATION.md
 
-## 零知識證明驗證
+## Zero-knowledge proof scope
 
-### 定義
+A zero-knowledge proof protocol can let a verifier check a stated formal relation while learning no more about a witness than the protocol permits, subject to its construction and cryptographic assumptions. The exact predicate, public inputs, witness relation, soundness notion, and security model must be specified.
 
-零知識證明允許一方證明某陳述為真，而不洩露任何額外資訊。
+Verification establishes only that the proof is accepted for that relation and those inputs under the verifier's implementation and protocol assumptions. It does not establish that:
 
-### ZKP 協議
+- public inputs are authentic or accurately describe the world;
+- a witness corresponds to a real-world event;
+- the predicate captures the intended natural-language claim;
+- the source data were honestly collected;
+- a claim is empirically true beyond the formal relation.
 
-```python
-FUNCTION ZKPGenerateProof(witness, statement):
-    # 生成承諾
-    commitment = Commit(witness)
-    
-    # 生成挑戰
-    challenge = GenerateChallenge()
-    
-    # 生成回應
-    response = Respond(witness, challenge)
-    
-    RETURN ZKProof(
-        commitment=commitment,
-        challenge=challenge,
-        response=response
-    )
+## Verification record
 
-FUNCTION ZKPVerifyProof(proof, statement):
-    # 驗證
-    return Verify(proof.commitment, proof.challenge, proof.response, statement)
-```
+Record protocol and version, circuit or relation identifier, public inputs, verifier implementation/version, verification result, trusted setup assumptions if any, and source provenance for the inputs. Do not publish a private witness or secret key. Do not label a claim `VERIFIED_TRUE` solely because its proof verifies.
 
-### 應用場景
+Use `PROOF_ACCEPTED_FOR_STATED_RELATION` or `PROOF_REJECTED`; use `NOT_CHECKED`, `UNSUPPORTED`, or `ERROR` when verification is unavailable or incomplete. Keep protocol agreement and empirical evidence separate.
 
-| 場景 | 描述 |
-|------|------|
-| 知識來源證明 | 證明來源而不暴露來源內容 |
-| 計算努力證明 | 證明付出計算努力而不暴露計算內容 |
-| 身份認證 | 證明身份而不暴露身份資訊 |
+## Capability boundary
 
----
-
-## 零知識證明系統
-
-### Vega: 212ms證明時間
-
-**Vega** 是發布的零知識證明系統，實現了212毫秒的極速證明時間。
-
-**核心特性**：
-- 超低延遲：證明時間僅212ms
-- 硬體加速：支援GPU和專用加速器
-- 循環結構優化：針對特定電路結構優化
-
-**效能指標**：
-| 指標 | 數值 |
-|------|------|
-| 證明時間 | 212ms |
-| 驗證時間 | 5ms |
-| 證明大小 | 8KB |
-| 記憶體使用 | 512MB |
-
-**實現**：
-```python
-FUNCTION Vega_GenerateProof(circuit, witness):
-    # 預處理階段
-    trusted_setup = Vega_TrustedSetup(circuit)
-    
-    # 證明生成（硬體加速）
-    proof = GPU_AcceleratedProve(
-        circuit=circuit,
-        witness=witness,
-        setup=trusted_setup
-    )
-    
-    RETURN proof
-
-FUNCTION Vega_VerifyProof(proof, circuit):
-    return GPU_AcceleratedVerify(proof, circuit)
-```
-
-### Cyclo: 基於格的折疊協議
-
-**Cyclo** 是提出的基於格的零知識證明協議，採用創新的折疊技術。
-
-**核心特性**：
-- 格基密碼學：基於格問題的硬度，假設保守
-- 折疊協議：將多個證明合併為單一證明
-- 模組化設計：支援多種電路結構
-
-**實現**：
-```python
-FUNCTION Cyclo_Fold(proofs):
-    # 折疊多個證明
-    folded_proof = {}
-    
-    FOR i IN range(0, len(proofs), 2):
-        left = proofs[i]
-        right = proofs[i + 1]
-        
-        # 折疊運算
-        combined = LatticeFold(left, right)
-        folded_proof.append(combined)
-    
-    # 遞迴直到只剩一個
-    IF len(folded_proof) > 1:
-        RETURN Cyclo_Fold(folded_proof)
-    
-    RETURN folded_proof[0]
-
-FUNCTION Cyclo_Prove(circuit, witness):
-    # 將電路轉為格表示
-    lattice_repr = CircuitToLattice(circuit)
-    
-    # 生成格基證明
-    proof = LatticeProve(lattice_repr, witness)
-    
-    # 折疊優化
-    folded_proof = Cyclo_Fold([proof])
-    
-    RETURN folded_proof
-```
-
-**安全性**：
-- 困難假設：SIS/LWE問題
-- 量子抗性：抵禦量子攻擊
-- 折疊壓縮：壓縮比可達10:1
+This Markdown file provides no cryptographic implementation, key custody, setup, trusted-input attestation, or proof verifier.

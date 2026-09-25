@@ -1,221 +1,37 @@
-# FLUID_DYNAMICS.md
+# Fluid Dynamics Reference (Physics-OS v2.3)
 
-## 流體動力學 (PS-L2, PS-L3)
+**Domain:** Fluid motion, transport, viscosity, boundary layers, turbulence, and multiphase flow under a continuum approximation. This document is not a CFD solver and does not guarantee field measurement or deployment safety.
 
-**尺度：** 10⁻³ ~ 10⁷ m  
-**版本：** v1.0  
-**狀態：** 驗證性
+## Descriptions, balances, and equations of state
 
----
+The Eulerian description represents fields over position and time; the Lagrangian description follows material points. The material derivative D()/Dt=∂()/∂t+v·∇() combines local change and advection. A continuum approximation requires averaging over scales larger than the molecular mean free path and a definable local thermodynamic state. Rarefied gases, microchannels, strong non-equilibrium, or microscale effects may require kinetic theory.
 
-## 概述
+Mass conservation is ∂ρ/∂t+∇·(ρv)=0. Momentum conservation is ρDv/Dt=∇·σ+ρb. The total-energy equation also requires pressure work, heat conduction, viscous dissipation, and source terms. Closure needs an equation of state and material relations such as viscosity and thermal conductivity; do not reuse unverified constants across fluids or temperature-pressure ranges.
 
-本文檔處理**流體動力學**尺度的物理框架。根據 NoiePhysicsAGENTS.md §1 的物理尺度權限層級定義，流體動力學處理液體和氣體的運動規律。
+## Navier–Stokes model
 
----
+For a Newtonian fluid, stress separates into a pressure term and viscous deviatoric stress. In a common isotropic model, deviatoric stress depends on the symmetric velocity gradient and shear/bulk viscosities. For an incompressible constant-density fluid, ∇·v=0 and momentum is often written ρ(∂v/∂t+v·∇v)=−∇p+μ∇²v+ρb. This simplified equation assumes constant μ, a continuum, and Newtonian constitutive behavior; variable-viscosity, compressible, non-Newtonian, or multicomponent fluids require the appropriate full equations.
 
-## 關鍵安全與真理協議
+Incompressibility is a kinematic constraint and does not mean density variation is always zero. The validity of a low-Mach approximation depends on pressure, temperature, sound speed, geometry, and timescale. Inlets, outlets, no-slip or slip walls, free surfaces, thermal boundaries, and initial fields must match the physical device. Transition, shocks, cavitation, and chemical reactions require additional models.
 
-> **CRITICAL SAFETY & TRUTH PROTOCOL:**
-> 1. 遵守 AXIOMS.md 的 PT-AX11 (最小作用量)、PT-AX14 (動量守恆)
-> 2. 流體動力學是經過充分驗證的工程科學
-> 3. 注意層流與亂流的區分
-> 4. 審計：將所有異常記錄至 PHYSICS_AUDIT_TRAIL
+## Dimensionless parameters and turbulence
 
----
+Reynolds number Re=ρUL/μ compares inertial and viscous scales. Transition depends on geometry, inlet disturbance, surface roughness, pressure gradient, compressibility, and other conditions; there is no universal critical Re for all flows. Mach, Froude, Weber, Prandtl, and Rayleigh numbers measure other competing effects and should be selected from the problem's scales.
 
-## 1. 流體運動學
+Averaged turbulence equations introduce Reynolds stresses and require closure or resolution with a declared method such as RANS, LES, or DNS. RANS loses instantaneous scale information; LES is sensitive to grid and wall modeling; DNS must resolve relevant scales and can be very costly. A model name, grid resolution, or residual convergence alone does not prove predictive accuracy.
 
-### 1.1 拉格朗日與歐拉描述
+Boundary-layer approximations rely on conditions such as a thin shear layer at high Re and may fail under separation, strong adverse pressure gradients, transition, curvature, or three-dimensional effects. Do not use a generic thickness or drag relation without checking flow regime and geometry.
 
-**歐拉描述**（常用）：
+## Multiphase flow and interfaces
 
-$$\mathbf{v} = \mathbf{v}(\mathbf{x}, t)$$
+State the phases, volume fractions, interface tracking or capturing method, surface tension, wetting, phase change, and interphase exchange. VOF, level-set, Eulerian–Eulerian, and Eulerian–Lagrangian methods use different scale and topology assumptions. Grid resolution, numerical diffusion, interface reconstruction, and interphase coupling may dominate error. Cavitation, boiling, breakup, coalescence, and chemical reaction require separate closure models.
 
-**物質導數**：
+## Computational verification and failure cases
 
-$$\frac{D}{Dt} = \frac{\partial}{\partial t} + \mathbf{v} \cdot \nabla$$
+Before solving, check geometry, units, equation of state, parameters, initial and boundary conditions, and compressibility. Check mass, momentum, and energy balances; perform mesh and timestep studies, analytic or benchmark comparisons, residual checks, and statistical-stationarity diagnostics. For turbulence, report the model, mesh, wall treatment, inlet disturbance, and sampling interval.
 
-```python
-class FluidKinematics:
-    """
-    流體運動學
-    """
-    
-    def material_derivative(
-        self,
-        field: ScalarField,
-        velocity: VectorField
-    ) -> ScalarField:
-        """計算物質導數"""
-        return field.time_derivative() + velocity.dot(field.gradient())
-```
+Separate code verification (whether equations are discretized correctly), solution verification (numerical error), and physical validation (agreement with experiment). Divergence, nonphysical states, negative density or pressure, mesh dependence, unresolved scales, insufficient inlet conditions, or unavailable solvers must be disclosed and downgrade the result to indeterminate. CFD output is not a safety guarantee for real-world execution.
 
----
+## Module boundary
 
-## 2. Navier-Stokes 方程
-
-### 2.1 完整方程組
-
-**連續方程**：
-
-$$\frac{\partial \rho}{\partial t} + \nabla \cdot (\rho \mathbf{v}) = 0$$
-
-**動量方程**：
-
-$$\rho \frac{D\mathbf{v}}{Dt} = -\nabla p + \mu \nabla^2 \mathbf{v} + \rho \mathbf{f}$$
-
-**能量方程**：
-
-$$\rho \frac{D e}{Dt} = -p \nabla \cdot \mathbf{v} + k \nabla^2 T + \Phi$$
-
-```python
-class NavierStokesSolver:
-    """
-    Navier-Stokes 方程求解器
-    """
-    
-    def compute_convection(
-        self,
-        velocity: VectorField,
-        field: ScalarField
-    ) -> VectorField:
-        """計算對流項 (v·∇)f"""
-        return velocity * field.gradient()
-    
-    def compute_diffusion(
-        self,
-        field: ScalarField,
-        viscosity: float
-    ) -> VectorField:
-        """計算擴散項 ν∇²f"""
-        return viscosity * field.laplacian()
-```
-
----
-
-## 3. 雷諾數與流態
-
-### 3.1 雷諾數
-
-$$Re = \frac{\rho VL}{\mu} = \frac{VL}{\nu}$$
-
-| Re 範圍 | 流態 | 特徵 |
-|---------|------|------|
-| < 2300 | 層流 | 平滑、可預測 |
-| 2300-4000 | 過渡 | 不穩定 |
-| > 4000 | 亂流 | 混沌、統計描述 |
-
-### 3.2 雷諾應力
-
-在亂流中，需要對雷諾應力進行模型化：
-
-$$-\overline{\rho u_i' u_j'} = \mu_t \left( \frac{\partial \bar{u}_i}{\partial x_j} + \frac{\partial \bar{u}_j}{\partial x_i} \right) - \frac{2}{3} \bar{\rho} k \delta_{ij}$$
-
----
-
-## 4. 邊界層理論
-
-### 4.1 邊界層概念
-
-在固體邊界附近，粘性效應顯著：
-
-$$\delta \sim \frac{L}{\sqrt{Re}}$$
-
-```python
-class BoundaryLayer:
-    """
-    邊界層
-    """
-    
-    def compute_boundary_layer_thickness(
-        self,
-        reynolds_number: float,
-        length_scale: float
-    ) -> float:
-        """計算邊界層厚度"""
-        return length_scale / np.sqrt(reynolds_number)
-```
-
----
-
-## 5. 數值方法
-
-### 5.1 離散化方法
-
-| 方法 | 優點 | 缺點 |
-|------|------|------|
-| 有限差分 | 簡單 | 幾何靈活性差 |
-| 有限體積 | 守恆 | 精度有限 |
-| 有限元 | 幾何靈活 | 計算量大 |
-| 譜方法 | 高精度 | 週期邊界 |
-
-### 5.2 求解策略
-
-```python
-class FluidSolver:
-    """
-    流體求解器
-    """
-    
-    def solve_incompressible(
-        self,
-        domain: Mesh,
-        initial_condition: Field,
-        boundary_conditions: BC,
-        time_step: float,
-        num_steps: int
-    ) -> Solution:
-        """
-        求解不可壓縮流
-        
-        方法：SIMPLE, PISO, 投影法
-        """
-        pass
-```
-
----
-
-## 6. 多相流
-
-### 6.1 相界面
-
-```python
-class MultiPhaseFlow:
-    """
-    多相流
-    """
-    
-    def compute_surface_tension_force(
-        self,
-        interface: Interface,
-        surface_tension: float
-    ) -> VectorField:
-        """計算表面張力"""
-        # F = σ ∫ κ n dA
-        pass
-```
-
----
-
-## 7. 與其他尺度的接口
-
-### 7.1 與連續介質力學的接口
-
-```
-連續介質力學 → 流體動力學：
-- 應力張量簡化
-- 牛頓流體本構方程
-```
-
-### 7.2 與電漿物理的接口
-
-```
-流體動力學 → MHD：
-- 導電流體的特殊情況
-```
-
----
-
-*本文檔處理流體動力學尺度的物理框架。*
-*流體動力學是航空、船舶、能源等工程的基礎。*
+The continuum hypothesis and general stress balance are covered by CONTINUUM_MECHANICS.md; single-fluid MHD approximations by PLASMA_PHYSICS.md. For coupling to heat, chemistry, elasticity, or electromagnetic fields, define interface exchange and total-energy balance explicitly.

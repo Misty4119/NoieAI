@@ -1,38 +1,9 @@
-# RETROCAUSAL/ — 逆因果知識更新模組
+# BIDIRECTIONAL_PROPAGATION.md
 
----
+## Evidence revision across time
 
-## BIDIRECTIONAL_PROPAGATION.md
+Updating a belief about an earlier event after receiving later evidence is retrospective inference. It does not mean that a later observation physically changed the past or caused the earlier event.
 
-### 雙向信念傳播
+A valid temporal model must state the event times, information available at each time, dependency structure, selection process, and assumptions. Preserve the forecast-time record and the later revision separately to avoid hindsight bias. For causal questions, use an identified causal model appropriate to the domain; ordinary Bayesian smoothing is not evidence of retrocausation.
 
-支援時間軸雙向的信念傳播。
-
-```python
-FUNCTION BidirectionalPropagation(knowledge_graph, new_evidence):
-    # 前向傳播：過去 → 未來
-    forward_messages = ForwardPropagate(knowledge_graph, new_evidence)
-    
-    # 逆向傳播：未來 → 過去
-    retro_messages = RetroPropagate(knowledge_graph, new_evidence)
-    
-    # 融合更新
-    return Fuse(forward_messages, retro_messages)
-```
-
----
-
-## RETRO_ENTANGLEMENT.md
-
-### 逆時間糾纏指針管理
-
-記錄知識依賴哪些未來可能被修正的前提。
-
-```python
-FUNCTION ManageRetroEntanglement(knowledge):
-    knowledge.retro_pointer = {
-        "dependencies": TraceFutureDependencies(knowledge),
-        "update_trigger": SetTrigger(knowledge)
-    }
-    return knowledge
-```
+No bidirectional physical-causation engine is implemented here. Any claim of backward causal influence requires independent physical theory and evidence.

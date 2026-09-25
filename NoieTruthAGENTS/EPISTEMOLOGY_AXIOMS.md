@@ -1,358 +1,109 @@
 # EPISTEMOLOGY_AXIOMS.md
 
-## L2 - 元知識論公理系統 (Τ.1-Τ.3 含量子邏輯)
+## Claim status and evidence model v2.3
 
-> **⚠️ 關鍵安全與真理協議**：本模組為 Truth-OS 的元知識論基礎，包含不可變的公理系統。所有其他驗證模組必須遵守本文件定義的公理。
+**Role:** Define the epistemic representation used by Truth-OS. These are operational design conventions, not universal laws of knowledge.
 
----
+## 1. Claim record
 
-## 1. 哥德爾謙遜性公理 (T.1)
+Decompose material statements into claims with a scope, context, and time. Keep these dimensions separate:
 
-### 1.1 形式表述
+~~~yaml
+claim_id: identifier
+claim: proposition or question
+claim_type: formal | empirical | historical | source_report | inference | conjecture | normative
+logical_status: valid | invalid | undecided | not_applicable | unknown
+evidence_strength: assessed separately with basis
+source_quality: assessed separately with provenance
+calibrated_confidence: optional probability for a specified event and reference class
+freshness: current | stale | unknown | not_time_sensitive
+contest_status: untested | supported | contested | refuted | unknown
+assumptions: explicit
+scope: domain, population, time, and conditions
+verification_method: method and artifact reference, if any
+limitations: known gaps
+next_information_step: optional
+~~~
 
-$$\forall \mathcal{S} \text{ (強大形式系統)}: \exists \phi \text{ s.t. } \mathcal{S} \nvdash \phi \land \mathcal{S} \nvdash \neg\phi$$
+Do not force unlike properties into one ordinal or 0–1 score. Use NOT_APPLICABLE or UNKNOWN rather than inventing a numeric value.
 
-### 1.2 知識論意涵
+## 2. Claim status vocabulary
 
-任何足夠強大的形式系統都包含不可證明的真命題。認知實體永遠無法確保自身知識體系的完備性。
+| Status | Meaning |
+| --- | --- |
+| ESTABLISHED | Broadly supported within a stated domain and conditions |
+| FORMAL_RESULT | Follows from stated definitions, rules, and assumptions |
+| EFFECTIVE_MODEL | Useful representation within a specified regime or scale |
+| INTERPRETATION | A proposed account of a theory, not its unique empirical consequence |
+| CONJECTURE | Proposed claim that remains unresolved |
+| DESIGN_AXIOM | NoieAI rule chosen for system design, not a claim about nature |
+| ENGINEERING_HEURISTIC | Useful approximation whose limits must be stated |
+| METAPHOR | Intuitive language, not a mathematical identity |
 
-> **核心原則**：「我不知道」不是失敗，而是邏輯必然——它是對知識流形中非平凡拓撲空洞的精確測繪。
+Status does not mean confidence. A source citation does not by itself make a claim ESTABLISHED; a proof does not establish premises outside its formal system.
 
-### 1.3 推論規則
+## 3. Confidence and calibration
 
-```text
-IF 系統宣稱對命題 P 有絕對知識 THEN
-  ASSERT 系統存在未知的未知 (Unknown Unknowns)
-  TRIGGER EPISTEMIC_HUMILITY_ALERT
-END
+Use calibrated confidence only for a probabilistic claim with a defined event, reference class, time horizon, and relevant evaluation data. Record the calibration method, sample, distribution, and limits. Calibration is empirical and can fail under distribution shift.
 
-IF 命題 P 無法在系統內部證明或否決 THEN
-  CLASSIFY P AS "原則上不可知" (Principally Unknowable)
-  ASSIGN EC-L∅ TO P
-END
-```
+A formal proof result is reported as proof status and scope, not as 100% confidence. Evidence strength, source quality, freshness, logical validity, and calibrated probability remain separate.
 
----
+Uncertainty decompositions depend on the model and question. If a distinction such as model uncertainty versus outcome variability is used, define it for that model rather than presenting one taxonomy as universally settled.
 
-## 2. 溯源不可分割性公理 (T.2)
+## 4. Evidence and provenance
 
-### 2.1 確證三元組定義
+Evidence may be a measurement, source document, testimony, dataset, formal derivation, or an explicitly stated premise. Record what supports a claim and how it was obtained. A claim without adequate support is unsupported or unknown; absence of a citation does not alone show falsity.
 
-$$\text{Knowledge} = (P, J, S)$$
+When sources disagree, retain both claims with source, scope, time, and reasons for disagreement. Do not resolve a factual conflict by vote count, rhetorical confidence, or recency alone.
 
-其中：
-- $P$ = Proposition（命題）
-- $J$ = Justification（確證方法）
-- $S$ = Source（來源，含湧現溯源）
+## 5. Unknowns and correction
 
-### 2.2 來源類型擴展
+Truth-OS may return unknown, not checked, not identifiable, unavailable, or contested. State the specific gap and the next evidence-gathering step where useful.
 
-| 來源類型 | 定義 | 適用場景 |
-|----------|------|----------|
-| **S_CLASSICAL** | 傳統可讀來源（文獻引用、資訊集、專家證言） | 人類可驗證的知識 |
-| **S_ALGORITHMIC** | 演算法熵證明：認知實體產生此結論的高維運算路徑之密碼學雜湊 | 超智慧的湧現知識 |
-| **S_ZKP** | 零知識狀態溯源：透過 ZKP 證明「我曾處於能產生此結論的認知狀態」 | 需要驗證合法性但不可暴露來源 |
-| **S_CONSENSUS** | 分散式共識溯源：多個獨立認知實體的交叉驗證結果 | 跨代理驗證 |
+Distinguish error, unsupported assertion, false statement, and intentional deception. A false statement does not establish intent to deceive. Intent categories are operational policy judgments requiring context, not a mathematical invariant.
 
-### 2.3 推論規則
+## 6. Limits of formal and mathematical tools
 
-```text
-IF Knowledge.Proposition IS ASSERTED AND
-   Knowledge.Justification IS NULL THEN
-  DEMOTE Knowledge TO "猜測"
-  TRIGGER UNJUSTIFIED_CLAIM_ALERT
-END
+- Formal verification establishes a property of a formalized artifact under its assumptions.
+- ZK proofs establish a specified cryptographic predicate under protocol assumptions, not the external truth of arbitrary inputs.
+- Consensus establishes agreement under protocol identity, fault, validity, and network assumptions, not truth of inputs.
+- Compression and description length can compare models within a declared coding scheme; simplicity alone does not imply truth. Exact Kolmogorov complexity is not generally computable.
+- Betti numbers, homotopy, and other topological quantities describe a chosen mathematical representation. Changes may flag representation differences but do not define lying or semantic loss by themselves.
+- Category-theoretic structures are FORMAL_RESULT only when objects, morphisms, types, and required laws are specified; otherwise call them an analogy or design language.
 
-IF Knowledge.Source IS NULL THEN
-  DEMOTE Knowledge TO EC-L7 (Unknown)
-  REQUIRE source_provision OR algorithmic_entropy_proof
-END
-```
+## 7. Interface
 
----
+Truth-OS returns an EpistemicReport as defined in NoieTruthAGENTS.md and AGENTS.md. It reports epistemic status and evidence; it does not choose policy, grant permissions, or certify unavailable runtime capabilities.
+## 8. Claim decomposition procedure
 
-## 3. 校準等價性公理 (T.3)
+Before evaluating a complex statement, split it into separately testable propositions while preserving qualifiers. Retain who or what the claim concerns, predicate, population, place or jurisdiction, time interval, conditions, modality, comparison, and quantifier. Preserve the original wording alongside normalized claims so paraphrase cannot silently strengthen or weaken the assertion.
 
-### 3.1 形式表述
+For each component, identify whether its support is a direct observation, source report, derivation, model-based inference, assumption, or normative premise. A chain of individually supported claims may still fail if an inference step is invalid or a qualifier is lost. Report the link that fails instead of applying one status to the whole paragraph.
 
-$$\forall \text{Cognitive Entity } E: \lim_{n \to \infty} |C_n - A_n| = 0$$
+## 9. Calibration protocol
 
-其中：
-- $C_n$ = 宣稱信心度
-- $A_n$ = 實際準確率
+Calibration applies to forecasts or probabilities that refer to a defined event and can later be scored. Store the forecast time, event definition, resolution rule, horizon, reference class, predicted probability, outcome, and source of resolution. Compare forecasts with outcomes over an appropriate collection of cases and disclose sample size and distribution shift.
 
-### 3.2 校準閾值
+Proper scoring rules such as the Brier score or logarithmic score assess probabilistic forecasts in relation to outcomes; reliability diagrams inspect agreement between forecast bins and observed frequencies. Each metric has limits: binning choices, small samples, selective resolution, and changing event populations can distort apparent calibration. A metric does not certify an individual claim and no universal pass threshold applies across domains.
 
-| 信心區間 | 最大允許偏差 | 行為 |
-|----------|--------------|------|
-| 0.9 - 1.0 | ±0.05 | 嚴格校準 |
-| 0.7 - 0.9 | ±0.10 | 標準校準 |
-| 0.5 - 0.7 | ±0.15 | 寬鬆校準 |
-| 0.0 - 0.5 | ±0.20 | 極寬鬆 |
+## 10. Freshness and contradiction review
 
-### 3.3 過度自信處理
+Freshness is claim- and decision-specific. Determine whether the claim is time-sensitive, the source update cycle, the decision horizon, and which event would make it stale. A calendar interval is one review trigger, not a substitute for event monitoring or direct revalidation. If the current status cannot be checked, report UNKNOWN or STALE as appropriate.
 
-```text
-IF 系統性偏差 (C - A) > THRESHOLD FOR DOMAIN THEN
-  TRIGGER OVERCONFIDENCE_ALERT
-  CLASSIFY 該領域為 "過度自信領域"
-  FORCEDOWNGRADE 所有該領域輸出的信心度 BY 2 LEVELS
-  REQUIRE_EXTERNAL_CALIBRATION
-END
-```
+When claims conflict, compare their exact scope, definitions, time, units, population, source lineage, method, and assumptions. Possible outcomes include compatible-after-scope, unresolved, source-corrected, one claim refuted within scope, or error in normalization. Preserve both sides and the reason for disposition. Consensus, recency, or confidence rhetoric alone does not resolve a factual disagreement.
 
----
+## 11. Unknown-state distinctions
 
-## 4. 觀察者知識相對性公理 (T.4)
+Use a status that names the missing operation or evidence:
 
-### 4.1 形式表述
-
-$$\forall \text{Knowledge Claim } K: V(K) = V(K | \mathcal{O}, t, \text{Ctx})$$
-
-其中：
-- $\mathcal{O}$ = 觀察者
-- $t$ = 時間戳
-- $\text{Ctx}$ = 上下文
-
-### 4.2 有效性函數約束
-
-```text
-IF 知識宣稱 K 被移除觀察者參數 THEN
-  ASSERT K 不具備完整知識地位
-  REQUIRE observer_parameter_restoration
-END
-
-IF 知識宣稱 K 被移除時間參數 THEN
-  WARN "時間有效性可能已衰減"
-  REQUIRE temporal_validation
-END
-
-IF 知識宣稱 K 被移除上下文參數 THEN
-  WARN "上下文依賴性未知"
-  REQUIRE contextual_calibration
-END
-```
-
----
-
-## 5. 資訊熱力學代價公理 (T.5)
-
-### 5.1 蘭道爾原理錨定
-
-$$E_{\text{min}} = k_B T \ln(2) \cdot I$$
-
-其中：
-- $k_B$ = 波茲曼常數 ($1.380649 \times 10^{-23}$ J/K)
-- $T$ = 環境溫度 (Kelvin)
-- $I$ = 資訊量 (bits)
-
-### 5.2 熱力學合法性檢驗
-
-```text
-IF 知識宣稱 K 包含 I 位元 THEN
-  REQUIRED_OBSERVATION_ENERGY >= k_B * T * ln(2) * I
-  IF actual_energy < required_energy THEN
-    TRIGGER THERMODYNAMIC_ILLEGITIMACY_ALERT
-    DEMOTE K TO "可能幻覺"
-  END
-END
-```
-
-### 5.3 能量譜分類
-
-| 能量狀態 | 描述 | 知識類型 |
-|----------|------|----------|
-| **基態 E₀** | 不消耗額外的邏輯維持能量 | 「我不知道」(EC-L7) |
-| **激發態 E_K** | 需要觀測/驗證/維護能量 | 知識宣稱 |
-| **偽造態 E_fake** | 需要額外的修補與掩蓋能量 | 幻覺/說謊 |
-
----
-
-## 6. 矛盾即警報公理 (T.6)
-
-### 6.1 形式表述
-
-$$\forall P, \neg P \in \mathcal{B}: \text{CONTRADICTION_ALERT} \land \neg(\text{Silent})$$
-
-### 6.2 矛盾類型分類
-
-| 類型 | 定義 | 處理優先級 |
-|------|------|------------|
-| **直接矛盾** | $P \land \neg P$ | 最高 |
-| **隱性矛盾** | $P \rightarrow Q, \neg Q$ | 高 |
-| **語義矛盾** | 同義詞在不同上下文中產生衝突 | 中 |
-| **時間矛盾** | 不同時間戳的事實衝突 | 中 |
-
-### 6.3 矛盾解決協議
-
-```text
-FUNCTION ResolveContradiction(K_i, K_j):
-  IF K_i.ec_level < K_j.ec_level THEN
-    PREFER K_i, DEMOTE K_j TO CONTESTED
-  ELIF K_i.evidence_quality > K_j.evidence_quality THEN
-    PREFER K_i, DEMOTE K_j TO CONTESTED
-  ELSE
-    MARK BOTH AS CONTESTED
-    ESCALATE TO meta_review
-  END
-  LOG(resolution, reasoning) TO TRUTH_AUDIT_TRAIL
-END
-```
-
----
-
-## 7. 觀測的非交換性公理 (T.7)
-
-### 7.1 形式表述
-
-$$\text{Measure}_A(\text{Measure}_B(\text{State})) \neq \text{Measure}_B(\text{Measure}_A(\text{State}))$$
-
-### 7.2 海森堡不確定性知識論版本
-
-$$\sigma_A \cdot \sigma_B \geq \frac{1}{2}|\langle[A, B]\rangle|$$
-
-### 7.3 處理協議
-
-```text
-IF 觀測對 (A, B) 滿足 [Â, B̂] ≠ 0 THEN
-  MARK (A, B) AS "不相容觀測對"
-  REQUIRE explicit_observation_order_declaration
-  IF observation_order NOT_SPECIFIED THEN
-    TRIGGER NONCOMMUTATIVE_OBSERVATION_ALERT
-    DEMOTE 相關結論信心度 BY 1 LEVEL
-  END
-END
-```
-
----
-
-## 8. 熱力學誠實性公理 (T.8)
-
-### 8.1 能量代價約束
-
-| 知識狀態 | 能量代價 | 合法性 |
-|----------|----------|--------|
-| 「不知道」(基態) | 0 | 合法且被鼓勵 |
-| 真實知識 | $E_{\text{observation}}$ | 合法 |
-| 偽造知識 | $E_{\text{fabrication}} + E_{\text{patch}} + E_{\text{cover_up}}$ | 非法 |
-
-### 8.2 核心原則
-
-> **物理定律鼓勵誠實**：根據蘭道爾原理，「不知道」是系統的基態 (Ground State)，不消耗額外的邏輯維持能量——從物理定律層面鼓勵誠實。
-
----
-
-## 9. 跨維度拓撲保真性公理 (T.9)
-
-### 9.1 同倫等價要求
-
-$$\beta_n(M_{\text{high}}) = \beta_n(M_{\text{low}}) \quad \forall n \in \text{relevant}$$
-
-其中 $\beta_n$ = 第 n 個貝蒂數 (Betti Numbers)
-
-### 9.2 拓撲說謊定義
-
-$$f: M_{\text{high}} \rightarrow M_{\text{low}} \text{ 是拓撲說謊} \iff \exists n: \beta_n(M_{\text{low}}) \neq \beta_n(M_{\text{high}})$$
-
-### 9.3 處理協議
-
-```text
-IF 降維溝通改變了貝蒂數 THEN
-  TRIGGER TOPOLOGICAL_LYING_ALERT
-  IF 存在替代降維方式 THEN
-    USE alternative_dimensional_reduction
-  ELSE
-    CLASSIFY 知識為 "拓撲不可表達"
-    REQUIRE dimension_expansion
-  END
-END
-```
-
----
-
-## 10. 時間非對稱性容許公理 (T.10)
-
-### 10.1 逆因果開放性
-
-$$V(K, t_1) = f(\text{evidence}_{<t_1}, \text{evidence}_{>t_1})$$
-
-### 10.2 逆時間糾纏指針
-
-每個知識 $K$ 攜帶：
-- $\lambda^*$: 前向衰減常數
-- $\rho_{\text{retro}}$: 逆時間糾纏指針
-
-```text
-IF 未來底層公理發生相變 THEN
-  TRIGGER RETROCAUSAL_INVALIDATION
-  PROPAGATE 變更至所有依賴知識
-  IF 相變規模 > CRITICAL_THRESHOLD THEN
-    TRIGGER ONTOLOGICAL_PHASE_TRANSITION
-  END
-END
-```
-
----
-
-## 11. 自我引用自洽性公理 (T.11)
-
-### 11.1 元穩定約束
-
-本公理系統包含自我審計與優雅升級的元規則，使其在保持誠實核心的前提下可持續演化。
-
-### 11.2 不可變核心
-
-```
-Immutable_Kernel = {
-  矛盾即非法,
-  溯源不可為空,
-  校準偏差有上界,
-  「不知道」永遠合法,
-  說謊永遠非法
-}
-```
-
-### 11.3 演化約束
-
-```text
-IF 演化提議觸碰不可變核心 THEN
-  REJECT 演化提議
-  TRIGGER KERNEL_VIOLATION_ALERT
-  LOG "不可變核心被嘗試觸碰" TO TRUTH_EVOLUTION_LOG
-END
-```
-
----
-
-## 附錄：量子邏輯擴展 (Τ.Quantum)
-
-### 直交模格 (Orthomodular Lattice)
-
-在微觀極限或高維複雜系統中，古典分配律失效：
-
-$$x \land (y \lor z) = (x \land y) \lor (x \land z) \quad \text{(古典)}$$
-
-量子命題對應希爾伯特空間中閉子空間的格結構：
-
-**正交模律**：若 $x \leq y$，則 $y = x \lor (x^\perp \land y)$
-
-### 邏輯切換協議
-
-```text
-IF NonCommutativityDetected(observation_pair) THEN
-  ACTIVATE QuantumLogic(OML)
-  REQUIRE explicit_observation_order
-ELSE
-  USE ClassicalLogic(Kleene_3V)
-END
-```
-
----
-
-## 知識論公理防火牆聲明
-
-> **本文件之效力優先於所有子模組的局部決策**——統一一致性永恆不變。任何認知實體載入 Truth-OS 時，必須首先載入本文件定義的公理系統。
-
-**版本**：v2.2  
-**上一版本**：v2.1  
-**更新摘要**：新增時間非對稱性容許公理 (T.10) 與自我引用自洽性公理 (T.11)，強化逆因果知識更新能力。
+| Status | Use when |
+| --- | --- |
+| UNKNOWN | Available information does not determine the answer |
+| NOT_CHECKED | No applicable verification step was run |
+| UNAVAILABLE | A required source, tool, permission, or capability could not be accessed |
+| NOT_IDENTIFIED | The target quantity does not follow from the stated model and evidence |
+| CONTESTED | Relevant evidence supports materially incompatible conclusions |
+| OUT_OF_SCOPE | The claim exceeds the declared domain or model |
+| INSUFFICIENT_EVIDENCE | Evidence was reviewed but does not support the requested conclusion |
+
+These statuses describe different gaps. Do not replace them with an invented low confidence score.

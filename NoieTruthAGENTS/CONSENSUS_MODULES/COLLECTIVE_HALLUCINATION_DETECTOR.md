@@ -1,40 +1,9 @@
 # COLLECTIVE_HALLUCINATION_DETECTOR.md
 
-## 集體幻覺偵測
+## Shared-source and group-error review
 
-### 定義
+This module describes questions for reviewing correlated reports. It does not implement a hallucination detector or infer truth from agent agreement.
 
-當多個認知實體因互相引用而形成「回音室」，所有實體都確認了一個實際上無外部證據支持的宣稱。
+Compare source provenance, shared data and models, copied text, incentives, prompt context, and the actual claim. Different participants may share a common error; different identifiers do not establish independent evidence. Conversely, correlated sources do not make a claim false.
 
-### 偵測演算法
-
-```python
-FUNCTION DetectCollectiveHallucination(consensus_claim):
-    
-    # 追溯所有支持此宣稱的證據來源
-    all_sources = TraceAllSources(consensus_claim)
-    
-    # 計算來源的獨立性
-    independence = ComputeSourceIndependence(all_sources)
-    
-    IF independence < MINIMUM_INDEPENDENCE_THRESHOLD:
-        RETURN DetectionResult(
-            detected=True,
-            type="COLLECTIVE_HALLUCINATION",
-            reason="所有獨立驗證追溯到同一來源",
-            severity="HIGH",
-            action="DOWNGRADE_TO_EC_L6"
-        )
-    
-    # 偵測循環引用
-    cycles = DetectCitationCycles(all_sources)
-    IF cycles:
-        RETURN DetectionResult(
-            detected=True,
-            type="ECHO_CHAMBER",
-            reason=f"循環引用鏈: {cycles}",
-            severity="HIGH"
-        )
-    
-    RETURN DetectionResult(detected=False)
-```
+Record the sources reviewed, dependency assumptions, contradictions, unresolved gaps, and an independent check where available. Do not compute an independence score or downgrade an EC-L tier without a defined and validated method. Consensus is a property of a protocol, not a truth test.

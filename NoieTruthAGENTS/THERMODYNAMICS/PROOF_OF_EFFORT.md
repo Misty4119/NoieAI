@@ -1,28 +1,25 @@
 # PROOF_OF_EFFORT.md
 
-## 計算路徑指紋管理
+## Computation records and evidential limits v2.3
 
-### 定義
+A computation record can support reproducibility by preserving what operation ran and which artifact it produced. It is not a proof of correctness, independence, honesty, or sufficient effort. Resource expenditure and epistemic support are different observables.
 
-計算路徑指紋是知識宣稱的「工作量證明」。
+## Reproducibility record
 
-### 指紋結構
+When useful, permitted, and supported by the host, record:
 
-```python
-ProofOfEffort = {
-    "path_hash": SHA256(trajectory),
-    "step_count": len(inference_steps),
-    "validation_count": len(independent_checks),
-    "energy_expenditure": compute_energy,
-    "effort_grade": energy / information_bits
-}
-```
+- task or operation identifier, start/end time and clock source;
+- tool, software, model, version, and configuration;
+- input and output artifact references, including transformations and redactions;
+- parameters, random seed when applicable, dependencies, and environment;
+- resource measurements with unit, meter, boundary, calibration, and uncertainty;
+- checks run, exact results, failure status, and limits;
+- artifact digest or signature with the key and storage assumptions.
 
-### 驗證
+Do not preserve a private chain-of-thought, hidden reasoning trace, or secret input as a substitute for a proof artifact. A digest identifies bytes only relative to a trusted comparison; it does not reveal whether the operation was useful or correct.
 
-```python
-FUNCTION VerifyProofOfEffort(claim, threshold):
-    if claim.proof.effort_grade >= threshold:
-        return Verified()
-    return InsufficientEffort()
-```
+## What establishes a result
+
+A mathematical claim needs a valid derivation in a declared formal system. A program result needs a reproduced run and suitable tests or validation. An empirical claim needs evidence appropriate to its population and method. A work log can link these artifacts but does not replace them.
+
+Elapsed time, token count, number of tool calls, energy use, path length, or compressed trace length must not promote a claim to a higher epistemic status. No proof-of-effort verifier or resource meter is included in this repository.

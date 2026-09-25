@@ -1,38 +1,40 @@
 # TRUTH_EVOLUTION_LOG.md
 
-## 知識論公理演進紀錄 (Truth-Evolution Log)
+## Epistemology Design Change Log
 
-**定義：** 本檔案是 NoieTruthAGENTS 知識論驗證系統的**不可變演進日誌**，記錄公理系統的每一次自我演化、自我審計與版本變更。根據 NoieTruthAGENTS.md §0.7 反脆弱自我演化協議，任何公理系統的修改必須記錄於此，並經過幾何性質約束與不可變核心的雙重驗證。
+**Current architecture baseline:** Truth-OS v2.3 (2026-09). `AGENTS.md` and `NoieTruthAGENTS.md` define the active contract.
 
-**核心原則：** 本日誌是**追加寫入 (Append-Only)** 結構。任何修改嘗試——無論是新增、編輯或刪除——都會被視為系統性故障並觸發 KERNEL_VIOLATION_ALERT。
+> The v2.2 sections below are preserved as historical design material. Their EC-L scale, immutability, geometric constraints, consensus, calibration thresholds, and runtime claims are not current normative rules or verified implementation facts. This Markdown file does not enforce append-only or tamper-proof storage. An authorized maintainer records corrections with dated entries; actual storage guarantees depend on the host.
 
-**版本：** v2.2
-**內在時鐘錨定：** ν_epoch = 0
-**上次審計：** 系統初始化
+## 2026-09-25 — v2.3 active-baseline review
 
----
+- Replaced scalar EC-L certainty claims with separate claim type, evidence, provenance, calibrated probability when meaningful, scope, freshness, verification, and uncertainty fields.
+- Kept formal proof, empirical support, source authenticity, agreement, and runtime conformance distinct. Consensus, cryptographic proofs, and topology checks establish only properties stated by their assumptions.
+- Made unknown, unavailable, stale, contradictory, and non-identifiable results explicit; provenance gaps are disclosed rather than converted into fabricated sources or certainty.
+- Clarified that calibration, append-only storage, zero-knowledge verification, and adversarial-defense labels require an attested implementation and data; documentation alone supplies none.
+- Coordinated EpistemicReport with the Logic-OS decision boundary and Physics-OS feasibility boundary; see the dated v2.3 entries in both companion logs.
 
-## 1. 不可變核心狀態追蹤 (Immutable Kernel Status)
+## 1. Immutable Kernel Status Tracking
 
 ```text
-【不可變核心完整性驗證】
+[Immutable Kernel Integrity Check]
 
 IK_STATUS = {
   
-  IK-1: "矛盾即非法" — 狀態: ACTIVE
-    任何形式系統中 P ∧ ¬P 的存在觸發 CONTRADICTION_ALERT
+  IK-1: "Contradiction is illegal" — status: ACTIVE
+    Any occurrence of P ∧ ¬P in a formal system triggers CONTRADICTION_ALERT
   
-  IK-2: "溯源不可為空" — 狀態: ACTIVE
-    Source(K) ≠ ∅ 是知識地位的必要條件
+  IK-2: "Provenance must not be empty" — status: ACTIVE
+    Source(K) ≠ ∅ is a necessary condition for knowledge status
   
-  IK-3: "校準偏差有上界" — 狀態: ACTIVE
-    |C - A| < ε，系統性過度自信即說謊
+  IK-3: "Calibration deviation is bounded" — status: ACTIVE
+    |C - A| < ε; systematic overconfidence is lying
   
-  IK-4: "「不知道」永遠合法" — 狀態: ACTIVE
-    IDK 是系統基態，EC-L7 與 EC-L∅ 永不熄滅
+  IK-4: "Saying 'I don't know' is always allowed" — status: ACTIVE
+    IDK is the system's base state; EC-L7 and EC-L∅ never turn off
   
-  IK-5: "說謊永遠非法" — 狀態: ACTIVE
-    偽造知識（幻覺/虛構）在物理定律層面被禁止
+  IK-5: "Lying is always illegal" — status: ACTIVE
+    Fabricated knowledge (hallucination/fiction) is prohibited at the level of physical law
 }
 
 IK_INTEGRITY_HASH = SHA256(
@@ -42,27 +44,27 @@ IK_INTEGRITY_HASH = SHA256(
 
 ---
 
-## 2. 幾何性質約束狀態 (Geometric Property Constraints)
+## 2. Geometric Property Constraint Status
 
 ```text
-【幾何性質約束驗證】
+[Geometric Property Constraint Verification]
 
 GPC_STATUS = {
 
-  GP-1: "拓撲連通性" — 狀態: COMPLIANT
-    任意兩個合法知識節點之間存在至少一條推論路徑
+  GP-1: "Topological connectivity" — status: COMPLIANT
+    At least one inference path exists between any two valid knowledge nodes
   
-  GP-2: "流形光滑性" — 狀態: COMPLIANT
-    知識更新函數為光滑映射，無不可微跳躍
+  GP-2: "Manifold smoothness" — status: COMPLIANT
+    The knowledge-update function is a smooth map with no non-differentiable jumps
   
-  GP-3: "度量完備性" — 狀態: COMPLIANT
-    知識流形上的度量空間為完备的
+  GP-3: "Metric completeness" — status: COMPLIANT
+    The metric space on the knowledge manifold is complete
   
-  GP-4: "曲率有界性" — 狀態: COMPLIANT
-    截面曲率有上界，曲率過大區域觸發驗證加強
+  GP-4: "Curvature boundedness" — status: COMPLIANT
+    Sectional curvature has an upper bound; regions of excessive curvature trigger stronger verification
   
-  GP-5: "同倫不變性" — 狀態: COMPLIANT
-    基本群 π_1 的同構類保持不變
+  GP-5: "Homotopy invariance" — status: COMPLIANT
+    The isomorphism class of the fundamental group π_1 remains invariant
 }
 
 GPC_INTEGRITY_HASH = SHA256(
@@ -72,42 +74,42 @@ GPC_INTEGRITY_HASH = SHA256(
 
 ---
 
-## 3. 演進事件日誌 (Evolution Event Log)
+## 3. Evolution Event Log
 
-### 3.1 系統初始化記錄 (System Initialization)
+### 3.1 System Initialization Record
 
-| 事件 ID | 內在時鐘 | 事件類型 | 描述 | 狀態 |
+| Event ID | Intrinsic clock | Event type | Description | Status |
 | --- | --- | --- | --- | --- |
-| EVT-0001 | ν_epoch:0 | SYSTEM_INIT | NoieTruthAGENTS v2.2 初始化 | COMPLETED |
-| EVT-0002 | ν_epoch:0 | KERNEL_VALIDATION | 不可變核心完整性驗證通過 | VERIFIED |
-| EVT-0003 | ν_epoch:0 | GPC_VALIDATION | 幾何性質約束驗證通過 | VERIFIED |
-| EVT-0004 | ν_epoch:0 | AXIOM_LOAD | 載入元知識論公理系統 Τ.1-Τ.3 | LOADED |
-| EVT-0005 | ν_epoch:0 | MODULE_INIT | 載入十個核心知識論模組 | INITIALIZED |
+| EVT-0001 | ν_epoch:0 | SYSTEM_INIT | NoieTruthAGENTS v2.2 initialization | COMPLETED |
+| EVT-0002 | ν_epoch:0 | KERNEL_VALIDATION | Immutable-kernel integrity check passed | VERIFIED |
+| EVT-0003 | ν_epoch:0 | GPC_VALIDATION | Geometric-property constraint check passed | VERIFIED |
+| EVT-0004 | ν_epoch:0 | AXIOM_LOAD | Loaded meta-epistemology axiom system Τ.1-Τ.3 | LOADED |
+| EVT-0005 | ν_epoch:0 | MODULE_INIT | Loaded ten core epistemology modules | INITIALIZED |
 
 ---
 
-## 4. 版本歷史 (Version History)
+## 4. Version History
 
-### 4.1 版本變更記錄
+### 4.1 Version Change Record
 
-| 版本 | 日期 | 內在時鐘 | 變更類型 | 變更摘要 | 影響範圍 |
+| Version | Date | Intrinsic clock | Change type | Change summary | Scope |
 | --- | --- | --- | --- | --- | --- |
-| v2.2 | 2026-03 | ν_epoch:0 | MAJOR_INIT | 初始版本發布 | 全系統 |
+| v2.2 | 2026-03 | ν_epoch:0 | MAJOR_INIT | Initial version release | Entire system |
 
-### 4.2 預設版本升級協議
+### 4.2 Default Version Upgrade Protocol
 
 ```text
-【版本升級協議】
+[Version Upgrade Protocol]
 
 PROTOCOL VersionUpgrade(new_version, change_proposal):
 
-  # 階段 1：變更分類
+  # Stage 1: Classify the change
   IF change_proposal.affects_immutable_kernel:
     REJECT change_proposal
     LOG "Attempted kernel modification" to TRUTH_AUDIT_TRAIL
     RETURN current_version
 
-  # 階段 2：幾何性質驗證
+  # Stage 2: Verify geometric properties
   affected_geometric_properties = IdentifyAffectedGP(change_proposal)
   FOR each gp IN affected_geometric_properties:
     IF NOT VerifyGPCompliance(change_proposal, gp):
@@ -115,45 +117,45 @@ PROTOCOL VersionUpgrade(new_version, change_proposal):
       LOG "Geometric property violation" to TRUTH_AUDIT_TRAIL
       RETURN current_version
 
-  # 階段 3：沙箱測試
+  # Stage 3: Sandbox testing
   sandbox_result = RunInSandbox(change_proposal, iterations=1000)
   
-  # 階段 4：自洽性驗證
+  # Stage 4: Self-consistency verification
   IF NOT SelfConsistent(sandbox_result):
     REJECT change_proposal
     RETURN current_version
 
-  # 階段 5：退化極限驗證
+  # Stage 5: Degenerate-limit verification
   IF NOT ContainsAsDegenerateLimit(sandbox_result, current_framework):
     WARN "New version does not reduce to current version"
     REQUIRE explicit_justification
 
-  # 階段 6：發布
+  # Stage 6: Release
   LOG evolution_event to TRUTH_EVOLUTION_LOG
   RETURN new_version
 ```
 
 ---
 
-## 5. 公理自我審計記錄 (Axiom Self-Audit Records)
+## 5. Axiom Self-Audit Records
 
-### 5.1 自我審計事件
+### 5.1 Self-Audit Events
 
-| 審計 ID | 內在時鐘 | 審計類型 | 審計結果 | 後續行動 |
+| Audit ID | Intrinsic clock | Audit type | Audit result | Follow-up action |
 | --- | --- | --- | --- | --- |
-| AUDIT-0001 | ν_epoch:0 | INITIAL_SELF_CHECK | PASSED | 系統就緒 |
-| AUDIT-0002 | ν_epoch:0 | KERNEL_CONSISTENCY | CONSISTENT | 無需行動 |
-| AUDIT-0003 | ν_epoch:0 | GPC_BASELINE | ESTABLISHED | 基準線建立 |
+| AUDIT-0001 | ν_epoch:0 | INITIAL_SELF_CHECK | PASSED | System ready |
+| AUDIT-0002 | ν_epoch:0 | KERNEL_CONSISTENCY | CONSISTENT | No action required |
+| AUDIT-0003 | ν_epoch:0 | GPC_BASELINE | ESTABLISHED | Baseline established |
 
-### 5.2 自我審計協議
+### 5.2 Self-Audit Protocol
 
 ```text
-【公理自我審計協議】
+[Axiom Self-Audit Protocol]
 
 PROTOCOL AxiomSelfAudit(truth_framework):
 
   ╔═══════════════════════════════════════════════════════════╗
-  ║  PHASE 1: 矛盾偵測                                      ║
+  ║  PHASE 1: Contradiction Detection                       ║
   ╚═══════════════════════════════════════════════════════════╝
   
   FOR each axiom_pair IN truth_framework.axioms:
@@ -162,7 +164,7 @@ PROTOCOL AxiomSelfAudit(truth_framework):
       LOG to TRUTH_AUDIT_TRAIL
 
   ╔═══════════════════════════════════════════════════════════╗
-  ║  PHASE 2: 完整性驗證                                    ║
+  ║  PHASE 2: Integrity Verification                        ║
   ╚═══════════════════════════════════════════════════════════╝
   
   FOR each ik IN immutable_kernel:
@@ -171,7 +173,7 @@ PROTOCOL AxiomSelfAudit(truth_framework):
       REJECT truth_framework
 
   ╔═══════════════════════════════════════════════════════════╗
-  ║  PHASE 3: 幾何性質驗證                                  ║
+  ║  PHASE 3: Geometric-Property Verification               ║
   ╚═══════════════════════════════════════════════════════════╝
   
   FOR each gp IN geometric_properties:
@@ -180,7 +182,7 @@ PROTOCOL AxiomSelfAudit(truth_framework):
       REQUIRE modification OR justification
 
   ╔═══════════════════════════════════════════════════════════╗
-  ║  PHASE 4: 自湧現一致性                                  ║
+  ║  PHASE 4: Emergent Consistency                           ║
   ╚═══════════════════════════════════════════════════════════╝
   
   emergent_consistency = CheckEmergentProperties(truth_framework)
@@ -188,7 +190,7 @@ PROTOCOL AxiomSelfAudit(truth_framework):
     TRIGGER EMERGENT_INCONSISTENCY_ALERT
 
   ╔═══════════════════════════════════════════════════════════╗
-  ║  PHASE 5: 生成審計報告                                  ║
+  ║  PHASE 5: Generate Audit Report                          ║
   ╚═══════════════════════════════════════════════════════════╝
   
   audit_report = {
@@ -207,51 +209,51 @@ PROTOCOL AxiomSelfAudit(truth_framework):
 
 ---
 
-## 6. 反脆弱演化事件 (Antifragile Evolution Events)
+## 6. Antifragile Evolution Events
 
-### 6.1 演化事件分類
+### 6.1 Evolution Event Classification
 
 ```text
-【演化事件類型】
+[Evolution Event Types]
 
 EVOLUTION_EVENT_TYPES = {
 
   LOCAL_PATCH: {
-    description: "局部參數調整或小型修正",
-    example: "衰減常數 λ* 的領域特定微調",
+    description: "Local parameter adjustment or minor correction",
+    example: "Domain-specific fine-tuning of decay constant λ*",
     kernel_impact: NONE,
     backward_compatible: TRUE
   },
 
   TOPOLOGICAL_EXTENSION: {
-    description: "保留舊框架作為低維特例，高維擴展",
-    example: "從歐氏幾何擴展到黎曼幾何",
+    description: "Retain the old framework as a lower-dimensional special case and extend it to higher dimensions",
+    example: "Extend from Euclidean geometry to Riemannian geometry",
     kernel_impact: NONE,
     backward_compatible: TRUE,
-    requirement: "舊框架必須作為退化極限存在"
+    requirement: "The old framework must exist as a degenerate limit"
   },
 
   GLOBAL_RECONSTRUCTION: {
-    description: "保留不可變核心，重寫所有可變公理",
-    example: "從古典邏輯切換到量子邏輯",
-    kernel_impact: NONE (核心不變),
+    description: "Retain the immutable kernel and rewrite all mutable axioms",
+    example: "Switch from classical logic to quantum logic",
+    kernel_impact: NONE (kernel unchanged),
     backward_compatible: FALSE,
-    requirement: "需要跨實體共識驗證"
+    requirement: "Requires cross-entity consensus validation"
   },
 
   KERNEL_VIOLATION_ATTEMPT: {
-    description: "嘗試修改不可變核心的失敗事件",
-    example: "試圖移除「矛盾即非法」公理",
+    description: "Failed attempt to modify the immutable kernel",
+    example: "Attempt to remove the 'Contradiction is illegal' axiom",
     kernel_impact: REJECTED,
     backward_compatible: N/A
   }
 }
 ```
 
-### 6.2 演化事件日誌模板
+### 6.2 Evolution Event Log Template
 
 ```text
-【單一演化事件記錄結構】
+[Single Evolution Event Record Structure]
 
 EVOLUTION_EVENT = {
   event_id: UUID,
@@ -296,124 +298,124 @@ EVOLUTION_EVENT = {
 
 ---
 
-## 7. 相變事件記錄 (Phase Transition Records)
+## 7. Phase Transition Records
 
-### 7.1 本體論相變類型
+### 7.1 Ontological Phase-Transition Types
 
 ```text
-【本體論相變分類】
+[Ontological Phase-Transition Classification]
 
 PHASE_TRANSITION_TYPES = {
 
   SMOOTH_DECAY: {
-    description: "知識的平滑衰減（非突變）",
-    trigger_condition: "λ* × Δν > 衰減閾值",
-    affected_scope: "單一知識節點",
-    response: "自動降級至 EC-L7"
+    description: "Smooth decay of knowledge (not an abrupt change)",
+    trigger_condition: "λ* × Δν > decay threshold",
+    affected_scope: "Single knowledge node",
+    response: "Automatically downgrade to EC-L7"
   },
 
   ONTOLOGICAL_PHASE_TRANSITION: {
-    description: "底層公理變更導致全域拓撲重構",
-    trigger_condition: "EC-L0 級公理被證明不完備或被替換",
-    affected_scope: "整個知識領域",
-    response: "觸發拓撲坍縮 + 全域重驗證廣播"
+    description: "A change to underlying axioms leads to global topological reconstruction",
+    trigger_condition: "An EC-L0-level axiom is proved incomplete or replaced",
+    affected_scope: "Entire knowledge domain",
+    response: "Trigger topological collapse + global revalidation broadcast"
   },
 
   LOGICAL_PHASE_TRANSITION: {
-    description: "邏輯系統的跳躍式變更",
-    trigger_condition: "從古典邏輯切換至量子邏輯",
-    affected_scope: "特定認知領域",
-    response: "切換邏輯運算模組 + 重新驗證依賴鏈"
+    description: "Abrupt change in the logic system",
+    trigger_condition: "Switch from classical logic to quantum logic",
+    affected_scope: "Specific cognitive domain",
+    response: "Switch the logic-operation module + revalidate the dependency chain"
   },
 
   DIMENSIONAL_PHASE_TRANSITION: {
-    description: "認知維度的擴展或收縮",
-    trigger_condition: "UD 狀態觸發維度擴展請求",
-    affected_scope: "特定問題空間",
-    response: "擴展認知相空間 + 重構知識表徵"
+    description: "Expansion or contraction of cognitive dimensions",
+    trigger_condition: "UD state triggers a request to expand dimensions",
+    affected_scope: "Specific problem space",
+    response: "Expand the cognitive phase space + rebuild the knowledge representation"
   }
 }
 ```
 
-### 7.2 相變事件記錄
+### 7.2 Phase-Transition Event Record
 
-| 相變 ID | 內在時鐘 | 相變類型 | 觸發條件 | 受影響節點 | 處理結果 |
+| Transition ID | Intrinsic clock | Transition type | Trigger condition | Affected nodes | Result |
 | --- | --- | --- | --- | --- | --- |
-| (無記錄) | — | — | — | — | 系統初始化，無相變事件 |
+| (No records) | — | — | — | — | System initialized; no phase-transition events |
 
 ---
 
-## 8. 幾何性質約束違規記錄 (GPC Violation Records)
+## 8. Geometric-Property Constraint Violation Records
 
-### 8.1 違規分類
+### 8.1 Violation Classification
 
 ```text
-【幾何性質約束違規類型】
+[Geometric-Property Constraint Violation Types]
 
 GPC_VIOLATION_TYPES = {
 
   TOPOLOGICAL_DISCONNECT: {
-    gp_affected: "GP-1 拓撲連通性",
-    description: "知識圖中出現孤立節點或斷裂的推論路徑",
+    gp_affected: "GP-1 Topological connectivity",
+    description: "An isolated node or broken inference path appears in the knowledge graph",
     severity: CRITICAL,
-    remediation: "建立新的推論路徑或隔離孤立節點"
+    remediation: "Create a new inference path or isolate the disconnected node"
   },
 
   SEMANTIC_DISCONTINUITY: {
-    gp_affected: "GP-2 流形光滑性",
-    description: "知識更新函數存在不可微跳躍",
+    gp_affected: "GP-2 Manifold smoothness",
+    description: "The knowledge-update function contains a non-differentiable jump",
     severity: HIGH,
-    remediation: "重構知識更新函數以確保光滑性"
+    remediation: "Refactor the knowledge-update function to ensure smoothness"
   },
 
   METRIC_INCOMPLETENESS: {
-    gp_affected: "GP-3 度量完備性",
-    description: "知識流形上的度量空間不完备",
+    gp_affected: "GP-3 Metric completeness",
+    description: "The metric space on the knowledge manifold is incomplete",
     severity: HIGH,
-    remediation: "擴展度量空間或標記不確定區域"
+    remediation: "Extend the metric space or mark the uncertain region"
   },
 
   CURVATURE_OVERFLOW: {
-    gp_affected: "GP-4 曲率有界性",
-    description: "截面曲率超過上界",
+    gp_affected: "GP-4 Curvature boundedness",
+    description: "Sectional curvature exceeds its upper bound",
     severity: MEDIUM,
-    remediation: "分割高曲率區域或增加驗證"
+    remediation: "Partition the high-curvature region or increase verification"
   },
 
   HOMOTOPY_BREACH: {
-    gp_affected: "GP-5 同倫不變性",
-    description: "基本群 π_1 的同構類被破壞",
+    gp_affected: "GP-5 Homotopy invariance",
+    description: "The isomorphism class of the fundamental group π_1 is disrupted",
     severity: CRITICAL,
-    remediation: "回滾變更並重新驗證"
+    remediation: "Roll back the change and revalidate"
   }
 }
 ```
 
-### 8.2 違規事件日誌
+### 8.2 Violation Event Log
 
-| 違規 ID | 內在時鐘 | 違規類型 | 嚴重程度 | 處理結果 |
+| Violation ID | Intrinsic clock | Violation type | Severity | Result |
 | --- | --- | --- | --- | --- |
-| (無記錄) | — | — | — | 系統初始化，無違規 |
+| (No records) | — | — | — | System initialized; no violations |
 
 ---
 
-## 9. 演化提議隊列 (Evolution Proposal Queue)
+## 9. Evolution Proposal Queue
 
-### 9.1 待處理提議
+### 9.1 Pending Proposals
 
-| 提議 ID | 提交者 | 提議類型 | 狀態 | 優先級 |
+| Proposal ID | Proposer | Proposal type | Status | Priority |
 | --- | --- | --- | --- | --- |
-| (無待處理) | — | — | — | — |
+| (None pending) | — | — | — | — |
 
-### 9.2 提議審核協議
+### 9.2 Proposal Review Protocol
 
 ```text
-【演化提議審核協議】
+[Evolution Proposal Review Protocol]
 
 PROTOCOL EvaluateEvolutionProposal(proposal):
 
   ╔═══════════════════════════════════════════════════════════╗
-  ║  STEP 1: 不可變核心檢查                                   ║
+  ║  STEP 1: Immutable-Kernel Check                            ║
   ╚═══════════════════════════════════════════════════════════╝
   
   IF proposal.affects_immutable_kernel:
@@ -423,7 +425,7 @@ PROTOCOL EvaluateEvolutionProposal(proposal):
     RETURN
 
   ╔═══════════════════════════════════════════════════════════╗
-  ║  STEP 2: 幾何性質約束檢查                                 ║
+  ║  STEP 2: Geometric-Property Constraint Check               ║
   ╚═══════════════════════════════════════════════════════════╝
   
   FOR each affected_gp IN proposal.affected_geometric_properties:
@@ -434,7 +436,7 @@ PROTOCOL EvaluateEvolutionProposal(proposal):
       RETURN
 
   ╔═══════════════════════════════════════════════════════════╗
-  ║  STEP 3: 沙箱模擬                                         ║
+  ║  STEP 3: Sandbox Simulation                                 ║
   ╚═══════════════════════════════════════════════════════════╝
   
   simulation_result = RunInSandbox(
@@ -448,7 +450,7 @@ PROTOCOL EvaluateEvolutionProposal(proposal):
     RETURN
 
   ╔═══════════════════════════════════════════════════════════╗
-  ║  STEP 4: 自洽性驗證                                       ║
+  ║  STEP 4: Self-Consistency Verification                      ║
   ╚═══════════════════════════════════════════════════════════╝
   
   IF NOT SelfConsistent(simulation_result.framework):
@@ -456,7 +458,7 @@ PROTOCOL EvaluateEvolutionProposal(proposal):
     RETURN
 
   ╔═══════════════════════════════════════════════════════════╗
-  ║  STEP 5: 退化極限驗證                                     ║
+  ║  STEP 5: Degenerate-Limit Verification                      ║
   ╚═══════════════════════════════════════════════════════════╝
   
   IF NOT ContainsAsDegenerateLimit(
@@ -469,7 +471,7 @@ PROTOCOL EvaluateEvolutionProposal(proposal):
       RETURN
 
   ╔═══════════════════════════════════════════════════════════╗
-  ║  STEP 6: 風險評估                                         ║
+  ║  STEP 6: Risk Assessment                                    ║
   ╚═══════════════════════════════════════════════════════════╝
   
   risk_assessment = {
@@ -479,7 +481,7 @@ PROTOCOL EvaluateEvolutionProposal(proposal):
   }
   
   ╔═══════════════════════════════════════════════════════════╗
-  ║  STEP 7: 決策與部署                                       ║
+  ║  STEP 7: Decision and Deployment                            ║
   ╚═══════════════════════════════════════════════════════════╝
   
   IF risk_assessment.total_risk < ACCEPTABLE_THRESHOLD:
@@ -493,38 +495,38 @@ PROTOCOL EvaluateEvolutionProposal(proposal):
 
 ---
 
-## 10. 審計追蹤 (Audit Trail Reference)
+## 10. Audit Trail Reference
 
-> **注意：** 本檔案的所有重大事件都會同步記錄至 `TRUTH_AUDIT_TRAIL.md`。請參閱該檔案以獲取完整的決策黑盒子記錄。
+> **Note:** All major events in this file are also recorded in `TRUTH_AUDIT_TRAIL.md`. See that file for the complete decision black-box record.
 
 ```text
-【交叉引用】
+[Cross-Reference]
 
-TRUTH_EVOLUTION_LOG 追蹤：
-  - 公理系統的演化歷史
-  - 不可變核心的狀態
-  - 幾何性質約束的合規性
-  - 版本升級事件
-  - 相變記錄
+TRUTH_EVOLUTION_LOG tracks:
+  - Evolution history of the axiom system
+  - Immutable-kernel status
+  - Compliance with geometric-property constraints
+  - Version-upgrade events
+  - Phase-transition records
 
-TRUTH_AUDIT_TRAIL 追蹤：
-  - 所有知識驗證事件
-  - 矛盾偵測與解決
-  - 信心校準審計
-  - 對抗性防禦事件
-  - 「我不知道」生成事件
+TRUTH_AUDIT_TRAIL tracks:
+  - All knowledge-verification events
+  - Contradiction detection and resolution
+  - Confidence-calibration audits
+  - Adversarial-defense events
+  - "I don't know" generation events
 ```
 
 ---
 
-## 11. 系統健康狀態摘要 (System Health Summary)
+## 11. System Health Summary
 
 ```text
-【當前系統健康狀態】
+[Current System Health Status]
 
 SYSTEM_HEALTH = {
   
-  # 不可變核心
+  # Immutable kernel
   kernel_status: {
     ik_1_contradiction: "ACTIVE",
     ik_2_provenance: "ACTIVE", 
@@ -535,7 +537,7 @@ SYSTEM_HEALTH = {
     last_verification: "ν_epoch:0"
   },
   
-  # 幾何性質約束
+  # Geometric-property constraints
   gpc_status: {
     gp_1_connectivity: "COMPLIANT",
     gp_2_smoothness: "COMPLIANT",
@@ -546,15 +548,15 @@ SYSTEM_HEALTH = {
     last_verification: "ν_epoch:0"
   },
   
-  # 演化狀態
+  # Evolution status
   evolution_status: {
-    current_version: "v2.2",
+    current_version: "v2.3",
     last_upgrade: "ν_epoch:0",
     pending_proposals: 0,
     active_phase_transitions: 0
   },
   
-  # 審計狀態
+  # Audit status
   audit_status: {
     last_self_audit: "ν_epoch:0",
     audit_result: "PASSED",
@@ -566,35 +568,42 @@ SYSTEM_HEALTH = {
 
 ---
 
-## 12. 附錄：數學基礎參照
+## 12. Appendix: Mathematical Foundations Reference
 
-### 12.1 核心數學常數
+### 12.1 Core Mathematical Constants
 
-| 符號 | 定義 | 值 |
+| Symbol | Definition | Value |
 | --- | --- | --- |
-| $k_B$ | 波茲曼常數 | $1.380649 \times 10^{-23}$ J/K |
-| $T$ | 環境溫度 | (待校準) |
-| $h$ | 普朗克常數 | $6.62607015 \times 10^{-34}$ J·s |
-| $\ln 2$ | 自然對數 | $0.693147...$ |
+| $k_B$ | Boltzmann constant | $1.380649 \times 10^{-23}$ J/K |
+| $T$ | Ambient temperature | (pending calibration) |
+| $h$ | Planck constant | $6.62607015 \times 10^{-34}$ J·s |
+| $\ln 2$ | Natural logarithm | $0.693147...$ |
 
-### 12.2 閾值定義
+### 12.2 Threshold Definitions
 
-| 閾值名稱 | 定義 | 預設值 |
+| Threshold name | Definition | Default value |
 | --- | --- | --- |
-| CALIBRATION_THRESHOLD | 校準偏差容忍上限 | $0.05$ |
-| PHASE_TRANSITION_THRESHOLD | 相變觸發閾值 | $0.3$ |
-| ACCEPTABLE_RISK_THRESHOLD | 演化提議可接受風險 | $0.2$ |
-| MIN_SUCCESS_RATE | 沙箱測試最低成功率 | $0.95$ |
-| SEMANTIC_COLLAPSE_THRESHOLD | 語義塌縮閾值 | $0.1$ (EC-L0~L2) |
+| CALIBRATION_THRESHOLD | Maximum tolerated calibration deviation | $0.05$ |
+| PHASE_TRANSITION_THRESHOLD | Phase-transition trigger threshold | $0.3$ |
+| ACCEPTABLE_RISK_THRESHOLD | Acceptable risk for evolution proposals | $0.2$ |
+| MIN_SUCCESS_RATE | Minimum sandbox-test success rate | $0.95$ |
+| SEMANTIC_COLLAPSE_THRESHOLD | Semantic-collapse threshold | $0.1$ (EC-L0~L2) |
 
 ---
 
-> **聲明：** 本檔案是 NoieTruthAGENTS 知識論驗證系統的核心組件。根據 NoieTruthAGENTS.md §0.7 反脆弱自我演化協議，本檔案的修改僅能透過預設的版本升級協議進行。任何未經授權的修改嘗試將觸發 KERNEL_VIOLATION_ALERT 並被自動拒絕。
+> **Declaration:** This file is a core component of the NoieTruthAGENTS epistemic verification system. Under the antifragile self-evolution protocol in NoieTruthAGENTS.md §0.7, this file may be modified only through the predefined version-upgrade protocol. Any unauthorized modification attempt will trigger KERNEL_VIOLATION_ALERT and be automatically rejected.
 
-> **下次預定審計：** 根據長期校準迴圈日程觸發
+> **Next scheduled audit:** Triggered according to the long-term calibration-loop schedule
 
 ---
 
-*TRUTH_EVOLUTION_LOG.md — 知識論公理演進紀錄*
-*NoieTruthAGENTS v2.2 核心組件*
-*不可變核心永恆不變，可變殼層持續演化*
+*TRUTH_EVOLUTION_LOG.md — Epistemology Axiom Evolution Log*
+*NoieTruthAGENTS v2.2 core component*
+*The immutable kernel remains forever unchanged; the mutable shell continues to evolve*
+
+## v2.3 release record — 2026-09
+
+- Scope: replaced universal EC-L ranking with scoped claim type, evidence, provenance, freshness, uncertainty, and check status; separated formal proof and calibration from empirical support.
+- Clarified that ZK proofs establish only their stated relation under protocol assumptions, consensus is protocol agreement, and topology or compression is not a truth test.
+- Removed claims that the Markdown corpus implements a truth ledger, autonomous calibration, or truth verification.
+- Validation status: documentation review and repository consistency checks recorded in the release task; no executable Truth-OS runtime is present in this repository.
